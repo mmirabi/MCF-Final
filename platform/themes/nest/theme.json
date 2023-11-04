@@ -1,0 +1,8 @@
+{
+    "id": "botble/nest",
+    "name": "Nest",
+    "namespace": "Theme\\Nest\\",
+    "description": "Nest - Multivendor Organic & Grocery Laravel eCommerce",
+    "author": "Botble Technologies",
+    "required_plugins": []
+}

@@ -1,0 +1,50 @@
+{
+    "private": true,
+    "workspaces": {
+        "packages": [
+            "platform/core/*",
+            "platform/packages/*",
+            "platform/plugins/*",
+            "platform/themes/*"
+        ]
+    },
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production",
+        "format": "npx prettier platform/**/resources/assets/**/*.{js,scss,vue} platform/**/resources/views/**/*.blade.php platform/themes/*/{views,partials}/**/*.blade.php platform/themes/*/assets/**/*.{js,scss} --write"
+    },
+    "devDependencies": {
+        "@fullhuman/postcss-purgecss": "^5.0.0",
+        "@shufo/prettier-plugin-blade": "^1.13.3",
+        "autoprefixer": "^10.4.16",
+        "cross-env": "^7.0.3",
+        "css-loader": "^6.8.1",
+        "glob": "^10.3.10",
+        "laravel-mix": "^6.0.49",
+        "postcss": "^8.4.31",
+        "prettier": "^3.0.3",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.69.5",
+        "sass-loader": "^13.3.2",
+        "vue-loader": "^17.2.2"
+    },
+    "dependencies": {
+        "@popperjs/core": "^2.11.8",
+        "axios": "^1.6.0",
+        "bootstrap": "^5.3.2",
+        "cropperjs": "^1.6.1",
+        "epic-spinners": "^2.0.0",
+        "jquery": "^3.7.1",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.4",
+        "popper.js": "^1.16.1",
+        "sanitize-html": "^2.11.0",
+        "tiny-emitter": "^2.1.0",
+        "vue": "^3.3.4"
+    }
+}

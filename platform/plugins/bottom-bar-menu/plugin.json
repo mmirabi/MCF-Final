@@ -1,0 +1,9 @@
+{
+    "name": "Bottom Bar Menu on mobile screen",
+    "namespace": "Botble\\BottomBarMenu\\",
+    "provider": "Botble\\BottomBarMenu\\Providers\\BottomBarMenuServiceProvider",
+    "author": "Botble Technologies",
+    "url": "https://botble.com",
+    "version": "1.0",
+    "description": "Bottom Bar Menu on mobile screen"
+}
