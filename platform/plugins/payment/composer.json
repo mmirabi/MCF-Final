@@ -1,8 +1,0 @@
-{
-    "name": "botble/payment",
-    "description": "Payment plugin",
-    "type": "package",
-    "require": {
-        "doctrine/dbal": "^3.1"
-    }
-}
