@@ -1,6 +1,7 @@
-<div class="col">
+<div class="col" style="margin-right:80px; margin-left:10px">
     <div class="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0  wow animate__animated animate__fadeInUp" data-wow-delay="0">
-        <div class="logo mb-30">
+        {{-- MehdiMirabi hidde logo in footer widgets (site information) --}}
+        {{-- <div class="logo mb-30">
             @if (theme_option('logo'))
                 <a href="{{ route('public.index') }}" class="mb-15"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
             @endif
@@ -8,7 +9,9 @@
             @if ($config['about'])
                 <p class="font-lg text-heading">{!! BaseHelper::clean($config['about']) !!}</p>
             @endif
-        </div>
+        </div> --}}
+        
+        <h4 class="widget-title">{{ theme_option('site_title') }}</h4>
         <ul class="contact-infor">
             @if ($config['address'])
                 <li>
