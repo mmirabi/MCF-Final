@@ -3,8 +3,9 @@
     "name": "Ads",
     "namespace": "Botble\\Ads\\",
     "provider": "Botble\\Ads\\Providers\\AdsServiceProvider",
-    "author": "Botble Technologies",
-    "url": "https://botble.com",
+    "author": "Mehdi Mirabi",
+    "url": "http://medyanossa.com",
     "version": "1.0",
-    "description": "Ads manager for Botble CMS"
+    "description": "Ads manager"
 }
+

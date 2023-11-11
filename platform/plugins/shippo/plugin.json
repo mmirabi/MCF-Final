@@ -3,8 +3,8 @@
     "name": "Shippo",
     "namespace": "Botble\\Shippo\\",
     "provider": "Botble\\Shippo\\Providers\\ShippoServiceProvider",
-    "author": "Botble Technologies",
-    "url": "https://botble.com",
+    "author": "Mehdi Mirabi",
+    "url": "http://medyanossa.com",
     "version": "1.0.0",
     "description": "Multi-Carrier Shippo Shipping Rates & Address Validation for Ecommerce"
 }

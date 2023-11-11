@@ -3,8 +3,8 @@
     "name": "Language",
     "namespace": "Botble\\Language\\",
     "provider": "Botble\\Language\\Providers\\LanguageServiceProvider",
-    "author": "Botble Technologies",
-    "url": "https://botble.com",
+    "author": "Mehdi Mirabi",
+    "url": "http://medyanossa.com",
     "version": "2.2.0",
     "description": "Multi-language features."
 }

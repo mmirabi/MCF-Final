@@ -3,8 +3,8 @@
     "name": "Analytics",
     "namespace": "Botble\\Analytics\\",
     "provider": "Botble\\Analytics\\Providers\\AnalyticsServiceProvider",
-    "author": "Botble Technologies",
-    "url": "https://botble.com",
+    "author": "Mehdi Mirabi",
+    "url": "http://medyanossa.com",
     "version": "2.0.0",
     "description": "Tracking data from Google Analytics"
 }
