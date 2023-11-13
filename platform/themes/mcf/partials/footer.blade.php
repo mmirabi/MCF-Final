@@ -17,17 +17,23 @@
                     <p class="font-sm mb-0">{!! BaseHelper::clean(theme_option('copyright')) !!}</p>
                 </div>
                 <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
-                    @if (theme_option('hotline'))
+                {{-- mehdi mirabi  hide tohline --}}
+                    {{-- @if (theme_option('hotline'))
                         <div class="hotline d-lg-inline-flex">
                             <img src="{{ Theme::asset()->url('imgs/theme/icons/phone-call.svg') }}" alt="hotline" />
                             <p>{{ theme_option('hotline') }}<span>{{ __('24/7 Support Center') }}</span></p>
                         </div>
-                    @endif
+                    @endif --}}
+                {{-- mehdi mirabi Add Medya Nossa copy right line --}}
+                    <div>
+                        <h1 style="font-size:10px;">Powered By:
+                        <a href="http://medyanossa.com/" style="font-size:10px;" target="_blank" title="E-ticaret Yazılımı Medya Nossa">Medya Nossa</a></h1>
+                    </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6 text-end d-none d-md-block">
                     @if (theme_option('social_links'))
                         <div class="mobile-social-icon">
-                            <p class="font-heading h6">{{ __('Follow Us') }}</p>
+                            <p class="h6" style="margin-right: 20px; font-size:14px;">{{ __('Follow Us') }}</p>
                             @foreach(json_decode(theme_option('social_links'), true) as $socialLink)
                                 @if (count($socialLink) == 3)
                                     <a href="{{ $socialLink[2]['value'] }}"
@@ -38,7 +44,8 @@
                             @endforeach
                         </div>
                     @endif
-                    <p class="font-sm">{{ __('Up to 15% discount on your first subscribe') }}</p>
+                    {{-- Mehdi mirabi --}}
+                    {{-- <p class="font-sm">{{ __('Up to 15% discount on your first subscribe') }}</p> --}}
                 </div>
             </div>
         </div>
