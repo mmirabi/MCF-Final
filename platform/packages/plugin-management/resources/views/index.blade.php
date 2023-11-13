@@ -7,7 +7,9 @@
             <div class="mb-3">
                 <a
                     class="btn btn-info"
-                    href="{{ route('plugins.marketplace') }}"
+                    href="#"
+                    {{-- mehdi mirabi add new plugin button change link --}}
+                    {{-- href="{{ route('plugins.marketplace') }}" --}}
                 >
                     <i class="fa fa-plus me-1"></i> {{ trans('packages/plugin-management::plugin.plugins_add_new') }}
                 </a>
