@@ -3,6 +3,7 @@
         <div class="row">
             @for ($i = 1; $i <= 5; $i++)
                 @if ($title = Arr::get(Arr::get($config['data'], $i), 'title'))
+                    {{-- mehdi mirabi edit footer grid --}}
                     <div class="col-lg-3 col-md-4 col-12 col-sm-6 mt-2">
                         <div class="banner-left-icon d-flex align-items-center  fadeIn  animated"  data-wow-delay="{{ $i * 2 / 10 }}s">
                             <div class="banner-icon">
