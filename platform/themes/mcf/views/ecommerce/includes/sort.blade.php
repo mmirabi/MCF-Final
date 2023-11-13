@@ -7,14 +7,15 @@
 
 <div class="sort-by-product-area">
     <div class="sort-by-cover mr-10 products_sortby">
-        <div class="sort-by-product-wrap">
+        {{-- mehdi mirabi sort by product page hidden --}}
+        {{-- <div class="sort-by-product-wrap">
             <div class="sort-by">
                 <span><i class="fi-rs-apps"></i>{{ __('Show:') }}</span>
             </div>
             <div class="sort-by-dropdown-wrap">
                 <span> {!! Arr::get($shows, $showing, (int)theme_option('number_of_products_per_page', 12)) !!} <i class="fi-rs-angle-small-down"></i></span>
             </div>
-        </div>
+        </div> --}}
         <div class="sort-by-dropdown products_ajaxsortby" data-name="num">
             <ul>
                 @foreach ($shows as $key => $label)
