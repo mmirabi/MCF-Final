@@ -1,6 +1,15 @@
 @extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     <div class="row">
+        {{-- mehdi mirabi add new theme button --}}
+        <div class="mb-3">
+            <a
+                class="btn btn-info"
+                href="#"
+            >
+                <i class="fa fa-plus me-1"></i> {{ trans('packages/plugin-management::plugin.plugins_add_new') }}
+            </a>
+        </div>
         <div class="col-12">
             <div class="widget meta-boxes">
                 <div class="widget-title">
