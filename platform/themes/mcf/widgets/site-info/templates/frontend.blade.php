@@ -1,12 +1,16 @@
 <div class="col">
     <div class="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0  wow animate__animated animate__fadeInUp" data-wow-delay="0">
         <div class="logo mb-30">
-            @if (theme_option('logo'))
-                <a href="{{ route('public.index') }}" class="mb-15"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
+            @if ($config['about'])
+            <h4 class="widget-title">{{ theme_option('site_title') }}</h4>
             @endif
+            {{-- Mehdi Mirabi footer logo hidden --}}
+            {{-- @if (theme_option('logo'))
+                <a href="{{ route('public.index') }}" class="mb-15"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
+            @endif --}}
 
             @if ($config['about'])
-                <p class="font-lg text-heading">{!! BaseHelper::clean($config['about']) !!}</p>
+            <br> <p class="font-lg text-heading">{!! BaseHelper::clean($config['about']) !!}</p>
             @endif
         </div>
         <ul class="contact-infor">
@@ -38,7 +42,7 @@
                             </clipPath>
                         </defs>
                     </svg>&nbsp;
-                    <strong>{{ __('Call Us') }}:</strong>&nbsp;<span dir="ltr">{!! BaseHelper::clean($config['phone']) !!}</span>
+                    <strong>{{ __('Call Us') }}:</strong>&nbsp;<a href="tel:{!! BaseHelper::clean($config['phone']) !!}"><span dir="ltr">{!! BaseHelper::clean($config['phone']) !!}</span></a>
                 </li>
             @endif
 
@@ -54,7 +58,7 @@
                             </clipPath>
                         </defs>
                     </svg>&nbsp;
-                    <strong>{{ __('Email') }}:</strong>&nbsp;<span>{!! BaseHelper::clean($config['email']) !!}</span>
+                    <strong>{{ __('Email') }}:</strong>&nbsp;<a href="mailto:{!! BaseHelper::clean($config['email']) !!}"><span>{!! BaseHelper::clean($config['email']) !!}</span></a>
                 </li>
             @endif
             @if ($config['working_hours'])
