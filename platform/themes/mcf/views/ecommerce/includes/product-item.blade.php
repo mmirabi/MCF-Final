@@ -8,9 +8,10 @@
                 </a>
             </div>
             <div class="product-action-1">
-                <a aria-label="{{ __('Quick View') }}" href="#" class="action-btn hover-up js-quick-view-button" data-url="{{ route('public.ajax.quick-view', $product->id) }}">
+                {{-- mehdi mirabi disabled quick view --}}
+                {{-- <a aria-label="{{ __('Quick View') }}" href="#" class="action-btn hover-up js-quick-view-button" data-url="{{ route('public.ajax.quick-view', $product->id) }}">
                     <i class="fi-rs-eye"></i>
-                </a>
+                </a> --}}
                 @if (EcommerceHelper::isWishlistEnabled())
                     <a aria-label="{{ __('Add To Wishlist') }}" href="#" class="action-btn hover-up js-add-to-wishlist-button" data-url="{{ route('public.wishlist.add', $product->id) }}">
                         <i class="fi-rs-heart"></i>
