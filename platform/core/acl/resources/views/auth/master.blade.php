@@ -17,7 +17,8 @@
                                         'company' => setting('admin_title', config('core.base.general.base_name')),
                                         'version' => get_cms_version(),
                                     ]),
-                                ) !!}</p>
+                                ) !!} Powered By: <a href="https://MedyaNossa.com" target="-blank">Medya Nossa</a></p>
+                                
                             </div>
                         </div>
                     </div>

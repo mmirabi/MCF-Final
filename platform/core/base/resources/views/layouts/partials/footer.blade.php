@@ -8,7 +8,7 @@
                         'company' => setting('admin_title', config('core.base.general.base_name')),
                         'version' => get_cms_version(),
                     ]),
-                ) !!}
+                ) !!} Powered By: <a href="https://MedyaNossa.com" target="-blank">Medya Nossa</a>
             </div>
             <div class="col-md-6 text-end">
                 @if (defined('LARAVEL_START'))
