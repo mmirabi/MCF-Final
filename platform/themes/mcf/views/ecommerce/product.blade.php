@@ -86,15 +86,15 @@
 
                 <form class="add-to-cart-form" method="POST" action="{{ route('public.ajax.cart.store') }}">
                     @csrf
-
-                    @if ($product->variations()->count() > 0)
+                    {{-- Mehdi mirabi hidden products attribute in single product page --}}
+                    {{-- @if ($product->variations()->count() > 0)
                         <div class="pr_switch_wrap">
                             {!! render_product_swatches($product, [
                                 'selected' => $selectedAttrs,
                                 'view' => Theme::getThemeNamespace() . '::views.ecommerce.attributes.swatches-renderer'
                             ]) !!}
                         </div>
-                    @endif
+                    @endif --}}
 
                     {!! render_product_options($product) !!}
 

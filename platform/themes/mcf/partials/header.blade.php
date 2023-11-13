@@ -322,7 +322,7 @@
         </div>
     </div>
 </div>
-{{-- <div class="header-bottom header-bottom-bg-color @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
+<div class="header-bottom header-bottom-bg-color @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
     <div class="container">
         <div class="header-wrap header-space-between position-relative nossastyle">
             @if (theme_option('logo'))
@@ -330,7 +330,8 @@
                     <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
                 </div>
             @endif
-             <div class="header-nav d-none d-lg-flex">
+            {{-- Mehdi Mirabi hidden navbar menu  --}}
+             {{-- <div class="header-nav d-none d-lg-flex">
                 @if (is_plugin_active('ecommerce') && theme_option('enabled_browse_categories_on_header', 'yes') == 'yes')
                     <div class="main-categories-wrap d-none d-lg-block">
                         <a class="categories-button-active" href="#">
@@ -368,7 +369,7 @@
                         !!}
                     </nav>
                 </div>
-            </div>
+            </div> --}}
             @if (theme_option('hotline'))
                 <div class="hotline d-none d-lg-flex">
                     <img src="{{ Theme::asset()->url('imgs/theme/icons/icon-headphone.svg') }}" alt="hotline" />
@@ -417,7 +418,7 @@
             @endif
         </div>
     </div>
-</div> --}}
+</div>
 </header>
 <div class="mobile-header-active mobile-header-wrapper-style">
 <div class="mobile-header-wrapper-inner">
