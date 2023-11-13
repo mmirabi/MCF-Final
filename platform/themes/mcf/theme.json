@@ -1,0 +1,8 @@
+{
+    "id": "botble/nest",
+    "name": "mcf- medyanossa",
+    "namespace": "Theme\\mcf\\",
+    "description": "mcf- medyanossa Flowers ecommerce nestjs theme",
+    "author": "MedyaNossa",
+    "required_plugins": []
+}

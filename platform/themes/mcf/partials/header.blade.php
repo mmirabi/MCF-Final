@@ -180,7 +180,7 @@
                                         <div class="cancel-icon">
                                             <i class="fas fa-times"></i>
                                             <div class="cancel-button">
-                                                <img class="svgInject" alt="{{ __('Search') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-search.png') }}" />
+                                                <img class="svgInject" style="width: 25px" alt="{{ __('Search') }}" src="{{ Theme::asset()->url('imgs/theme/icons/search.svg') }}" />
                                             </div>
                                         </div>
                                         <div class="search-data">
