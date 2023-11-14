@@ -25,9 +25,11 @@
                                     <small><del>{{ format_price($product->price) }}</del></small>@endif</h3>
                             <p class="mb-0"><small>{{ $cartItem->options['attributes'] ?? '' }}</small></p>
 
-                            @if (!empty($cartItem->options['options']))
+
+                            {{-- mehdi mirabi hidden options products in cart page --}}
+                            {{-- @if (!empty($cartItem->options['options']))
                                 {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
-                            @endif
+                            @endif --}}
 
                             @if (!empty($cartItem->options['extras']) && is_array($cartItem->options['extras']))
                                 @foreach($cartItem->options['extras'] as $option)
