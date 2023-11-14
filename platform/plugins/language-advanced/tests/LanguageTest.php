@@ -75,7 +75,7 @@ class LanguageTest extends TestCase
         $user->forceFill([
             'first_name' => 'Super',
             'last_name' => 'Admin',
-            'email' => 'admin@botble.com',
+            'email' => 'admin@medyanossa.com',
             'username' => 'botble',
             'password' => Hash::make('159357'),
             'super_user' => 1,

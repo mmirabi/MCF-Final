@@ -12,7 +12,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Throwable;
 
-#[AsCommand('cms:plugin:install-from-marketplace', 'Install a plugin from https://marketplace.botble.com')]
+#[AsCommand('cms:plugin:install-from-marketplace', 'Install a plugin from https://marketplace.medyanossa.com')]
 class PluginInstallFromMarketplaceCommand extends Command implements PromptsForMissingInput
 {
     use HasPluginNameValidation;

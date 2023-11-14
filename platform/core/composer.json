@@ -6,15 +6,15 @@
         "botble cms",
         "botble platform"
     ],
-    "homepage": "https://botble.com",
+    "homepage": "https://medyanossa.com",
     "support": {
         "issues": "https://botble.ticksy.com",
-        "document": "https://docs.botble.com"
+        "document": "https://medyanossa.com"
     },
     "authors": [
         {
             "name": "Botble Technologies",
-            "email": "contact@botble.com"
+            "email": "contact@medyanossa.com"
         }
     ],
     "type": "project",

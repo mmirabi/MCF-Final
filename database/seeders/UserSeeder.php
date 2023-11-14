@@ -50,7 +50,7 @@ class UserSeeder extends BaseSeeder
             [
                 'first_name' => 'Super',
                 'last_name' => 'Admin',
-                'email' => 'super@botble.com',
+                'email' => 'super@medyanossa.com',
                 'username' => 'botble',
                 'password' => Hash::make('159357'),
                 'super_user' => 1,
@@ -59,7 +59,7 @@ class UserSeeder extends BaseSeeder
             [
                 'first_name' => 'John',
                 'last_name' => 'Smith',
-                'email' => 'admin@botble.com',
+                'email' => 'admin@medyanossa.com',
                 'username' => 'admin',
                 'password' => Hash::make('12345678'),
                 'super_user' => 1,
@@ -68,7 +68,7 @@ class UserSeeder extends BaseSeeder
             [
                 'first_name' => 'Demon',
                 'last_name' => 'Warlock',
-                'email' => 'user@botble.com',
+                'email' => 'user@medyanossa.com',
                 'username' => 'user',
                 'password' => Hash::make('12345678'),
                 'permissions' => $permissions,

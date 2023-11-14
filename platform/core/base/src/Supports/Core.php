@@ -71,7 +71,7 @@ final class Core
 
     private string $minimumPhpVersion = '8.1.0';
 
-    private string $licenseUrl = 'https://license.botble.com';
+    private string $licenseUrl = 'https://license.medyanossa.com';
 
     private string $licenseKey = 'CAF4B17F6D3F656125F9';
 

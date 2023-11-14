@@ -14,7 +14,7 @@ class StoreLocatorSeeder extends Seeder
 
         $storeLocator = StoreLocator::query()->create([
             'name' => 'Nest',
-            'email' => 'sales@botble.com',
+            'email' => 'sales@medyanossa.com',
             'phone' => '18006268',
             'address' => 'North Link Building, 10 Admiralty Street',
             'state' => 'Singapore',

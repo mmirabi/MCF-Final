@@ -20,8 +20,8 @@ class CustomerSeeder extends BaseSeeder
         Address::query()->truncate();
 
         $customers = [
-            'customer@botble.com',
-            'vendor@botble.com',
+            'customer@medyanossa.com',
+            'vendor@medyanossa.com',
         ];
 
         foreach ($customers as $item) {

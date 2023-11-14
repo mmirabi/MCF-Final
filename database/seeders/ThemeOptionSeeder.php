@@ -288,7 +288,7 @@ class ThemeOptionSeeder extends BaseSeeder
                 ],
                 [
                     'key' => 'email',
-                    'value' => 'office@botble.com',
+                    'value' => 'office@medyanossa.com',
                 ],
             ],
             [
@@ -306,7 +306,7 @@ class ThemeOptionSeeder extends BaseSeeder
                 ],
                 [
                     'key' => 'email',
-                    'value' => 'studio@botble.com',
+                    'value' => 'studio@medyanossa.com',
                 ],
             ],
             [
@@ -324,7 +324,7 @@ class ThemeOptionSeeder extends BaseSeeder
                 ],
                 [
                     'key' => 'email',
-                    'value' => 'shop@botble.com',
+                    'value' => 'shop@medyanossa.com',
                 ],
             ],
         ];
