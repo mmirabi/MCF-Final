@@ -8,7 +8,8 @@
             <div class="container">
                 <div class="archive-header" @if (!empty($background)) style="background-image: url({{ RvMedia::getImageUrl($background) }}) !important;" @endif>
                     <div class="row align-items-center">
-                        <div class="col-xl-3">
+                        {{-- mehdi mirabi change grid col in header blog or pages --}}
+                        <div class="col-xl-5">
                             <h1 class="mb-15">{{ SeoHelper::getTitle() }}</h1>
                             <div class="breadcrumb">
                                 @foreach ($crumbs as $i => $crumb)
