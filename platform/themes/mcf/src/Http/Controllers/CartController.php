@@ -1,5 +1,5 @@
 <?php
-
+// mehdi mirabi change theme name to mcf
 namespace Theme\Nest\Http\Controllers;
 
 use Botble\Base\Http\Responses\BaseHttpResponse;

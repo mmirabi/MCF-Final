@@ -176,7 +176,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button type="submit" name="checkout" class="btn mb-20 w-100">{{ __('Proceed To Checkout') }} <i class="fi-rs-sign-out ml-15"></i></button>
+                        {{-- Mehdi Mirabi change Proceed To Checkout button to a link --}}
+                        {{-- <button type="submit" name="checkout" class="btn mb-20 w-100">{{ __('Proceed To Checkout') }} <i class="fi-rs-sign-out ml-15"></i></button> --}}
+                        <div class="shopping-cart-button">
+                            @if (session('tracked_start_checkout'))
+                                <a class="btn mb-20 w-100" href="{{ route('public.checkout.information', session('tracked_start_checkout')) }}">{{ __('Proceed To Checkout') }} <i class="fi-rs-sign-out ml-15"></i></a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             @endif
