@@ -1,6 +1,6 @@
 <?php
 // mehdi mirabi change theme name to mcf
-namespace Theme\Nest\Http\Controllers;
+namespace Theme\mcf\Http\Controllers;
 
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Ecommerce\Http\Controllers\Fronts\PublicCartController;

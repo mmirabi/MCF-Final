@@ -13,7 +13,7 @@ class StoreLocatorSeeder extends Seeder
         StoreLocator::query()->truncate();
 
         $storeLocator = StoreLocator::query()->create([
-            'name' => 'Nest',
+            'name' => 'mcf',
             'email' => 'sales@medyanossa.com',
             'phone' => '18006268',
             'address' => 'North Link Building, 10 Admiralty Street',

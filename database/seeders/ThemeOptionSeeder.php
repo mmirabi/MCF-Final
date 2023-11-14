@@ -32,15 +32,15 @@ class ThemeOptionSeeder extends BaseSeeder
             ],
             [
                 'key' => 'theme-' . $theme . '-site_title',
-                'value' => 'Nest - Laravel Multipurpose eCommerce Script',
+                'value' => 'mcf - Laravel Multipurpose eCommerce Script',
             ],
             [
                 'key' => 'theme-' . $theme . '-seo_description',
-                'value' => 'Nest is an attractive Laravel multivendor eCommerce script specially designed for the multipurpose shops like mega store, grocery store, supermarket, organic shop, and online stores selling products like beverages, vegetables, fruits, ice creams, paste, herbs, juice, meat, cold drinks, sausages, cocktails, soft drinks, cookies…',
+                'value' => 'mcf is an attractive Laravel multivendor eCommerce script specially designed for the multipurpose shops like mega store, grocery store, supermarket, organic shop, and online stores selling products like beverages, vegetables, fruits, ice creams, paste, herbs, juice, meat, cold drinks, sausages, cocktails, soft drinks, cookies…',
             ],
             [
                 'key' => 'theme-' . $theme . '-copyright',
-                'value' => 'Copyright © 2021 Nest all rights reserved. Powered by Botble.',
+                'value' => 'Copyright © 2021 mcf all rights reserved. Powered by Botble.',
             ],
             [
                 'key' => 'theme-' . $theme . '-favicon',

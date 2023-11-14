@@ -4,8 +4,8 @@ use Botble\Base\Http\Middleware\RequiresJsonRequestMiddleware;
 use Botble\Theme\Facades\Theme;
 use Illuminate\Support\Facades\Route;
 // mehdi mirabi change theme name to mcf
-use Theme\Nest\Http\Controllers\CartController;
-use Theme\Nest\Http\Controllers\NestController;
+use Theme\mcf\Http\Controllers\CartController;
+use Theme\mcf\Http\Controllers\NestController;
 
 Route::group(['middleware' => ['web', 'core']], function () {
     Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {

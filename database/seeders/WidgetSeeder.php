@@ -23,7 +23,7 @@ class WidgetSeeder extends BaseSeeder
                     'about' => 'Awesome grocery store website template',
                     'phone' => '(+91) - 540-025-124553',
                     'address' => '5171 W Campbell Ave undefined Kent, Utah 53127 United States',
-                    'email' => 'sale@Nest.com',
+                    'email' => 'sale@mcf.com',
                     'working_hours' => '10:00 - 18:00, Mon - Sat',
                 ],
             ],
