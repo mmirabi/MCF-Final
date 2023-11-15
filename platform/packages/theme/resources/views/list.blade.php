@@ -1,15 +1,6 @@
 @extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     <div class="row">
-        {{-- mehdi mirabi add new theme button --}}
-        <div class="mb-3">
-            <a
-                class="btn btn-info"
-                href="#"
-            >
-                <i class="fa fa-plus me-1"></i> {{ trans('packages/plugin-management::plugin.plugins_add_new') }}
-            </a>
-        </div>
         <div class="col-12">
             <div class="widget meta-boxes">
                 <div class="widget-title">
@@ -50,14 +41,14 @@
                                                     ><i class="fa fa-check"></i>
                                                         {{ trans('packages/theme::theme.activated') }}</a>
                                                 @else
-                                                    @if (Auth::user()->hasPermission('theme.activate'))
+                                                    @if (Auth::guard()->user()->hasPermission('theme.activate'))
                                                         <a
                                                             class="btn btn-primary btn-trigger-active-theme"
                                                             data-theme="{{ $key }}"
                                                             href="#"
                                                         >{{ trans('packages/theme::theme.active') }}</a>
                                                     @endif
-                                                    @if (Auth::user()->hasPermission('theme.remove'))
+                                                    @if (Auth::guard()->user()->hasPermission('theme.remove'))
                                                         <a
                                                             class="btn btn-danger btn-trigger-remove-theme"
                                                             data-theme="{{ $key }}"

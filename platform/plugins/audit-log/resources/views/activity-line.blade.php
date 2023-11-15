@@ -3,7 +3,7 @@
     @if ($history->user->id)
         <a
             class="d-inline-block"
-            href="{{ route('users.profile.view', $history->user->id) }}"
+            href="{{ route('users.profile.view', $history->user->getKey()) }}"
         >{{ $history->user->name }}</a>
     @else
         <span class="d-inline-block">{{ trans('plugins/audit-log::history.system') }}</span>

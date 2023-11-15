@@ -20,7 +20,7 @@ class ComposerServiceProvider extends ServiceProvider
 
             $defaultTheme = setting('default_admin_theme', config('core.base.general.default-theme'));
 
-            if (Auth::check() && ! session()->has('admin-theme') && ! BaseHelper::hasDemoModeEnabled()) {
+            if (Auth::guard()->check() && ! session()->has('admin-theme') && ! BaseHelper::hasDemoModeEnabled()) {
                 $activeTheme = UserMeta::getMeta('admin-theme', $defaultTheme);
             } elseif (session()->has('admin-theme')) {
                 $activeTheme = session('admin-theme');
@@ -43,8 +43,8 @@ class ComposerServiceProvider extends ServiceProvider
 
         $view->composer(['core/media::config'], function () {
             $mediaPermissions = RvMedia::getConfig('permissions', []);
-            if (Auth::check() && ! Auth::user()->isSuperUser() && Auth::user()->permissions) {
-                $mediaPermissions = array_intersect(array_keys(Auth::user()->permissions), $mediaPermissions);
+            if (Auth::guard()->check() && ! Auth::guard()->user()->isSuperUser() && Auth::guard()->user()->permissions) {
+                $mediaPermissions = array_intersect(array_keys(Auth::guard()->user()->permissions), $mediaPermissions);
             }
 
             RvMedia::setPermissions($mediaPermissions);

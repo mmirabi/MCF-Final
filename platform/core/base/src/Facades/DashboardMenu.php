@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Botble\Base\Supports\DashboardMenu removeItem(array|string $id, $parentId = null)
  * @method static bool hasItem(string $id, string|null $parentId = null)
  * @method static \Illuminate\Support\Collection getAll()
- * @method static \Botble\Base\Supports\DashboardMenu when($value = null, callable|null $callback = null, callable|null $default = null)
  * @method static \Botble\Base\Supports\DashboardMenu tap(callable|null $callback = null)
+ * @method static \Botble\Base\Supports\DashboardMenu|mixed when(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+ * @method static \Botble\Base\Supports\DashboardMenu|mixed unless(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
  *
  * @see \Botble\Base\Supports\DashboardMenu
  */

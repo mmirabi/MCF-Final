@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool saveOptions()
  * @method static array getFields()
  * @method static bool hasField(string $id)
+ * @method static array prepareFromArray(array $options, string|null $locale = null, string|null $defaultLocale = null)
  *
  * @see \Botble\Theme\ThemeOption
  */

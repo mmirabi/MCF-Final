@@ -15,7 +15,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::check())
+            @if (Auth::guard()->check())
                 {!! apply_filters(BASE_FILTER_TOP_HEADER_LAYOUT, null) !!}
             @endif
 
@@ -57,14 +57,14 @@
                 >
                     <img
                         class="rounded-circle"
-                        src="{{ Auth::user()->avatar_url }}"
-                        alt="{{ Auth::user()->name }}"
+                        src="{{ Auth::guard()->user()->avatar_url }}"
+                        alt="{{ Auth::guard()->user()->name }}"
                     />
-                    <span class="username d-none d-sm-inline"> {{ Auth::user()->name }} </span>
+                    <span class="username d-none d-sm-inline"> {{ Auth::guard()->user()->name }} </span>
                     <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ route('users.profile.view', Auth::id()) }}"><i class="icon-user"></i>
+                    <li><a href="{{ route('users.profile.view', Auth::guard()->id()) }}"><i class="icon-user"></i>
                             {{ trans('core/base::layouts.profile') }}</a></li>
                     <li><a
                             class="btn-logout"

@@ -10,7 +10,7 @@ return new class () extends Migration {
         if (! Schema::hasTable('admin_notifications')) {
             Schema::create('admin_notifications', function (Blueprint $table) {
                 $table->id();
-                $table->string('title');
+                $table->string('title', 255);
                 $table->string('action_label')->nullable();
                 $table->string('action_url')->nullable();
                 $table->string('description', 400);

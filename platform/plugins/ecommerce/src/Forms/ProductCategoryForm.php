@@ -12,7 +12,7 @@ class ProductCategoryForm extends FormAbstract
 {
     public function buildForm(): void
     {
-        $categories = ProductCategoryHelper::getTreeCategoriesOptions(ProductCategoryHelper::getActiveTreeCategories());
+        $categories = ProductCategoryHelper::getTreeCategoriesOptions(ProductCategoryHelper::getTreeCategories());
 
         $categories = [0 => trans('plugins/ecommerce::product-categories.none')] + $categories;
 

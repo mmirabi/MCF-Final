@@ -301,7 +301,7 @@ class HookServiceProvider extends ServiceProvider
     public function addLanguageTableHeading(array $headings, string|Model $model): array
     {
         if (in_array(get_class($model), Language::supportedModels()) && count(Language::getActiveLanguage()) > 1) {
-            if (is_in_admin() && Auth::check() && ! Auth::user()->hasAnyPermission($this->getRoutes())) {
+            if (is_in_admin() && Auth::guard()->check() && ! Auth::guard()->user()->hasAnyPermission($this->getRoutes())) {
                 return $headings;
             }
 
@@ -318,7 +318,7 @@ class HookServiceProvider extends ServiceProvider
         if ($model && in_array(get_class($model), Language::supportedModels()) && count(Language::getActiveLanguage()) > 1) {
             $route = $this->getRoutes();
 
-            if (is_in_admin() && Auth::check() && ! Auth::user()->hasAnyPermission($route)) {
+            if (is_in_admin() && Auth::guard()->check() && ! Auth::guard()->user()->hasAnyPermission($route)) {
                 return $data;
             }
 

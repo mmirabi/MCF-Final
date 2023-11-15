@@ -39,7 +39,6 @@ class RoleForm extends FormAbstract
             ])
             ->add('description', 'textarea', [
                 'label' => trans('core/base::forms.description'),
-                'required' => true,
                 'attr' => [
                     'rows' => 4,
                     'placeholder' => trans('core/base::forms.description_placeholder'),

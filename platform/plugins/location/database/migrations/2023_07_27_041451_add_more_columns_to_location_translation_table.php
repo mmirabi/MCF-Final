@@ -15,7 +15,7 @@ return new class () extends Migration {
             });
         }
 
-        City::query()->whereNull('slug')->get()->each(function (City $city) {
+        City::query()->whereNull('slug')->get()->each(function ($city) {
             $city->slug = $city->name;
             $city->save();
         });
@@ -26,7 +26,7 @@ return new class () extends Migration {
             });
         }
 
-        State::query()->whereNull('slug')->get()->each(function (State $state) {
+        State::query()->whereNull('slug')->get()->each(function ($state) {
             $state->slug = $state->name;
             $state->save();
         });

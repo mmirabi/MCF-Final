@@ -135,5 +135,6 @@ class ThemeServiceProvider extends ServiceProvider
         });
 
         $this->app->register(ThemeManagementServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
     }
 }

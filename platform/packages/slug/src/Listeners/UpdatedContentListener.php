@@ -60,6 +60,9 @@ class UpdatedContentListener
                     ]);
                 }
 
+                /**
+                 * @var Slug $item
+                 */
                 event(new UpdatedSlugEvent($event->data, $item));
             } catch (Exception $exception) {
                 BaseHelper::logError($exception);

@@ -323,6 +323,7 @@
     </div>
 </div>
 <div class="header-bottom header-bottom-bg-color @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
+    
     <div class="container">
         <div class="header-wrap header-space-between position-relative nossastyle">
             @if (theme_option('logo'))
@@ -358,6 +359,7 @@
                             @endif
                         </div>
                     </div>
+
                 @endif
 
                 <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
@@ -502,8 +504,19 @@
                         <a href="{{ route('public.compare') }}"><i class="fi-rs-refresh"></i> {{ __('Compare') }}</a>
                     </div>
                 @endif
+                {{-- Mehdi Mirabi mobile user menu edit --}}
                 <div class="single-mobile-header-info">
-                    <a href="{{ route('customer.login') }}"><i class="fi-rs-user"></i> {{ __('Log In / Sign Up') }}</a>
+                    @if (auth('customer')->check())
+                        <a class="mobile-language-active" href="#"><i class="fi fi-rs-user mr-10"></i> {{ auth('customer')->check() ? Str::limit(auth('customer')->user()->name, 10) : __('') }} <span><i class="fi-rs-angle-down"></i></span>
+                        <div class="lang-curr-dropdown lang-dropdown-active">
+                            <ul>
+                                <li><a href="{{ route('customer.overview') }}"><i class="fi fi-rs-user mr-10"></i>{{ __('My Account') }}</a></li>
+                                <li><a href="{{ route('customer.logout') }}"><i class="fi fi-rs-sign-out mr-10"></i>{{ __('Sign out') }}</a></li>
+                            </ul>
+                        </div>
+                    @else
+                    <a href="{{ route('customer.login') }}"><i class="fi-rs-user"></i> {{ __('Log In / Sign Upt') }}</a>
+                    @endif
                 </div>
             @endif
             @if (theme_option('hotline'))

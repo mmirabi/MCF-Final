@@ -136,7 +136,7 @@ class BaseServiceProvider extends ServiceProvider
 
         $this->app->singleton(AdminWidgetContract::class, AdminWidget::class);
 
-        $this->app->singleton('core:google-fonts', function (Application $app) {
+        $this->app->singleton('core.google-fonts', function (Application $app) {
             return new GoogleFonts(
                 filesystem: $app->make(FilesystemManager::class)->disk('public'),
                 path: 'fonts',
@@ -214,7 +214,7 @@ class BaseServiceProvider extends ServiceProvider
             }, 99);
 
             add_filter(BASE_FILTER_FOOTER_LAYOUT_TEMPLATE, function ($html) {
-                if (! Auth::check()) {
+                if (! Auth::guard()->check()) {
                     return $html;
                 }
 

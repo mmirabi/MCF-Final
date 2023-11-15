@@ -20,8 +20,8 @@ class AuditHandlerEvent extends Event
         public string $type,
         int|string $referenceUser = 0
     ) {
-        if ($referenceUser === 0 && Auth::check()) {
-            $referenceUser = Auth::id();
+        if ($referenceUser === 0 && Auth::guard()->check()) {
+            $referenceUser = Auth::guard()->id();
         }
 
         $this->referenceUser = $referenceUser;

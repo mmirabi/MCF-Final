@@ -35,7 +35,7 @@ class ShortcodeCompiler
 
     public function setEditLink(string $editLink, string $permission): void
     {
-        if ($permission && (! Auth::check() || ! Auth::user()->hasPermission($permission))) {
+        if ($permission && (! Auth::guard()->check() || ! Auth::guard()->user()->hasPermission($permission))) {
             return;
         }
 

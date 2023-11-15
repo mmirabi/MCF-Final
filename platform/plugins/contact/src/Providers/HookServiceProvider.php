@@ -47,7 +47,7 @@ class HookServiceProvider extends ServiceProvider
 
     public function registerTopHeaderNotification(string|null $options): string|null
     {
-        if (Auth::user()->hasPermission('contacts.edit')) {
+        if (Auth::guard()->user()->hasPermission('contacts.edit')) {
             $contacts = Contact::query()
                 ->where('status', ContactStatusEnum::UNREAD)
                 ->select(['id', 'name', 'email', 'phone', 'created_at'])
@@ -80,7 +80,7 @@ class HookServiceProvider extends ServiceProvider
 
     public function getMenuItemCount(array $data = []): array
     {
-        if (Auth::user()->hasPermission('contacts.index')) {
+        if (Auth::guard()->user()->hasPermission('contacts.index')) {
             $data[] = [
                 'key' => 'unread-contacts',
                 'value' => Contact::query()->where('status', ContactStatusEnum::UNREAD)->count(),

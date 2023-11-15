@@ -66,7 +66,7 @@ class ThemeService
         }
 
         $this->settingStore
-            ->set('theme', $theme)
+            ->forceSet('theme', $theme)
             ->save();
 
         Helper::clearCache();

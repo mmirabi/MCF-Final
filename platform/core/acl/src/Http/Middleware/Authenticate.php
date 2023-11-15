@@ -7,8 +7,12 @@ use Illuminate\Auth\Middleware\Authenticate as BaseAuthenticate;
 
 class Authenticate extends BaseAuthenticate
 {
+    protected array $guards;
+
     public function handle($request, Closure $next, ...$guards)
     {
+        $this->guards = $guards;
+
         $this->authenticate($request, $guards);
 
         if (! $guards) {
@@ -35,8 +39,10 @@ class Authenticate extends BaseAuthenticate
 
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            return route('access.login');
+        if ($this->guards || $request->expectsJson()) {
+            return parent::redirectTo($request);
         }
+
+        return route('access.login');
     }
 }

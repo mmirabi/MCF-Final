@@ -68,7 +68,7 @@ if (! function_exists('get_products_on_sale')) {
             ],
             'with' => [],
             'withCount' => [],
-        ], $params);
+        ], $params + EcommerceHelper::withReviewsParams());
 
         return app(ProductInterface::class)->getOnSaleProducts($params);
     }
@@ -89,7 +89,7 @@ if (! function_exists('get_featured_products')) {
             ],
             'select' => ['ec_products.*'],
             'with' => [],
-        ], $params);
+        ], $params + EcommerceHelper::withReviewsParams());
 
         return app(ProductInterface::class)->getProducts($params);
     }
@@ -155,7 +155,7 @@ if (! function_exists('get_trending_products')) {
             ],
             'select' => ['ec_products.*'],
             'with' => [],
-        ], $params);
+        ], $params + EcommerceHelper::withReviewsParams());
 
         return app(ProductInterface::class)->getProducts($params);
     }

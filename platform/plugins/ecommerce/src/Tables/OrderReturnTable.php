@@ -92,10 +92,10 @@ class OrderReturnTable extends TableAbstract
             IdColumn::make(),
             Column::make('order_id')
                 ->title(trans('plugins/ecommerce::order.order_id'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('user_id')
                 ->title(trans('plugins/ecommerce::order.customer_label'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('items_count')
                 ->title(trans('plugins/ecommerce::order.order_return_items_count'))
                 ->orderable(false)

@@ -134,9 +134,9 @@ if (! function_exists('get_categories')) {
         $repo = app(CategoryInterface::class);
 
         $categories = $repo->getCategories(Arr::get($args, 'select', ['*']), [
-            'created_at' => 'DESC',
             'is_default' => 'DESC',
             'order' => 'ASC',
+            'created_at' => 'DESC',
         ], Arr::get($args, 'condition', ['status' => BaseStatusEnum::PUBLISHED]));
 
         $categories = sort_item_with_children($categories);

@@ -17,10 +17,11 @@ trait HasUuidsOrIntegerIds
         });
     }
 
-    public function newUniqueId(): string
+    public function newUniqueId(): string|null
     {
         return match (self::getTypeOfId()) {
             'ULID' => (string)Str::ulid(),
+            'BIGINT' => null,
             default => (string)Str::orderedUuid(),
         };
     }

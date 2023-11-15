@@ -44,7 +44,7 @@ class GetStartedServiceProvider extends ServiceProvider
     {
         return ! BaseHelper::hasDemoModeEnabled() &&
             is_in_admin(true) &&
-            Auth::check() &&
+            Auth::guard()->check() &&
             setting('is_completed_get_started') != '1';
     }
 }

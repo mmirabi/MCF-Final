@@ -180,7 +180,10 @@ class ProductImport implements
 
     public function storeProduct(): Product|Model|null
     {
-        if ($existingProduct = Product::query()->where('sku', $this->request->input('sku'))->first()) {
+        if (
+            ($sku = $this->request->input('sku')) &&
+            $existingProduct = Product::query()->where('sku', $sku)->first()
+        ) {
             return $existingProduct;
         }
 

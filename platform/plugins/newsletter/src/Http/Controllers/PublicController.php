@@ -16,14 +16,13 @@ class PublicController extends Controller
 {
     public function postSubscribe(NewsletterRequest $request, BaseHttpResponse $response)
     {
-        $newsletter = Newsletter::query()->where('email', $request->input('email'))->first();
+        /**
+         * @var Newsletter $newsletter
+         */
+        $newsletter = Newsletter::query()->firstOrNew(['email' => $request->input('email')], $request->validated());
 
-        if (! $newsletter) {
-            $newsletter = Newsletter::query()->create($request->input());
-        } else {
-            $newsletter->status = NewsletterStatusEnum::SUBSCRIBED;
-            $newsletter->save();
-        }
+        $newsletter->status = NewsletterStatusEnum::SUBSCRIBED;
+        $newsletter->save();
 
         event(new SubscribeNewsletterEvent($newsletter));
 
@@ -36,6 +35,9 @@ class PublicController extends Controller
             abort(404);
         }
 
+        /**
+         * @var Newsletter $newsletter
+         */
         $newsletter = Newsletter::query()
             ->where([
                 'id' => $id,

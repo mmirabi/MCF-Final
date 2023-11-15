@@ -27,7 +27,7 @@
                         <span class="order-detail-value">{{ $order->code }}</span>
                     </p>
                     <span>{{ __('Time') }}:</span>
-                    <span class="order-detail-value">{{ $order->created_at->format('h:m d/m/Y') }}</span>
+                    <span class="order-detail-value">{{ $order->created_at->translatedFormat('M d, Y h:m') }}</span>
                 </div>
             </div>
         </div>

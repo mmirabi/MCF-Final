@@ -98,7 +98,7 @@ class LoginController extends BaseController
                 },
             ]))
             ->then(function (Request $request) {
-                Auth::user()->update(['last_login' => Carbon::now()]);
+                Auth::guard()->user()->update(['last_login' => Carbon::now()]);
 
                 if (! session()->has('url.intended')) {
                     session()->flash('url.intended', url()->current());

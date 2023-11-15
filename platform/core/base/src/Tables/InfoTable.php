@@ -5,7 +5,6 @@ namespace Botble\Base\Tables;
 use Botble\Base\Supports\SystemManagement;
 use Botble\Table\Abstracts\TableAbstract;
 use Botble\Table\Columns\Column;
-use Botble\Table\Columns\NameColumn;
 use Illuminate\Http\JsonResponse;
 
 class InfoTable extends TableAbstract
@@ -35,12 +34,12 @@ class InfoTable extends TableAbstract
     public function columns(): array
     {
         return [
-            NameColumn::make()
+            Column::make('name')
                 ->title(trans('core/base::system.package_name') . ' : ' . trans('core/base::system.version'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('dependencies')
                 ->title(trans('core/base::system.dependency_name') . ' : ' . trans('core/base::system.version'))
-                ->alignLeft(),
+                ->alignStart(),
         ];
     }
 

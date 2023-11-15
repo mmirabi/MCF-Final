@@ -7,8 +7,6 @@ use Botble\Menu\Models\MenuNode;
 
 class MenuNodeForm extends FormAbstract
 {
-    protected $template = 'core/base::forms.form-content-only';
-
     public function buildForm(): void
     {
         $this->setupModel(new MenuNode());
@@ -17,6 +15,7 @@ class MenuNodeForm extends FormAbstract
 
         $this
             ->withCustomFields()
+            ->contentOnly()
             ->add('menu_id', 'hidden', [
                 'attr' => [
                     'class' => 'menu_id',

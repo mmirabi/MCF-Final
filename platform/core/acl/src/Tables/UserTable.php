@@ -13,10 +13,11 @@ use Botble\Table\Abstracts\TableAbstract;
 use Botble\Table\BulkActions\DeleteBulkAction;
 use Botble\Table\Columns\Column;
 use Botble\Table\Columns\CreatedAtColumn;
+use Botble\Table\Columns\EmailColumn;
+use Botble\Table\Columns\LinkableColumn;
+use Botble\Table\Columns\YesNoColumn;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -25,20 +26,25 @@ class UserTable extends TableAbstract
 {
     public function setup(): void
     {
-        $this->model(User::class);
+        $this->model(User::class)
+            ->queryUsing(function (Builder $query) {
+                return $query
+                    ->select([
+                        'id',
+                        'username',
+                        'email',
+                        'updated_at',
+                        'created_at',
+                        'super_user',
+                    ])
+                    ->with(['roles']);
+            });
     }
 
     public function ajax(): JsonResponse
     {
         $data = $this->table
             ->eloquent($this->query())
-            ->editColumn('username', function (User $item) {
-                if (! $this->hasPermission('users.edit')) {
-                    return $item->username;
-                }
-
-                return Html::link(route('users.profile.view', $item->getKey()), $item->username);
-            })
             ->editColumn('role_name', function (User $item) {
                 $role = $item->roles->first();
 
@@ -47,9 +53,6 @@ class UserTable extends TableAbstract
                 }
 
                 return view('core/acl::users.partials.role', compact('item', 'role'))->render();
-            })
-            ->editColumn('super_user', function (User $item) {
-                return $item->super_user ? trans('core/base::base.yes') : trans('core/base::base.no');
             })
             ->editColumn('status_name', function (User $item) {
                 if ($item->activations()->where('completed', true)->exists()) {
@@ -60,7 +63,7 @@ class UserTable extends TableAbstract
             })
             ->addColumn('operations', function (User $item) {
                 $action = null;
-                if (Auth::user()->isSuperUser()) {
+                if (Auth::guard()->user()->isSuperUser()) {
                     $action = Html::link(
                         route('users.make-super', $item->getKey()),
                         trans('core/acl::users.make_super'),
@@ -86,33 +89,14 @@ class UserTable extends TableAbstract
         return $this->toJson($data);
     }
 
-    public function query(): Relation|Builder|QueryBuilder
-    {
-        $query = $this
-            ->getModel()
-            ->query()
-            ->select([
-                'id',
-                'username',
-                'email',
-                'updated_at',
-                'created_at',
-                'super_user',
-            ])
-            ->with(['roles']);
-
-        return $this->applyScopes($query);
-    }
-
     public function columns(): array
     {
         return [
-            Column::make('username')
+            LinkableColumn::make('username')
+                ->route('users.profile.view')
                 ->title(trans('core/acl::users.username'))
-                ->alignLeft(),
-            Column::make('email')
-                ->title(trans('core/acl::users.email'))
-                ->alignLeft(),
+                ->alignStart(),
+            EmailColumn::make()->linkable(),
             Column::make('role_name')
                 ->title(trans('core/acl::users.role'))
                 ->searchable(false)
@@ -123,7 +107,7 @@ class UserTable extends TableAbstract
                 ->width(100)
                 ->searchable(false)
                 ->orderable(false),
-            Column::make('super_user')
+            YesNoColumn::make('super_user')
                 ->title(trans('core/acl::users.is_super'))
                 ->width(100),
         ];
@@ -146,12 +130,15 @@ class UserTable extends TableAbstract
                 ->permission('users.destroy')
                 ->beforeDispatch(function (User $user, array $ids) {
                     foreach ($ids as $id) {
-                        if (Auth::id() == $id) {
+                        if (Auth::guard()->id() == $id) {
                             abort(403, trans('core/acl::users.delete_user_logged_in'));
                         }
 
+                        /**
+                         * @var User $user
+                         */
                         $user = User::query()->findOrFail($id);
-                        if (! Auth::user()->isSuperUser() && $user->isSuperUser()) {
+                        if (! Auth::guard()->user()->isSuperUser() && $user->isSuperUser()) {
                             abort(403, trans('core/acl::users.cannot_delete_super_user'));
                         }
                     }
@@ -220,7 +207,7 @@ class UserTable extends TableAbstract
             $service = app(ActivateUserService::class);
 
             foreach ($ids as $id) {
-                if ($inputValue == UserStatusEnum::DEACTIVATED && Auth::id() == $id) {
+                if ($inputValue == UserStatusEnum::DEACTIVATED && Auth::guard()->id() == $id) {
                     $hasWarning = true;
                 }
 

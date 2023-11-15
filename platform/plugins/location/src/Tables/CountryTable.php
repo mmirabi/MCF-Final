@@ -52,7 +52,7 @@ class CountryTable extends TableAbstract
             NameColumn::make()->route('country.edit'),
             Column::make('nationality')
                 ->title(trans('plugins/location::country.nationality'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

@@ -220,8 +220,8 @@ trait RevisionableTrait
     public function getSystemUserId(): int|string|null
     {
         try {
-            if (Auth::check()) {
-                return Auth::id();
+            if (Auth::guard()->check()) {
+                return Auth::guard()->id();
             }
         } catch (Exception) {
             return null;

@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getGoogleFontsURL(string|null $path = null)
  * @method static mixed googleFonts(string $font, bool $inline = true)
  * @method static bool hasDemoModeEnabled()
- * @method static void logError(\Exception|\Throwable $exception)
+ * @method static void logError(\Throwable $throwable)
  * @method static string getDateFormat()
  * @method static string getDateTimeFormat()
  *

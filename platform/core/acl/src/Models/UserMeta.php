@@ -18,10 +18,10 @@ class UserMeta extends BaseModel
     public static function setMeta(string $key, $value = null, int|string $userId = 0): bool
     {
         if ($userId == 0) {
-            $userId = Auth::id();
+            $userId = Auth::guard()->id();
         }
 
-        $meta = self::firstOrCreate([
+        $meta = self::query()->firstOrCreate([
             'user_id' => $userId,
             'key' => $key,
         ]);
@@ -32,7 +32,7 @@ class UserMeta extends BaseModel
     public static function getMeta(string $key, $default = null, int|string $userId = 0): string|null
     {
         if ($userId == 0) {
-            $userId = Auth::id();
+            $userId = Auth::guard()->id();
         }
 
         $meta = self::query()

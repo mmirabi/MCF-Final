@@ -93,13 +93,13 @@ class PaymentTable extends TableAbstract
                 ->title(trans('plugins/payment::payment.charge_id')),
             Column::make('customer_id')
                 ->title(trans('plugins/payment::payment.payer_name'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('amount')
                 ->title(trans('plugins/payment::payment.amount'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('payment_channel')
                 ->title(trans('plugins/payment::payment.payment_channel'))
-                ->alignLeft(),
+                ->alignStart(),
             StatusColumn::make(),
             CreatedAtColumn::make(),
         ];

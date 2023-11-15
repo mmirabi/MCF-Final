@@ -3,12 +3,11 @@
 namespace Botble\Language\Models;
 
 use Botble\Base\Casts\SafeContent;
-use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Models\BaseModel;
 use Botble\Setting\Facades\Setting;
 use Botble\Theme\Facades\ThemeOption;
 use Botble\Widget\Models\Widget;
-use Exception;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Language extends BaseModel
 {
@@ -37,28 +36,19 @@ class Language extends BaseModel
         'lang_order' => 'int',
     ];
 
+    public function meta(): HasMany
+    {
+        return $this->hasMany(LanguageMeta::class, 'lang_meta_code', 'lang_code');
+    }
+
     protected static function booted(): void
     {
         self::deleted(function (Language $language) {
-            $defaultLanguage = self::query()->where('lang_is_default', 1)->first();
-
-            if (empty($defaultLanguage) && self::query()->exists()) {
-                $defaultLanguage = self::query()->first();
-                $defaultLanguage->lang_is_default = 1;
-                $defaultLanguage->save();
+            if (! self::query()->where('lang_is_default', 1)->exists() && self::query()->exists()) {
+                self::query()->limit(1)->update(['lang_is_default' => 1]);
             }
 
-            $meta = LanguageMeta::query()->where('lang_meta_code', $language->lang_code)->get();
-
-            try {
-                foreach ($meta as $item) {
-                    $item->reference()->delete();
-                }
-            } catch (Exception $exception) {
-                BaseHelper::logError($exception);
-            }
-
-            LanguageMeta::query()->where('lang_meta_code', $language->lang_code)->delete();
+            $language->meta()->each(fn (LanguageMeta $item) => $item->delete());
 
             Setting::newQuery()->where('key', 'LIKE', ThemeOption::getOptionKey('%', $language->lang_code))->delete();
             Widget::query()->where('theme', 'LIKE', Widget::getThemeName($language->lang_code))->delete();

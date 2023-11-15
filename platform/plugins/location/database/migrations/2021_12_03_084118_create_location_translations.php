@@ -9,7 +9,7 @@ return new class () extends Migration {
     {
         if (! Schema::hasTable('countries_translations')) {
             Schema::create('countries_translations', function (Blueprint $table) {
-                $table->string('lang_code');
+                $table->string('lang_code', 20);
                 $table->foreignId('countries_id');
                 $table->string('name', 120)->nullable();
                 $table->string('nationality', 120)->nullable();
@@ -20,7 +20,7 @@ return new class () extends Migration {
 
         if (! Schema::hasTable('states_translations')) {
             Schema::create('states_translations', function (Blueprint $table) {
-                $table->string('lang_code');
+                $table->string('lang_code', 20);
                 $table->foreignId('states_id');
                 $table->string('name', 120)->nullable();
                 $table->string('abbreviation', 10)->nullable();
@@ -31,7 +31,7 @@ return new class () extends Migration {
 
         if (! Schema::hasTable('cities_translations')) {
             Schema::create('cities_translations', function (Blueprint $table) {
-                $table->string('lang_code');
+                $table->string('lang_code', 20);
                 $table->foreignId('cities_id');
                 $table->string('name', 120)->nullable();
 

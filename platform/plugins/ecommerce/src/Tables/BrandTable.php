@@ -58,7 +58,7 @@ class BrandTable extends TableAbstract
             NameColumn::make()->route('brands.edit'),
             YesNoColumn::make('is_featured')
                 ->title(trans('core/base::tables.is_featured'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

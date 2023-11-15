@@ -29,9 +29,11 @@ class Title implements TitleContract
     {
         $this->set(null);
         $this->title = theme_option('site_title');
+
         if (theme_option('show_site_name', false)) {
-            $this->setSiteName(theme_option('site_title'));
+            $this->setSiteName($this->title);
         }
+
         $this->setSeparator(config('packages.seo-helper.general.title.separator', '-'));
         $this->switchPosition(config('packages.seo-helper.general.title.first', true));
         $this->setMax(config('packages.seo-helper.general.title.max', 55));

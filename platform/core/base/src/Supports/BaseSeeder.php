@@ -3,21 +3,18 @@
 namespace Botble\Base\Supports;
 
 use Botble\Base\Events\FinishedSeederEvent;
+use Botble\Base\Events\SeederPrepared;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Models\MetaBox as MetaBoxModel;
 use Botble\Media\Facades\RvMedia;
 use Botble\Media\Models\MediaFile;
 use Botble\Media\Models\MediaFolder;
-use Botble\Page\Models\Page;
-use Botble\PluginManagement\Services\PluginService;
 use Botble\Setting\Facades\Setting;
-use Botble\Slug\Models\Slug;
-use Botble\Theme\Facades\Theme;
-use Botble\Theme\Facades\ThemeOption;
-use Exception;
+use Carbon\Carbon;
 use Faker\Generator;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -28,8 +25,16 @@ class BaseSeeder extends Seeder
 {
     protected Generator $faker;
 
+    protected Carbon $now;
+
     public function uploadFiles(string $folder, string|null $basePath = null): array
     {
+        $folderPath = $basePath ?: database_path('seeders/files/' . $folder);
+
+        if (! File::isDirectory($folderPath)) {
+            throw new FileNotFoundException('Folder not found: ' . $folderPath);
+        }
+
         $storage = Storage::disk('public');
 
         if ($storage->exists($folder)) {
@@ -40,12 +45,6 @@ class BaseSeeder extends Seeder
         MediaFolder::query()->where('name', $folder)->forceDelete();
 
         $files = [];
-
-        $folderPath = ($basePath ?: database_path('seeders/files/' . $folder));
-
-        if (! File::isDirectory($folderPath)) {
-            return [];
-        }
 
         foreach (File::allFiles($folderPath) as $file) {
             $files[] = RvMedia::uploadFromPath($file, 0, $folder);
@@ -73,25 +72,6 @@ class BaseSeeder extends Seeder
         return $path;
     }
 
-    public function activateAllPlugins(): array
-    {
-        try {
-            $plugins = array_values(BaseHelper::scanFolder(plugin_path()));
-
-            $pluginService = app(PluginService::class);
-
-            foreach ($plugins as $plugin) {
-                $pluginService->activate($plugin);
-            }
-
-            $this->command->call('migrate', ['--force' => true]);
-
-            return $plugins;
-        } catch (Exception) {
-            return [];
-        }
-    }
-
     public function prepareRun(): void
     {
         $this->faker = $this->fake();
@@ -100,23 +80,15 @@ class BaseSeeder extends Seeder
 
         Setting::forgetAll();
 
-        $this->activateAllPlugins();
+        Setting::forceSet('media_random_hash', md5((string)time()));
 
-        Setting::set([
-            'media_random_hash' => md5((string)time()),
-            'api_enabled' => 0,
-            'show_admin_bar' => 1,
-        ]);
-
-        if (class_exists('Theme')) {
-            Setting::set('theme', Theme::getThemeName());
-        }
+        Setting::set('api_enabled', 0);
 
         Setting::save();
 
-        Slug::query()->truncate();
-
         MetaBoxModel::query()->truncate();
+
+        SeederPrepared::dispatch();
     }
 
     protected function random(int $from, int $to, array $exceptions = []): int
@@ -137,20 +109,7 @@ class BaseSeeder extends Seeder
 
     protected function finished(): void
     {
-        event(new FinishedSeederEvent());
-    }
-
-    protected function prepareThemeOptions(array $options, string $locale = null, string $defaultLocale = null): array
-    {
-        return collect($options)
-            ->mapWithKeys(function (string|array $value, string $key) use ($locale, $defaultLocale) {
-                if (is_array($value)) {
-                    $value = json_encode($value);
-                }
-
-                return [ThemeOption::getOptionKey($key, $locale != $defaultLocale ? $locale : null) => $value];
-            })
-            ->all();
+        FinishedSeederEvent::dispatch();
     }
 
     protected function fake(): Generator
@@ -185,8 +144,39 @@ class BaseSeeder extends Seeder
         return $this->faker;
     }
 
-    protected function getPageId(string $name): int|string
+    protected function now(): Carbon
     {
-        return Page::query()->where('name', $name)->value('id');
+        if (isset($this->now)) {
+            return $this->now;
+        }
+
+        $this->now = Carbon::now();
+
+        return $this->now;
+    }
+
+    protected function removeBaseUrlFromString(string $value): string|null
+    {
+        return str_replace(url(''), '', $value);
+    }
+
+    protected function getFilesFromPath(string $path): Collection
+    {
+        $directoryPath = database_path('seeders/files/' . $path);
+
+        $files = [];
+
+        if (File::isDirectory($directoryPath)) {
+            $files = array_map(fn ($item) => $path . '/' . $item, BaseHelper::scanFolder($directoryPath));
+        }
+
+        return collect($files);
+    }
+
+    protected function saveSettings(array $settings): void
+    {
+        Setting::delete(array_keys($settings));
+
+        Setting::forceSet($settings)->save();
     }
 }

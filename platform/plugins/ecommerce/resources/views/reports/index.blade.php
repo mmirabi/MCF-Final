@@ -14,8 +14,8 @@
                 <i class="fa fa-calendar me-1"></i>
                 <span>
                     <span>{{ trans('plugins/ecommerce::reports.date_range_format_value', [
-                        'from' => $startDate->format('Y-m-d'),
-                        'to' => $endDate->format('Y-m-d'),
+                        'from' => BaseHelper::formatDate($startDate),
+                        'to' => BaseHelper::formatDate($endDate),
                     ]) }}</span>
                 </span>
             </button>

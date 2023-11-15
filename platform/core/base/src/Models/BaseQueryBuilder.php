@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class BaseQueryBuilder extends Builder
 {
-    public function addSearch(string $column, string|null $term, bool $isPartial = true, bool $or = true): self
+    public function addSearch(string $column, string|null $term, bool $isPartial = true, bool $or = true): static
     {
         if (! $isPartial) {
             $this->{$or ? 'orWhere' : 'where'}($column, 'LIKE', '%' . trim($term) . '%');
@@ -40,7 +40,7 @@ class BaseQueryBuilder extends Builder
         return '\\\\\\';
     }
 
-    public function wherePublished($column = 'status'): self
+    public function wherePublished($column = 'status'): static
     {
         $this->where($column, BaseStatusEnum::PUBLISHED);
 

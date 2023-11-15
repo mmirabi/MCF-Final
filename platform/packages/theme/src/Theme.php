@@ -7,7 +7,7 @@ use Botble\Base\Facades\Form;
 use Botble\Base\Facades\Html;
 use Botble\Base\Forms\FormAbstract;
 use Botble\Base\Forms\FormHelper;
-use Botble\SeoHelper\Facades\SeoHelper;
+use Botble\Setting\Facades\Setting;
 use Botble\Theme\Contracts\Theme as ThemeContract;
 use Botble\Theme\Exceptions\UnknownPartialFileException;
 use Botble\Theme\Exceptions\UnknownThemeException;
@@ -53,8 +53,6 @@ class Theme implements ThemeContract
         protected Breadcrumb $breadcrumb
     ) {
         $this->uses($this->getThemeName())->layout(setting('layout', 'default'));
-
-        SeoHelper::meta()->setGoogle(setting('google_analytics'));
     }
 
     public function layout(string $layout): self
@@ -724,8 +722,8 @@ class Theme implements ThemeContract
 
         $content->withHeaders([
             'CMS-Version' => get_core_version(),
-            'Authorization-At' => setting('membership_authorization_at'),
-            'Activated-License' => ! empty(setting('licensed_to')) ? 'Yes' : 'No',
+            'Authorization-At' => Setting::get('membership_authorization_at'),
+            'Activated-License' => ! empty(Setting::get('licensed_to')) ? 'Yes' : 'No',
         ]);
 
         return $content;

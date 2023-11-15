@@ -3,12 +3,12 @@
     if (BaseHelper::hasDemoModeEnabled() && session('site-locale') && array_key_exists(session('site-locale'), \Botble\Base\Supports\Language::getAvailableLocales())) {
         $defaultLocale = session('site-locale');
     }
-    
+
     $locales = collect(\Botble\Base\Supports\Language::getAvailableLocales())
         ->pluck('name', 'locale')
         ->map(fn($item, $key) => $item . ' - ' . $key)
         ->all();
-    
+
     $maxEmailCount = 4;
 @endphp
 
@@ -21,7 +21,7 @@
             activate-license-url="{{ route('settings.license.activate') }}"
             deactivate-license-url="{{ route('settings.license.deactivate') }}"
             reset-license-url="{{ route('settings.license.reset') }}"
-            manage-license="{{ auth()->user()->hasPermission('core.manage.license')? 'yes': 'no' }}"
+            manage-license="{{ auth()->guard()->user()->hasPermission('core.manage.license') ? 'yes': 'no' }}"
         ></license-component>
     </div>
 

@@ -10,6 +10,8 @@ use Botble\Ecommerce\Events\ProductQuantityUpdatedEvent;
 use Botble\Ecommerce\Facades\EcommerceHelper;
 use Botble\Ecommerce\Http\Requests\AddAttributesToProductRequest;
 use Botble\Ecommerce\Http\Requests\CreateProductWhenCreatingOrderRequest;
+use Botble\Ecommerce\Http\Requests\DeleteProductVariationsRequest;
+use Botble\Ecommerce\Http\Requests\ProductListRequest;
 use Botble\Ecommerce\Http\Requests\ProductUpdateOrderByRequest;
 use Botble\Ecommerce\Http\Requests\ProductVersionRequest;
 use Botble\Ecommerce\Http\Requests\SearchProductAndVariationsRequest;
@@ -24,7 +26,6 @@ use Botble\Ecommerce\Services\Products\StoreAttributesOfProductService;
 use Botble\Ecommerce\Services\Products\StoreProductService;
 use Botble\Media\Facades\RvMedia;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -37,7 +38,7 @@ trait ProductActionsTrait
         int|string $id,
         BaseHttpResponse $response,
         bool $isUpdateProduct = true
-    ) {
+    ): BaseHttpResponse {
         $product = Product::query()->findOrFail($id);
 
         foreach ($versionInRequest as $variationId => $version) {
@@ -153,7 +154,7 @@ trait ProductActionsTrait
         AddAttributesToProductRequest $request,
         BaseHttpResponse $response,
         StoreAttributesOfProductService $storeAttributesOfProductService
-    ) {
+    ): BaseHttpResponse {
         $product = Product::query()->findOrFail($id);
 
         $addedAttributes = array_filter((array)$request->input('added_attributes', []));
@@ -193,7 +194,7 @@ trait ProductActionsTrait
     public function deleteVersion(
         int|string $variationId,
         BaseHttpResponse $response
-    ) {
+    ): BaseHttpResponse {
         $variation = ProductVariation::query()->findOrFail($variationId);
 
         $originProduct = $variation->configurableProduct;
@@ -213,9 +214,9 @@ trait ProductActionsTrait
     }
 
     public function deleteVersions(
-        Request $request,
+        DeleteProductVariationsRequest $request,
         BaseHttpResponse $response
-    ) {
+    ): BaseHttpResponse {
         $ids = (array)$request->input('ids');
 
         if (empty($ids)) {
@@ -329,7 +330,7 @@ trait ProductActionsTrait
             ->setMessage(trans('plugins/ecommerce::products.form.no_attributes_selected'));
     }
 
-    public function getVersionForm(int|string|null $id, Request $request, BaseHttpResponse $response)
+    public function getVersionForm(int|string|null $id, Request $request, BaseHttpResponse $response): BaseHttpResponse
     {
         $product = null;
         $variation = null;
@@ -388,12 +389,12 @@ trait ProductActionsTrait
 
             if ($variation->is_default) {
                 $request->merge([
-                    'variation_default_id' => $variation->id,
+                    'variation_default_id' => $variation->getKey(),
                 ]);
             }
 
             $this->postSaveAllVersions(
-                [$variation->id => $request->input()],
+                [$variation->getKey() => $request->input()],
                 $variation->configurable_product_id,
                 $response
             );
@@ -412,7 +413,7 @@ trait ProductActionsTrait
         CreateProductVariationsService $service,
         int|string $id,
         BaseHttpResponse $response
-    ) {
+    ): BaseHttpResponse {
         $product = Product::query()->findOrFail($id);
 
         $variations = $service->execute($product);
@@ -441,7 +442,7 @@ trait ProductActionsTrait
         StoreAttributesOfProductService $service,
         int|string $id,
         BaseHttpResponse $response
-    ) {
+    ): BaseHttpResponse {
         $product = Product::query()->findOrFail($id);
 
         $attributeSets = $request->input('attribute_sets', []);
@@ -451,13 +452,23 @@ trait ProductActionsTrait
         return $response->setMessage(trans('plugins/ecommerce::products.form.updated_product_attributes_success'));
     }
 
-    public function getListProductForSearch(Request $request, BaseHttpResponse $response)
+    public function getListProductForSearch(ProductListRequest $request, BaseHttpResponse $response): BaseHttpResponse
     {
+        $productId = $request->input('product_id');
+
+        $keyword = $request->input('keyword');
+
         $availableProducts = Product::query()
             ->wherePublished()
             ->where('is_variation', 0)
-            ->where('id', '!=', $request->input('product_id', 0))
-            ->where('name', 'LIKE', '%' . $request->input('keyword') . '%')
+            ->when($productId, fn ($query) => $query->whereNot('id', $productId))
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where(function ($query) use ($keyword) {
+                    $query
+                        ->where('name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('sku', 'LIKE', '%' . $keyword . '%');
+                });
+            })
             ->select([
                 'id',
                 'name',
@@ -480,14 +491,14 @@ trait ProductActionsTrait
         );
     }
 
-    public function getRelationBoxes(int|string|null $id, BaseHttpResponse $response)
+    public function getRelationBoxes(int|string|null $id, BaseHttpResponse $response): BaseHttpResponse
     {
         $product = null;
         if ($id) {
             $product = Product::query()->find($id);
         }
 
-        $dataUrl = route('products.get-list-product-for-search', ['product_id' => $product ? $product->id : 0]);
+        $dataUrl = route('products.get-list-product-for-search', ['product_id' => $product ? $product->getKey() : 0]);
 
         return $response->setData(
             view(
@@ -497,33 +508,36 @@ trait ProductActionsTrait
         );
     }
 
-    public function getListProductForSelect(Request $request, BaseHttpResponse $response)
+    public function getListProductForSelect(ProductListRequest $request, BaseHttpResponse $response): BaseHttpResponse
     {
+        $keyword = $request->input('keyword');
+
+        $includeVariation = $request->input('include_variation');
+
         $availableProducts = Product::query()
             ->wherePublished()
             ->where('is_variation', '<>', 1)
-            ->where('name', 'LIKE', '%' . $request->input('keyword') . '%')
+            ->when($keyword, fn ($query) => $query->where('name', 'LIKE', '%' . $keyword . '%'))
             ->select([
                 'ec_products.*',
             ])
-            ->distinct('ec_products.id');
-
-        $includeVariation = $request->input('include_variation', 0);
-        if ($includeVariation) {
-            /**
-             * @var Builder $availableProducts
-             */
-            $availableProducts = $availableProducts
-                ->join('ec_product_variations', 'ec_product_variations.configurable_product_id', '=', 'ec_products.id')
-                ->join(
-                    'ec_product_variation_items',
-                    'ec_product_variation_items.variation_id',
-                    '=',
-                    'ec_product_variations.id'
-                );
-        }
-
-        $availableProducts = $availableProducts->simplePaginate(5);
+            ->distinct('ec_products.id')
+            ->when($includeVariation, function ($query) {
+                $query
+                    ->join(
+                        'ec_product_variations',
+                        'ec_product_variations.configurable_product_id',
+                        '=',
+                        'ec_products.id'
+                    )
+                    ->join(
+                        'ec_product_variation_items',
+                        'ec_product_variation_items.variation_id',
+                        '=',
+                        'ec_product_variations.id'
+                    );
+            })
+            ->simplePaginate(5);
 
         foreach ($availableProducts as &$availableProduct) {
             $image = Arr::first($availableProduct->images) ?? null;
@@ -545,7 +559,7 @@ trait ProductActionsTrait
     public function postCreateProductWhenCreatingOrder(
         CreateProductWhenCreatingOrderRequest $request,
         BaseHttpResponse $response
-    ) {
+    ): BaseHttpResponse {
         $product = Product::query()->create($request->input());
 
         event(new CreatedContentEvent(PRODUCT_MODULE_SCREEN_NAME, $request, $product));
@@ -568,20 +582,20 @@ trait ProductActionsTrait
                 ->get();
         }
 
+        $keyword = $request->input('keyword');
+
         $availableProducts = Product::query()
             ->select(['ec_products.*'])
             ->where('is_variation', false)
             ->wherePublished()
-            ->with(['variationInfo.configurableProduct']);
-
-        if ($keyword = $request->input('keyword')) {
-            $availableProducts = $availableProducts
-                ->where(function ($query) use ($keyword) {
+            ->with(['variationInfo.configurableProduct'])
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where(function ($query) use ($keyword) {
                     $query
                         ->where('name', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('sku', 'LIKE', '%' . $keyword . '%');
                 });
-        }
+            });
 
         if (is_plugin_active('marketplace') && $selectedProducts->count()) {
             $selectedProducts = $selectedProducts->map(function ($item) {

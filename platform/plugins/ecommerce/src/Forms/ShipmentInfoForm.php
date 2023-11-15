@@ -8,14 +8,13 @@ use Botble\Ecommerce\Models\Shipment;
 
 class ShipmentInfoForm extends FormAbstract
 {
-    protected $template = 'core/base::forms.form-content-only';
-
     public function buildForm(): void
     {
         $this
             ->setupModel(new Shipment())
             ->setValidatorClass(ShipmentRequest::class)
             ->withCustomFields()
+            ->contentOnly()
             ->add('shipping_company_name', 'text', [
                 'label' => trans('plugins/ecommerce::shipping.shipping_company_name'),
                 'attr' => [

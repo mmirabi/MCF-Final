@@ -11,10 +11,10 @@ return [
     'new_users' => 'New visitors',
     'visits' => 'visits',
     'views' => 'views',
-    'property_id_not_specified' => 'You must provide a valid view id. The document here: <a href="https://medyanossa.com" target="_blank">https://medyanossa.com</a>',
-    'credential_is_not_valid' => 'Analytics credentials is not valid. The document here: <a href="https://medyanossa.com" target="_blank">https://medyanossa.com</a>',
+    'property_id_not_specified' => 'You must provide a valid view id. The document here: <a href="https://docs.botble.com/cms/master/plugin-analytics" target="_blank">https://docs.botble.com/cms/master/plugin-analytics</a>',
+    'credential_is_not_valid' => 'Analytics credentials is not valid. The document here: <a href="https://docs.botble.com/cms/master/plugin-analytics" target="_blank">https://docs.botble.com/cms/master/plugin-analytics</a>',
     'start_date_can_not_before_end_date' => 'Start date :start_date cannot be after end date :end_date',
-    'wrong_configuration' => 'To view analytics you\'ll need to get a Google Analytics client id and add it to your settings. <br /> You also need JSON credential data. <br /> The document here: <a href="https://medyanossa.com" target="_blank">https://medyanossa.com</a>',
+    'wrong_configuration' => 'To view analytics you\'ll need to get a Google Analytics client id and add it to your settings. <br /> You also need JSON credential data. <br /> The document here: <a href="https://docs.botble.com/cms/master/plugin-analytics" target="_blank">https://docs.botble.com/cms/master/plugin-analytics</a>',
     'property_id_is_invalid' => 'Property ID is invalid. Check this: https://developers.google.com/analytics/devguides/reporting/data/v1/property-id',
 
     'settings' => [

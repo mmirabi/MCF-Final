@@ -24,7 +24,7 @@
 
     @if (
         $driver === 'mysql' &&
-            auth()->user()->hasPermission('backups.create'))
+            auth()->guard()->user()->hasPermission('backups.create'))
         <p><button
                 class="btn btn-primary"
                 id="generate_backup"
@@ -62,7 +62,7 @@
         </tbody>
     </table>
 
-    @if (auth()->user()->hasPermission('backups.create'))
+    @if (auth()->guard()->user()->hasPermission('backups.create'))
         <x-core::modal
             id="create-backup-modal"
             type="info"
@@ -101,7 +101,7 @@
         <div data-route-create="{{ route('backups.create') }}"></div>
     @endif
 
-    @if (auth()->user()->hasPermission('backups.restore'))
+    @if (auth()->guard()->user()->hasPermission('backups.restore'))
         <x-core::modal
             id="restore-backup-modal"
             type="info"

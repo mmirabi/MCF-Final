@@ -15,7 +15,7 @@
                 'email',
                 old(
                     'username',
-                    BaseHelper::hasDemoModeEnabled() ? config('core.base.general.demo.account.username', 'botble') : null,
+                    BaseHelper::hasDemoModeEnabled() ? config('core.base.general.demo.account.username') : null,
                 ),
             ),
             ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.username')],
@@ -33,7 +33,7 @@
             request()->input('email')
                 ? null
                 : (BaseHelper::hasDemoModeEnabled()
-                    ? config('core.base.general.demo.account.password', '159357')
+                    ? config('core.base.general.demo.account.password')
                     : null),
             ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.password')],
         ) !!}

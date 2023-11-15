@@ -115,20 +115,20 @@ class ReviewTable extends TableAbstract
             IdColumn::make(),
             Column::make('product_id')
                 ->title(trans('plugins/ecommerce::review.product'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('customer_id')
                 ->title(trans('plugins/ecommerce::review.user'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('star')
                 ->title(trans('plugins/ecommerce::review.star')),
             LinkableColumn::make('comment')
                 ->title(trans('plugins/ecommerce::review.comment'))
                 ->route('reviews.show')
-                ->alignLeft()
+                ->alignStart()
                 ->limit(70),
             Column::formatted('images')
                 ->title(trans('plugins/ecommerce::review.images'))
-                ->alignLeft()
+                ->alignStart()
                 ->width(150)
                 ->orderable(false)
                 ->searchable(false),

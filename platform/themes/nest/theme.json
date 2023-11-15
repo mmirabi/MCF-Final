@@ -1,0 +1,8 @@
+{
+    "id": "botble/nest",
+    "name": "Thousand",
+    "namespace": "Theme\\Nest\\",
+    "description": "Thousand - Flowers ecommerce",
+    "author": "MedyaNossa",
+    "required_plugins": []
+}

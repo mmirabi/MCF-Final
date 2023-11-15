@@ -45,15 +45,19 @@ class RouteCacheCommand extends BaseRouteCacheCommand
 
         $allLocales[] = null;
 
+        $defaultLocale = Language::getDefaultLocale();
+
+        $hideDefaultLocale = Language::hideDefaultLocaleInURL();
+
         foreach ($allLocales as $locale) {
-            if (Language::hideDefaultLocaleInURL() && $locale == Language::getDefaultLocale()) {
+            if ($hideDefaultLocale && $locale == $defaultLocale) {
                 continue;
             }
 
             $routes = $this->getFreshApplicationRoutesForLocale($locale);
 
-            if ($locale == null && Language::hideDefaultLocaleInURL()) {
-                $defaultRoutesWithPrefix = $this->getFreshApplicationRoutesForLocale(Language::getDefaultLocale(), true);
+            if ($locale == null && $hideDefaultLocale) {
+                $defaultRoutesWithPrefix = $this->getFreshApplicationRoutesForLocale($defaultLocale, true);
 
                 $newRoutes = new RouteCollection();
 

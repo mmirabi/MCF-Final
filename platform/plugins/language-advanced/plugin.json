@@ -3,8 +3,8 @@
     "name": "Language Advanced",
     "namespace": "Botble\\LanguageAdvanced\\",
     "provider": "Botble\\LanguageAdvanced\\Providers\\LanguageAdvancedServiceProvider",
-    "author": "Mehdi Mirabi",
-    "url": "http://medyanossa.com",
+    "author": "MedyaNossa",
+    "url": "https://medyanossa.com",
     "version": "1.2.0",
     "description": "Advanced Multi-language",
     "require": ["botble/language"]

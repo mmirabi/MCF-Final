@@ -26,7 +26,7 @@ class HookServiceProvider extends ServiceProvider
 
     public function registerScripts(): void
     {
-        if (Auth::user()->hasAnyPermission([
+        if (Auth::guard()->user()->hasAnyPermission([
             'analytics.general',
             'analytics.page',
             'analytics.browser',

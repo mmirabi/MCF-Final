@@ -206,11 +206,11 @@
                 >
                 <div class="form-group">
                     <label for="primary-color">{{ trans('packages/get-started::get-started.username') }}</label>
-                    {!! Form::text('username', auth()->user()->username, ['class' => 'form-control']) !!}
+                    {!! Form::text('username', auth()->guard()->user()->username, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
                     <label for="primary-color">{{ trans('packages/get-started::get-started.email') }}</label>
-                    {!! Form::email('email', auth()->user()->email, ['class' => 'form-control']) !!}
+                    {!! Form::email('email', auth()->guard()->user()->email, ['class' => 'form-control']) !!}
                 </div>
                 <div class="row">
                     <div class="col-sm-6">

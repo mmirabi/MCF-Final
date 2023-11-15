@@ -71,7 +71,7 @@ class SelectLocationField extends FormField
         $countries = Country::query()
             ->select('name', 'id')
             ->get()
-            ->mapWithKeys(fn (Country $item) => [$item->getKey() => $item->name])
+            ->mapWithKeys(fn ($item) => [$item->getKey() => $item->name])
             ->all();
 
         $value = Arr::get($this->getValue(), 'country');
@@ -104,7 +104,7 @@ class SelectLocationField extends FormField
         if (! $countryId) {
             $countries = Country::query()->select('name', 'id')
                 ->get()
-                ->mapWithKeys(fn (Country $item) => [$item->getKey() => $item->name])
+                ->mapWithKeys(fn ($item) => [$item->getKey() => $item->name])
                 ->all();
 
             if (count($countries)) {
@@ -118,7 +118,7 @@ class SelectLocationField extends FormField
                 ->where('country_id', $countryId)
                 ->select('name', 'id')
                 ->get()
-                ->mapWithKeys(fn (State $item) => [$item->id => $item->name])
+                ->mapWithKeys(fn ($item) => [$item->getKey() => $item->name])
                 ->all();
         }
 
@@ -149,14 +149,14 @@ class SelectLocationField extends FormField
             $cities = City::query()
                 ->where('state_id', $stateId)
                 ->select('name', 'id')->get()
-                ->mapWithKeys(fn (City $item) => [$item->getKey() => $item->name])
+                ->mapWithKeys(fn ($item) => [$item->getKey() => $item->name])
                 ->all();
         } elseif ($countryId) {
             $cities = City::query()
                 ->where('country_id', $countryId)
                 ->select('name', 'id')
                 ->get()
-                ->mapWithKeys(fn (City $item) => [$item->getKey() => $item->name])
+                ->mapWithKeys(fn ($item) => [$item->getKey() => $item->name])
                 ->all();
         }
 

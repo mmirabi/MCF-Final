@@ -12,7 +12,7 @@ return new class () extends Migration {
         }
 
         Schema::create('pages_translations', function (Blueprint $table) {
-            $table->string('lang_code');
+            $table->string('lang_code', 20);
             $table->foreignId('pages_id');
             $table->string('name', 255)->nullable();
             $table->string('description', 400)->nullable();

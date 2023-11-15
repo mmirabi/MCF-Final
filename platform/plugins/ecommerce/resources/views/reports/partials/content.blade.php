@@ -10,8 +10,8 @@
                     <div id='sales-report-chart'>
                         <sales-reports-chart
                             url="{{ route('marketplace.vendor.chart.month') }}"
-                            date_from='{{ $count['startDate']->format('Y-m-d') }}'
-                            date_to='{{ $count['endDate']->format('Y-m-d') }}'
+                            date_from='{{ $count['startDate']->toDateString() }}'
+                            date_to='{{ $count['endDate']->toDateString() }}'
                         ></sales-reports-chart>
                     </div>
                 </div>

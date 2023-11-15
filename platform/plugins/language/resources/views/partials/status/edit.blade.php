@@ -1,4 +1,4 @@
-@if (!is_in_admin() || (Auth::check() && Auth::user()->hasPermission($route['edit'])))
+@if (!is_in_admin() || (Auth::guard()->check() && Auth::guard()->user()->hasPermission($route['edit'])))
     <a
         data-bs-toggle="tooltip"
         data-bs-original-title="{{ trans('plugins/language::language.edit_related') }}"

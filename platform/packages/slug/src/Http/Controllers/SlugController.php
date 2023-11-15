@@ -45,7 +45,9 @@ class SlugController extends BaseController
             }
 
             if ($settingKey == 'public_single_ending_url') {
-                $settingValue = ltrim($settingValue, '.');
+                if ($settingValue) {
+                    $settingValue = ltrim($settingValue, '.');
+                }
 
                 if ($settingStore->get($settingKey) !== $settingValue) {
                     $hasChangedEndingUrl = true;

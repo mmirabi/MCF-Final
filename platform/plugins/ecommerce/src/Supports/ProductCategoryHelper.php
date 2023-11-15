@@ -96,7 +96,7 @@ class ProductCategoryHelper
         if (! isset($this->treeCategories)) {
             $this->treeCategories = $this->getAllProductCategories(
                 [
-                    'condition' => ['status' => BaseStatusEnum::PUBLISHED],
+                    'condition' => $activeOnly ? ['status' => BaseStatusEnum::PUBLISHED] : [],
                     'with' => [$activeOnly ? 'activeChildren' : 'children'],
                 ],
                 true
@@ -112,8 +112,8 @@ class ProductCategoryHelper
             foreach ($categories as $category) {
                 $options[$category['id']] = $indent . $category['name'];
 
-                if (! empty($category['active_children'])) {
-                    $options = $this->getTreeCategoriesOptions($category['active_children'], $options, $indent . '&nbsp;&nbsp;');
+                if (! empty($category['active_children']) || ! empty($category['children'])) {
+                    $options = $this->getTreeCategoriesOptions($category['active_children'] ?? $category['children'], $options, $indent . '&nbsp;&nbsp;');
                 }
             }
 
@@ -145,8 +145,8 @@ class ProductCategoryHelper
                 'ec_product_categories.name',
                 'parent_id',
             ])
-            ->orderByDesc('created_at')
-            ->orderBy('order');
+            ->orderBy('order')
+            ->orderByDesc('created_at');
 
         $categories = $this->applyQuery($query)->get();
 
@@ -187,8 +187,8 @@ class ProductCategoryHelper
         }
 
         $query = $query
-            ->orderByDesc('ec_product_categories.created_at')
             ->orderBy('ec_product_categories.order')
+            ->orderByDesc('ec_product_categories.created_at')
             ->when(
                 ! empty($categoryIds),
                 fn (Builder $query) => $query->whereIn('ec_product_categories.id', $categoryIds)

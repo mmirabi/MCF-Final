@@ -3,7 +3,6 @@
 namespace Botble\Base\Enums;
 
 use BadMethodCallException;
-use Botble\Base\Supports\Core;
 use Botble\Base\Supports\Enum;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
@@ -15,8 +14,6 @@ use InvalidArgumentException;
  * @method static SystemUpdaterStepEnum UPDATE_DATABASE()
  * @method static SystemUpdaterStepEnum PUBLISH_CORE_ASSETS()
  * @method static SystemUpdaterStepEnum PUBLISH_PACKAGES_ASSETS()
- * @method static SystemUpdaterStepEnum PUBLISH_PLUGINS_ASSETS()
- * @method static SystemUpdaterStepEnum PUBLISH_THEMES_ASSETS()
  * @method static SystemUpdaterStepEnum CLEAN_UP()
  * @method static SystemUpdaterStepEnum DONE()
  */
@@ -27,8 +24,6 @@ class SystemUpdaterStepEnum extends Enum
     public const UPDATE_DATABASE = 'update_database';
     public const PUBLISH_CORE_ASSETS = 'publish_core_assets';
     public const PUBLISH_PACKAGES_ASSETS = 'publish_packages_assets';
-    public const PUBLISH_PLUGINS_ASSETS = 'publish_plugins_assets';
-    public const PUBLISH_THEMES_ASSETS = 'publish_themes_assets';
     public const CLEAN_UP = 'clean_up';
     public const DONE = 'done';
 
@@ -84,9 +79,7 @@ class SystemUpdaterStepEnum extends Enum
             self::UPDATE_FILES => self::UPDATE_DATABASE,
             self::UPDATE_DATABASE => self::PUBLISH_CORE_ASSETS,
             self::PUBLISH_CORE_ASSETS => self::PUBLISH_PACKAGES_ASSETS,
-            self::PUBLISH_PACKAGES_ASSETS => self::PUBLISH_PLUGINS_ASSETS,
-            self::PUBLISH_PLUGINS_ASSETS => self::PUBLISH_THEMES_ASSETS,
-            self::PUBLISH_THEMES_ASSETS => self::CLEAN_UP,
+            self::PUBLISH_PACKAGES_ASSETS => self::CLEAN_UP,
             self::CLEAN_UP => self::DONE,
             default => throw new InvalidArgumentException('Invalid step'),
         };
@@ -99,9 +92,7 @@ class SystemUpdaterStepEnum extends Enum
             self::UPDATE_FILES => self::UPDATE_DATABASE()->message(),
             self::UPDATE_DATABASE => self::PUBLISH_CORE_ASSETS()->message(),
             self::PUBLISH_CORE_ASSETS => self::PUBLISH_PACKAGES_ASSETS()->message(),
-            self::PUBLISH_PACKAGES_ASSETS => self::PUBLISH_PLUGINS_ASSETS()->message(),
-            self::PUBLISH_PLUGINS_ASSETS => self::PUBLISH_THEMES_ASSETS()->message(),
-            self::PUBLISH_THEMES_ASSETS => self::CLEAN_UP()->message(),
+            self::PUBLISH_PACKAGES_ASSETS => self::CLEAN_UP()->message(),
             self::CLEAN_UP => self::DONE()->message(),
             default => trans('core/base::enums.system_updater_steps.unknown'),
         };
@@ -114,9 +105,7 @@ class SystemUpdaterStepEnum extends Enum
             self::UPDATE_FILES => 25,
             self::UPDATE_DATABASE => 65,
             self::PUBLISH_CORE_ASSETS => 70,
-            self::PUBLISH_PACKAGES_ASSETS => 75,
-            self::PUBLISH_PLUGINS_ASSETS => 85,
-            self::PUBLISH_THEMES_ASSETS => 90,
+            self::PUBLISH_PACKAGES_ASSETS => 85,
             self::CLEAN_UP => 100,
             default => 0,
         };

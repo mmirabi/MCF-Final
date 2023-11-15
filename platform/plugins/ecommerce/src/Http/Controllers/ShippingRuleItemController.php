@@ -46,11 +46,13 @@ class ShippingRuleItemController extends BaseController
         if ($request->ajax() && ($shippingRuleId = $request->input('shipping_rule_id'))) {
             ShippingRule::query()->findOrFail($shippingRuleId);
 
-            $html = $formBuilder->create(ShippingRuleItemForm::class)
-                ->setFormOption('template', 'core/base::forms.form-content-only')
+            $html = $formBuilder
+                ->create(ShippingRuleItemForm::class)
+                ->contentOnly()
                 ->renderForm();
 
-            return $response->setData(['html' => $html])
+            return $response
+                ->setData(['html' => $html])
                 ->setMessage(trans('plugins/ecommerce::shipping.rule.item.create'));
         }
 
@@ -78,7 +80,7 @@ class ShippingRuleItemController extends BaseController
             ->setNextUrl(route('ecommerce.shipping-rule-items.edit', $item->id))
             ->setData([
                 'id' => $item->id,
-                'shipping_rule_id' => $rule->id,
+                'shipping_rule_id' => $rule->getKey(),
                 'html' => view('plugins/ecommerce::shipping.items.table-item', compact('item', 'hasOperations'))->render(),
             ])
             ->setMessage(trans('core/base::notices.create_success_message'));
@@ -89,11 +91,13 @@ class ShippingRuleItemController extends BaseController
         $item = ShippingRuleItem::query()->findOrFail($id);
 
         event(new BeforeEditContentEvent($request, $item));
-        $title = trans('plugins/ecommerce::shipping.rule.item.edit') . $item->name_item;
+
+        $title = trans('core/base::forms.edit_item', ['name' => $item->name_item]);
 
         if ($request->ajax()) {
-            $html = $formBuilder->create(ShippingRuleItemForm::class, ['model' => $item])
-                ->setFormOption('template', 'core/base::forms.form-content-only')
+            $html = $formBuilder
+                ->create(ShippingRuleItemForm::class, ['model' => $item])
+                ->contentOnly()
                 ->renderForm();
 
             return $response->setData(compact('html'))->setMessage($title);

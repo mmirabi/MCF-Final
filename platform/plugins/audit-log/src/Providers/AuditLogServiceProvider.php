@@ -26,8 +26,6 @@ class AuditLogServiceProvider extends ServiceProvider
         $this->app->bind(AuditLogInterface::class, function () {
             return new AuditLogRepository(new AuditHistory());
         });
-
-        AliasLoader::getInstance()->alias('AuditLog', AuditLog::class);
     }
 
     public function boot(): void
@@ -43,6 +41,8 @@ class AuditLogServiceProvider extends ServiceProvider
             ->loadAndPublishConfigurations(['permissions'])
             ->loadMigrations()
             ->publishAssets();
+
+        AliasLoader::getInstance()->alias('AuditLog', AuditLog::class);
 
         $this->app['events']->listen(RouteMatched::class, function () {
             DashboardMenu::registerItem([

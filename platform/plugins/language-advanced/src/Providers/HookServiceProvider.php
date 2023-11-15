@@ -189,7 +189,7 @@ class HookServiceProvider extends ServiceProvider
         if ($model && LanguageAdvancedManager::isSupported($model) && count(Language::getActiveLanguage()) > 1) {
             $route = $this->getRoutes();
 
-            if (is_in_admin() && Auth::check() && ! Auth::user()->hasAnyPermission($route)) {
+            if (is_in_admin() && Auth::guard()->check() && ! Auth::guard()->user()->hasAnyPermission($route)) {
                 return $data;
             }
 
@@ -210,7 +210,7 @@ class HookServiceProvider extends ServiceProvider
             return $headings;
         }
 
-        if (is_in_admin() && Auth::check() && ! Auth::user()->hasAnyPermission($this->getRoutes())) {
+        if (is_in_admin() && Auth::guard()->check() && ! Auth::guard()->user()->hasAnyPermission($this->getRoutes())) {
             return $headings;
         }
 

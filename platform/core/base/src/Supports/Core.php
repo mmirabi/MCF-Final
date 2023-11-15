@@ -28,12 +28,11 @@ use Botble\Base\Events\SystemUpdateUnavailable;
 use Botble\Base\Exceptions\LicenseInvalidException;
 use Botble\Base\Exceptions\LicenseIsAlreadyActivatedException;
 use Botble\Base\Exceptions\MissingCURLExtensionException;
+use Botble\Base\Exceptions\RequiresLicenseActivatedException;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Services\ClearCacheService;
 use Botble\Base\Supports\ValueObjects\CoreProduct;
 use Botble\Setting\Facades\Setting;
-use Botble\Theme\Facades\Theme;
-use Botble\Theme\Services\ThemeService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
@@ -71,7 +70,7 @@ final class Core
 
     private string $minimumPhpVersion = '8.1.0';
 
-    private string $licenseUrl = 'https://license.medyanossa.com';
+    private string $licenseUrl = 'https://license.botble.com';
 
     private string $licenseKey = 'CAF4B17F6D3F656125F9';
 
@@ -279,7 +278,7 @@ final class Core
         SystemUpdateDownloading::dispatch();
 
         if (! $this->isLicenseFileExists()) {
-            return false;
+            throw new RequiresLicenseActivatedException();
         }
 
         $data = [
@@ -370,8 +369,6 @@ final class Core
     {
         $this->publishCoreAssets();
         $this->publishPackagesAssets();
-        $this->publishPluginsAssets();
-        $this->publishThemesAssets();
     }
 
     public function publishCoreAssets(): bool
@@ -386,28 +383,6 @@ final class Core
     public function publishPackagesAssets(): bool
     {
         $this->publishAssets(package_path());
-
-        return true;
-    }
-
-    public function publishPluginsAssets(): bool
-    {
-        $this->publishAssets(plugin_path());
-
-        return true;
-    }
-
-    public function publishThemesAssets(): bool
-    {
-        $this->files->delete(theme_path(Theme::getThemeName() . '/public/css/style.integration.css'));
-
-        $customCSS = Theme::getStyleIntegrationPath();
-
-        if ($this->files->exists($customCSS)) {
-            $this->files->copy($customCSS, storage_path('app/style.integration.css.') . time());
-        }
-
-        app(ThemeService::class)->publishAssets();
 
         SystemUpdatePublished::dispatch();
 
@@ -470,20 +445,10 @@ final class Core
         $paths = [
             core_path(),
             package_path(),
-            plugin_path(),
-            theme_path(),
         ];
 
         foreach ($paths as $path) {
             foreach (BaseHelper::scanFolder($path) as $module) {
-                if ($path == plugin_path() && ! is_plugin_active($module)) {
-                    continue;
-                }
-
-                if ($path == theme_path() && $module !== Theme::getThemeName()) {
-                    continue;
-                }
-
                 $modulePath = $path . '/' . $module;
 
                 if (! $this->files->isDirectory($modulePath)) {
@@ -509,7 +474,9 @@ final class Core
 
         if ($zip->open($filePath)) {
             if ($zip->getFromName('.env')) {
-                return false;
+                throw ValidationException::withMessages([
+                    'file' => 'The update file contains a .env file. Please remove it and try again.',
+                ]);
             }
 
             /**
@@ -525,7 +492,9 @@ final class Core
             $content = json_decode($zip->getFromName('platform/core/core.json'), true);
 
             if (! $content) {
-                return false;
+                throw ValidationException::withMessages([
+                    'file' => 'The update file is invalid. Please contact us for support.',
+                ]);
             }
 
             $validator = Validator::make($content, [
@@ -583,9 +552,7 @@ final class Core
 
     private function forgotLicensedInformation(): void
     {
-        Setting::delete([
-            'licensed_to',
-        ]);
+        Setting::forceDelete('licensed_to');
     }
 
     private function parseDataFromCoreDataFile(): void
@@ -619,7 +586,7 @@ final class Core
             throw new MissingCURLExtensionException();
         }
 
-        $request = Http::baseUrl($this->licenseUrl)
+        $request = Http::baseUrl(ltrim($this->licenseUrl, '/') . '/api')
             ->withHeaders([
                 'LB-API-KEY' => $this->licenseKey,
                 'LB-URL' => rtrim(url(''), '/'),
@@ -631,8 +598,6 @@ final class Core
             ->withoutVerifying()
             ->connectTimeout(100)
             ->timeout(300);
-
-        $path = 'api/' . $path;
 
         return match (Str::upper($method)) {
             'GET' => $request->get($path, $data),

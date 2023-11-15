@@ -49,7 +49,7 @@ class GlobalOptionTable extends TableAbstract
             NameColumn::make()->route('global-option.edit'),
             YesNoColumn::make('required')
                 ->title(trans('plugins/ecommerce::product-option.required'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
         ];
     }

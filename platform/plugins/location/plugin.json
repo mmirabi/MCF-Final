@@ -3,8 +3,8 @@
     "name": "Location",
     "namespace": "Botble\\Location\\",
     "provider": "Botble\\Location\\Providers\\LocationServiceProvider",
-    "author": "Mehdi Mirabi",
-    "url": "http://medyanossa.com",
+    "author": "MedyaNossa",
+    "url": "https://medyanossa.com",
     "version": "1.1.0",
     "description": "The description for module location"
 }

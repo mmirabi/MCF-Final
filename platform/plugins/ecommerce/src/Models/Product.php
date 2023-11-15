@@ -607,7 +607,7 @@ class Product extends BaseModel
         $faqs = array_filter($faqs);
         if (! empty($faqs)) {
             foreach ($faqs as $key => $item) {
-                if (! $item[0]['value'] && ! $item[1]['value']) {
+                if (! is_array($item) || count($item) < 2 || ! $item[0]['value'] || ! $item[1]['value']) {
                     Arr::forget($faqs, $key);
                 }
             }

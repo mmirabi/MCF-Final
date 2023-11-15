@@ -39,7 +39,7 @@ class HandleApplyPromotionsService
         $productItems = Arr::get($data, 'productItems', $cartInstance->products());
 
         $availablePromotions = Discount::getAvailablePromotions(false)
-            ->reject(fn(DiscountModel $item) => in_array($item->target, [
+            ->reject(fn (DiscountModel $item) => in_array($item->target, [
                 DiscountTargetEnum::SPECIFIC_PRODUCT,
                 DiscountTargetEnum::PRODUCT_VARIANT,
             ]));

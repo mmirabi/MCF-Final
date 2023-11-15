@@ -33,7 +33,7 @@ class PageTable extends TableAbstract
                 NameColumn::make()->route('pages.edit'),
                 Column::make('template')
                     ->title(trans('core/base::tables.template'))
-                    ->alignLeft(),
+                    ->alignStart(),
                 CreatedAtColumn::make(),
                 StatusColumn::make(),
             ])

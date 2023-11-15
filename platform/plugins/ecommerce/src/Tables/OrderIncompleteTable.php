@@ -98,7 +98,7 @@ class OrderIncompleteTable extends OrderTable
             IdColumn::make(),
             Column::make('user_id')
                 ->title(trans('plugins/ecommerce::order.customer_label'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::formatted('amount')
                 ->title(trans('plugins/ecommerce::order.amount')),
             CreatedAtColumn::make(),

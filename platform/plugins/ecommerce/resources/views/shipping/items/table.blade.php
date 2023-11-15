@@ -68,8 +68,7 @@
                             colspan="100%"
                         >
                             <a
-                                class="d-block py-4 shipping-rule-load-items"
-                                class="p-3"
+                                class="d-block py-4 shipping-rule-load-items p-3"
                                 href="{{ route('ecommerce.shipping-rule-items.items', $rule->id) }}"
                             >
                                 <span>{{ trans('plugins/ecommerce::shipping.rule.item.load_data_table', ['total' => $total]) }}</span>

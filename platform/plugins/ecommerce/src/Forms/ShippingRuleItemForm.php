@@ -91,9 +91,8 @@ class ShippingRuleItemForm extends FormAbstract
             }
 
             $cities = ['' => trans('plugins/location::city.select_city')];
-            if ($state = old('state', $this->getModel()->state)) {
-                $cities += EcommerceHelper::getAvailableCitiesByState($state);
-            }
+
+            $cities += EcommerceHelper::getAvailableCitiesByState(old('state', $this->getModel()->state));
 
             $this
                 ->add('country', 'customSelect', [
@@ -106,18 +105,21 @@ class ShippingRuleItemForm extends FormAbstract
                     ],
                     'selected' => $country,
                 ])
-                ->add('state', 'customSelect', [
-                    'label' => trans('plugins/ecommerce::shipping.rule.item.forms.state'),
-                    'label_attr' => ['class' => 'control-label ' . ($isRequiredState ? 'required' : '')],
-                    'attr' => [
-                        'class' => 'form-control select-search-full',
-                        'data-type' => 'state',
-                        'data-url' => route('ajax.states-by-country'),
-                    ],
-                    'choices' => $states,
-                ])
+                ->when(count($states) > 1, function () use ($states, $isRequiredState) {
+                    $this->add('state', 'customSelect', [
+                        'label' => trans('plugins/ecommerce::shipping.rule.item.forms.state'),
+                        'label_attr' => ['class' => 'control-label ' . ($isRequiredState ? 'required' : '')],
+                        'attr' => [
+                            'class' => 'form-control select-search-full',
+                            'data-type' => 'state',
+                            'data-url' => route('ajax.states-by-country'),
+                        ],
+                        'choices' => $states,
+                    ]);
+                })
                 ->add('city', 'customSelect', [
                     'label' => trans('plugins/ecommerce::shipping.rule.item.forms.city'),
+                    'required' => count($states) <= 1,
                     'attr' => [
                         'class' => 'form-control select-search-full',
                         'data-type' => 'city',

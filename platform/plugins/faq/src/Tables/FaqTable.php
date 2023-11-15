@@ -64,10 +64,10 @@ class FaqTable extends TableAbstract
             LinkableColumn::make('question')
                 ->title(trans('plugins/faq::faq.question'))
                 ->route('faq.edit')
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('category_id')
                 ->title(trans('plugins/faq::faq.category'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

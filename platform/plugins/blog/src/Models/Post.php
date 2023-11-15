@@ -66,6 +66,19 @@ class Post extends BaseModel
         );
     }
 
+    protected function timeReading(): Attribute
+    {
+        return Attribute::make(
+            get: function (): string|null {
+                if (! $this->content) {
+                    return null;
+                }
+
+                return number_format(ceil(str_word_count(strip_tags($this->content)) / 200));
+            }
+        );
+    }
+
     public function author(): MorphTo
     {
         return $this->morphTo()->withDefault();

@@ -57,7 +57,7 @@ class UpdateCommand extends Command
         }
 
         $this->components->info(
-            sprintf('A new version (<comment>%s</comment> / released on <comment>%s</comment>) is available to update!', $latestUpdate->version, $latestUpdate->releasedDate->format('Y-m-d'))
+            sprintf('A new version (<comment>%s</comment> / released on <comment>%s</comment>) is available to update!', $latestUpdate->version, BaseHelper::formatDate($latestUpdate->releasedDate))
         );
 
         $this->components->warn('Notice:');

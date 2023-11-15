@@ -55,10 +55,10 @@ class ThemeTranslationTable extends TableAbstract
     {
         return [
             Column::make('key')
-                ->alignLeft(),
+                ->alignStart(),
             Column::make($this->locale)
                 ->title(Arr::get(Language::getAvailableLocales(), $this->locale . '.name', $this->locale))
-                ->alignLeft(),
+                ->alignStart(),
         ];
     }
 

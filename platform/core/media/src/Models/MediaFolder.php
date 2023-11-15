@@ -118,7 +118,7 @@ class MediaFolder extends BaseModel
         });
 
         static::restoring(function (MediaFolder $folder) {
-            $folder->files()->restore();
+            $folder->files()->each(fn (MediaFile $file) => $file->restore());
         });
     }
 }

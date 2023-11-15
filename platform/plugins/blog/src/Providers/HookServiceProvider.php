@@ -186,18 +186,18 @@ class HookServiceProvider extends ServiceProvider
 
     public function registerMenuOptions(): void
     {
-        if (Auth::user()->hasPermission('categories.index')) {
+        if (Auth::guard()->user()->hasPermission('categories.index')) {
             Menu::registerMenuOptions(Category::class, trans('plugins/blog::categories.menu'));
         }
 
-        if (Auth::user()->hasPermission('tags.index')) {
+        if (Auth::guard()->user()->hasPermission('tags.index')) {
             Menu::registerMenuOptions(Tag::class, trans('plugins/blog::tags.menu'));
         }
     }
 
     public function registerDashboardWidgets(array $widgets, Collection $widgetSettings): array
     {
-        if (! Auth::user()->hasPermission('posts.index')) {
+        if (! Auth::guard()->user()->hasPermission('posts.index')) {
             return $widgets;
         }
 

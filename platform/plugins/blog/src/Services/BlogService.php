@@ -31,12 +31,15 @@ class BlogService
             'status' => BaseStatusEnum::PUBLISHED,
         ];
 
-        if (Auth::check() && request()->input('preview')) {
+        if (Auth::guard()->check() && request()->input('preview')) {
             Arr::forget($condition, 'status');
         }
 
         switch ($slug->reference_type) {
             case Post::class:
+                /**
+                 * @var Post $post
+                 */
                 $post = Post::query()
                     ->where($condition)
                     ->with(['categories', 'tags', 'slugable', 'categories.slugable', 'tags.slugable'])

@@ -103,6 +103,9 @@ class MenuController extends BaseController
 
         PageTitle::setTitle(trans('core/base::forms.edit_item', ['name' => $menu->name]));
 
+        /**
+         * @var MenuModel $menu
+         */
         event(new BeforeEditContentEvent($request, $menu));
 
         return $formBuilder->create(MenuForm::class, ['model' => $menu])->renderForm();

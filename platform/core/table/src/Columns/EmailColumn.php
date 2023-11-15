@@ -2,7 +2,10 @@
 
 namespace Botble\Table\Columns;
 
-class EmailColumn extends Column
+use Botble\Base\Facades\Html;
+use Botble\Table\Contracts\FormattedColumn;
+
+class EmailColumn extends Column implements FormattedColumn
 {
     protected bool $linkable = false;
 
@@ -10,7 +13,7 @@ class EmailColumn extends Column
     {
         return parent::make($data ?: 'email', $name)
             ->title(trans('core/base::tables.email'))
-            ->alignLeft();
+            ->alignStart();
     }
 
     public function linkable(bool $linkable = true): static
@@ -23,5 +26,14 @@ class EmailColumn extends Column
     public function isLinkable(): bool
     {
         return $this->linkable;
+    }
+
+    public function editedFormat($value): string|null
+    {
+        if (! $this->isLinkable()) {
+            return null;
+        }
+
+        return Html::mailto($value, $value);
     }
 }

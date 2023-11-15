@@ -2,7 +2,6 @@
 
 namespace Botble\Base\Services;
 
-use Botble\Menu\Facades\Menu;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
@@ -39,11 +38,6 @@ class ClearCacheService
         if ($this->files->isDirectory($fontPath = Storage::path('fonts'))) {
             $this->files->deleteDirectory($fontPath);
         }
-    }
-
-    public function clearMenuCache(): void
-    {
-        Menu::clearCacheMenuItems();
     }
 
     public function clearBootstrapCache(): void
@@ -101,7 +95,9 @@ class ClearCacheService
 
     public function clearPurifier(): void
     {
-        if (! $this->files->isDirectory($purifierPath = config('purifier.cachePath'))) {
+        $purifierPath = config('purifier.cachePath');
+
+        if (! $purifierPath || ! $this->files->isDirectory($purifierPath)) {
             return;
         }
 
@@ -110,7 +106,9 @@ class ClearCacheService
 
     public function clearDebugbar(): void
     {
-        if (! $this->files->isDirectory($debugbarPath = config('debugbar.storage.path'))) {
+        $debugbarPath = config('debugbar.storage.path');
+
+        if (! $debugbarPath || ! $this->files->isDirectory($debugbarPath)) {
             return;
         }
 

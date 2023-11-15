@@ -139,6 +139,7 @@ class LanguageManager
             ->orderBy('lang_order')
             ->select($select)
             ->get();
+
         $this->activeLanguageSelect = $select;
 
         return $this->activeLanguages;
@@ -573,7 +574,7 @@ class LanguageManager
      *
      * @return string|false Key for translation, false if not exist
      */
-    protected function findTranslatedRouteByUrl($url, array $attributes, string $locale)
+    protected function findTranslatedRouteByUrl(string|false|null $url, array $attributes, string $locale): bool|string
     {
         if (empty($url)) {
             return false;
@@ -599,7 +600,7 @@ class LanguageManager
      *
      * @return string URL with no locale in path
      */
-    public function getNonLocalizedURL($url = null): string
+    public function getNonLocalizedURL(string|false|null $url = null): string
     {
         return $this->getLocalizedURL(false, $url, [], false);
     }
@@ -629,7 +630,7 @@ class LanguageManager
      *
      * @return string|false Key for translation, false if not exist
      */
-    protected function findTranslatedRouteByPath(string $path, string $urlLocale)
+    protected function findTranslatedRouteByPath(string $path, string $urlLocale): bool|string
     {
         // Check if this url is a translated url
         foreach ($this->translatedRoutes as $translatedRoute) {
@@ -895,6 +896,7 @@ class LanguageManager
             ->where('lang_is_default', 1)
             ->select($select)
             ->first();
+
         $this->defaultLanguageSelect = $select;
 
         return $this->defaultLanguage;

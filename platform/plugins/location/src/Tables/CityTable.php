@@ -98,10 +98,10 @@ class CityTable extends TableAbstract
             NameColumn::make()->route('city.edit'),
             Column::make('state_id')
                 ->title(trans('plugins/location::city.state'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('country_id')
                 ->title(trans('plugins/location::city.country'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

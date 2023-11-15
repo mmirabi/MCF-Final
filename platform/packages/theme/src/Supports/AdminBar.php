@@ -88,7 +88,7 @@ class AdminBar
 
     public function render(): string
     {
-        if (! Auth::check()) {
+        if (! Auth::guard()->check()) {
             return '';
         }
 
@@ -102,7 +102,7 @@ class AdminBar
             }
 
             foreach ($group['items'] as $itemKey => $item) {
-                if (! empty($item['permission']) && ! Auth::user()->hasPermission($item['permission'])) {
+                if (! empty($item['permission']) && ! Auth::guard()->user()->hasPermission($item['permission'])) {
                     unset($this->groups[$key]['items'][$itemKey]);
                 }
             }

@@ -30,9 +30,8 @@ class ProductCategoryController extends BaseController
         PageTitle::setTitle(trans('plugins/ecommerce::product-categories.name'));
 
         $categories = ProductCategory::query()
-            ->wherePublished()
-            ->orderByDesc('created_at')
             ->orderBy('order')
+            ->orderByDesc('created_at')
             ->with('slugable')
             ->withCount('products')
             ->get();

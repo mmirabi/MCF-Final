@@ -24,7 +24,7 @@ class MediaFolderController extends Controller
                 'name' => MediaFolder::createName($name, $parentId),
                 'slug' => MediaFolder::createSlug($name, $parentId),
                 'parent_id' => $parentId,
-                'user_id' => Auth::id(),
+                'user_id' => Auth::guard()->id(),
             ]);
 
             return RvMedia::responseSuccess([], trans('core/media::media.folder_created'));

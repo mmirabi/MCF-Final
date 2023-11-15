@@ -16,6 +16,7 @@ class PasswordForm extends FormAbstract
             ->setValidatorClass(UpdatePasswordRequest::class)
             ->setFormOption('template', 'core/base::forms.form-no-wrap')
             ->setFormOption('id', 'password-form')
+            ->setMethod('PUT')
             ->add('old_password', 'password', [
                 'label' => trans('core/acl::users.current_password'),
                 'required' => true,

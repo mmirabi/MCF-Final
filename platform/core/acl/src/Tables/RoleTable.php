@@ -10,12 +10,13 @@ use Botble\Table\Actions\EditAction;
 use Botble\Table\BulkActions\DeleteBulkAction;
 use Botble\Table\Columns\Column;
 use Botble\Table\Columns\CreatedAtColumn;
+use Botble\Table\Columns\FormattedColumn;
 use Botble\Table\Columns\IdColumn;
+use Botble\Table\Columns\LinkableColumn;
 use Botble\Table\Columns\NameColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Http\JsonResponse;
 
 class RoleTable extends TableAbstract
 {
@@ -27,17 +28,6 @@ class RoleTable extends TableAbstract
                 EditAction::make()->route('roles.edit'),
                 DeleteAction::make()->route('roles.destroy'),
             ]);
-    }
-
-    public function ajax(): JsonResponse
-    {
-        $data = $this->table
-            ->eloquent($this->query())
-            ->editColumn('created_by', function (Role $item) {
-                return BaseHelper::clean($item->author->name);
-            });
-
-        return $this->toJson($data);
     }
 
     public function query(): Relation|Builder|QueryBuilder
@@ -62,13 +52,24 @@ class RoleTable extends TableAbstract
         return [
             IdColumn::make(),
             NameColumn::make()->route('roles.edit'),
-            Column::make('description')
+            FormattedColumn::make('description')
                 ->title(trans('core/base::tables.description'))
-                ->alignLeft(),
+                ->alignStart()
+                ->withEmptyState(),
             CreatedAtColumn::make(),
-            Column::make('created_by')
+            LinkableColumn::make('created_by')
+                ->route('users.profile.view')
                 ->title(trans('core/acl::permissions.created_by'))
-                ->width(100),
+                ->width(100)
+                ->getValueUsing(function (Column $column) {
+                    /**
+                     * @var Role $item
+                     */
+                    $item = $column->getItem();
+
+                    return BaseHelper::clean($item->author->name);
+                })
+                ->withEmptyState(),
         ];
     }
 

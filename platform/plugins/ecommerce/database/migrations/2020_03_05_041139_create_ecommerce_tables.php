@@ -11,7 +11,7 @@ return new class () extends Migration {
 
         Schema::create('ec_brands', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 255);
             $table->mediumText('description')->nullable();
             $table->string('website', 255)->nullable();
             $table->string('logo', 255)->nullable();
@@ -23,7 +23,7 @@ return new class () extends Migration {
 
         Schema::create('ec_product_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 255);
             $table->foreignId('parent_id')->default(0);
             $table->mediumText('description')->nullable();
             $table->string('status', 60)->default('published');
@@ -35,8 +35,8 @@ return new class () extends Migration {
 
         Schema::create('ec_product_collections', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name', 255);
+            $table->string('slug', 255);
             $table->string('description', 400)->nullable();
             $table->string('image', 255)->nullable();
             $table->string('status', 60)->default('published');
@@ -45,7 +45,7 @@ return new class () extends Migration {
 
         Schema::create('ec_currencies', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title', 120);
             $table->string('symbol', 10);
             $table->tinyInteger('is_prefix_symbol')->unsigned()->default(0);
             $table->tinyInteger('decimals')->unsigned()->default(0)->nullable();
@@ -57,12 +57,12 @@ return new class () extends Migration {
 
         Schema::create('ec_products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 255);
             $table->text('description')->nullable();
             $table->longText('content')->nullable();
             $table->string('status', 60)->default('published');
             $table->text('images')->nullable();
-            $table->string('sku')->nullable();
+            $table->string('sku', 120)->nullable();
             $table->integer('order')->unsigned()->default(0);
             $table->integer('quantity')->unsigned()->nullable();
             $table->tinyInteger('allow_checkout_when_out_of_stock')->unsigned()->default(0);
@@ -160,7 +160,7 @@ return new class () extends Migration {
 
         Schema::create('ec_taxes', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
+            $table->string('title', 255)->nullable();
             $table->float('percentage', 8, 6)->nullable();
             $table->integer('priority')->nullable();
             $table->string('status', 60)->default('published');
@@ -179,7 +179,7 @@ return new class () extends Migration {
 
         Schema::create('ec_shipping', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
+            $table->string('title', 255)->nullable();
             $table->string('country', 120)->nullable();
             $table->timestamps();
         });
@@ -222,9 +222,9 @@ return new class () extends Migration {
 
         Schema::create('ec_order_addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 255);
             $table->string('phone', 20)->nullable();
-            $table->string('email')->nullable();
+            $table->string('email', 120)->nullable();
             $table->string('country', 120)->nullable();
             $table->string('state', 120)->nullable();
             $table->string('city', 120)->nullable();
@@ -276,7 +276,7 @@ return new class () extends Migration {
 
         Schema::create('ec_customers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 255);
             $table->string('email')->unique();
             $table->string('password');
             $table->string('avatar', 255)->nullable();
@@ -294,7 +294,7 @@ return new class () extends Migration {
 
         Schema::create('ec_customer_addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 255);
             $table->string('email', 60)->nullable();
             $table->string('phone', 20);
             $table->string('country', 120)->nullable();

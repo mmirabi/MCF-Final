@@ -11,18 +11,18 @@ return new class () extends Migration {
     {
         if (! Schema::hasColumn('ec_orders', 'code')) {
             Schema::table('ec_orders', function (Blueprint $table) {
-                $table->string('code')->after('id')->unique()->nullable();
+                $table->string('code', 255)->after('id')->unique()->nullable();
             });
         }
 
-        foreach (Order::get() as $order) {
+        foreach (Order::query()->get() as $order) {
             $order->code = get_order_code($order->id);
             $order->save();
         }
 
         if (! Schema::hasColumn('ec_order_product', 'product_image')) {
             Schema::table('ec_order_product', function (Blueprint $table) {
-                $table->string('product_image')->after('product_name')->nullable();
+                $table->string('product_image', 255)->after('product_name')->nullable();
             });
         }
 

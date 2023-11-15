@@ -7,10 +7,12 @@ use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Supports\ServiceProvider;
 use Botble\Base\Supports\Zipper;
 use Botble\Theme\Facades\Theme;
+use Botble\Translation\Models\QueryBuilders\TranslationQueryBuilder;
 use Botble\Translation\Models\Translation;
 use Exception;
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -137,8 +139,13 @@ class Manager
                     return;
                 }
 
+                /**
+                 * @var TranslationQueryBuilder $query
+                 */
+                $query = Translation::query();
+
                 $tree = $this->makeTree(
-                    Translation::ofTranslatedGroup($group)->orderByGroupKeys(
+                    $query->ofTranslatedGroup($group)->orderByGroupKeys(
                         Arr::get(
                             $this->config,
                             'sort_keys',
@@ -191,7 +198,12 @@ class Manager
 
     public function exportAllTranslations(): bool
     {
-        $groups = Translation::selectDistinctGroup()->whereNotNull('value')->get('group');
+        /**
+         * @var Builder $query
+         */
+        $query = Translation::selectDistinctGroup();
+
+        $groups = $query->whereNotNull('value')->get('group');
 
         foreach ($groups as $group) {
             $this->exportTranslations($group->group);

@@ -24,6 +24,9 @@ class DeleteThumbnailCommand extends Command
         $this->components->task($description, function () use ($files, &$errors) {
             $this->newLine(2);
             foreach ($files as $file) {
+                /**
+                 * @var MediaFile $file
+                 */
                 if (! $file->canGenerateThumbnails()) {
                     continue;
                 }

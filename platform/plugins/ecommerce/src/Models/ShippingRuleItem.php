@@ -22,7 +22,7 @@ class ShippingRuleItem extends BaseModel
         'zip_code',
     ];
 
-    public function setAdjustmentPriceAttribute(string|null $value)
+    public function setAdjustmentPriceAttribute(string|null $value): void
     {
         $this->attributes['adjustment_price'] = (float)str_replace(',', '', $value);
     }
@@ -34,6 +34,6 @@ class ShippingRuleItem extends BaseModel
 
     public function getNameItemAttribute(): string
     {
-        return sprintf(' "%s, %s, %s"', $this->state_name, $this->city_name, $this->zip_code);
+        return trim(implode(', ', array_filter([$this->state_name, $this->city_name, $this->zip_code])));
     }
 }

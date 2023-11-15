@@ -58,7 +58,7 @@ class ProductCollectionTable extends TableAbstract
             NameColumn::make()->route('product-collections.edit'),
             Column::make('slug')
                 ->title(trans('core/base::forms.slug'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

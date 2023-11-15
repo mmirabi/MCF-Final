@@ -22,4 +22,5 @@ return [
     'try_again' => 'Please try again in a few minutes, or alternatively return to the homepage by <a href=":link">clicking here</a>.',
     'not_found' => 'Not Found',
     'results_not_found' => 'Results not found!',
+    'error_when_sending_email' => 'Error when sending email. Something wrong with your email settings in Admin → Settings → Email, please check your settings again.',
 ];

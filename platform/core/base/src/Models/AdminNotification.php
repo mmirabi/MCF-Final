@@ -40,34 +40,30 @@ class AdminNotification extends BaseModel
 
     public function prunable(): Builder|BaseQueryBuilder
     {
-        return static::where('created_at', '<=', Carbon::now()->subMonth());
+        return static::query()->where('created_at', '<=', Carbon::now()->subMonth());
     }
 
     public static function countUnread(): int
     {
-        return AdminNotification::query()
+        /**
+         * @var AdminNotificationQueryBuilder $adminQuery
+         */
+        $adminQuery = AdminNotification::query();
+
+        /**
+         * @var Builder $query
+         */
+        $query = $adminQuery->hasPermission();
+
+        return $query
             ->whereNull('read_at')
-            ->hasPermission()
             ->select('action_url')
             ->count();
     }
 
-    public function scopeHasPermission(BaseQueryBuilder $query): void
-    {
-        $user = Auth::user();
-
-        if (! $user->isSuperUser()) {
-            $query->where(function (BaseQueryBuilder $query) use ($user) {
-                $query
-                    ->whereNull('permission')
-                    ->orWhereIn('permission', $user->permissions);
-            });
-        }
-    }
-
     public function isAbleToAccess(): bool
     {
-        $user = Auth::user();
+        $user = Auth::guard()->user();
 
         return ! $this->permission || $user->isSuperUser() || $user->hasPermission($this->permission);
     }
@@ -79,5 +75,10 @@ class AdminNotification extends BaseModel
                 $notification->action_url = str_replace(url(''), '', $notification->action_url);
             }
         });
+    }
+
+    public function newEloquentBuilder($query): AdminNotificationQueryBuilder
+    {
+        return new AdminNotificationQueryBuilder($query);
     }
 }

@@ -33,13 +33,13 @@ trait HasPermissions
 
     public function currentUserHasAnyPermissions(): bool
     {
-        if (! Auth::user() instanceof User) {
+        if (! Auth::guard()->user() instanceof User) {
             return true;
         }
 
         return empty($this->permissions) || collect($this->permissions)
                 ->filter(
-                    fn (string $permission) => Auth::user() instanceof User && Auth::user()->hasPermission($permission)
+                    fn (string $permission) => Auth::guard()->user() instanceof User && Auth::guard()->user()->hasPermission($permission)
                 )
                 ->isNotEmpty();
     }

@@ -14,8 +14,8 @@ return new class () extends Migration {
                 $table->foreignId('store_id')->nullable()->comment('Store ID');
                 $table->foreignId('user_id')->comment('Customer ID');
                 $table->text('reason')->nullable()->comment('Reason return order');
-                $table->string('order_status')->nullable()->comment('Order current status');
-                $table->string('return_status')->comment('Return status');
+                $table->string('order_status', 255)->nullable()->comment('Order current status');
+                $table->string('return_status', 255)->comment('Return status');
                 $table->timestamps();
             });
         }

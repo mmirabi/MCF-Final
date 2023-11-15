@@ -11,13 +11,15 @@ class Editor
 {
     public function registerAssets(): self
     {
-        Assets::addScriptsDirectly(
-            config('core.base.general.editor.' . BaseHelper::getRichEditor() . '.js')
-        )
+        Assets::addScriptsDirectly(config('core.base.general.editor.' . BaseHelper::getRichEditor() . '.js'))
             ->addScriptsDirectly('vendor/core/core/base/js/editor.js');
 
-        if (BaseHelper::getRichEditor() == 'ckeditor' && App::getLocale() != 'en') {
-            Assets::addScriptsDirectly('https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/translations/' . App::getLocale() . '.js');
+        $locale = App::getLocale();
+
+        if (BaseHelper::getRichEditor() == 'ckeditor' && $locale != 'en') {
+            Assets::addScriptsDirectly(
+                sprintf('https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/translations/%s.js', $locale)
+            );
         }
 
         return $this;

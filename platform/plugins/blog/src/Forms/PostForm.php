@@ -9,6 +9,7 @@ use Botble\Blog\Forms\Fields\CategoryMultiField;
 use Botble\Blog\Http\Requests\PostRequest;
 use Botble\Blog\Models\Category;
 use Botble\Blog\Models\Post;
+use Botble\Blog\Models\Tag;
 
 class PostForm extends FormAbstract
 {
@@ -19,7 +20,7 @@ class PostForm extends FormAbstract
             $selectedCategories = $this->getModel()->categories()->pluck('category_id')->all();
         }
 
-        if (empty($selectedCategories)) {
+        if (! $this->getModel() && empty($selectedCategories)) {
             $selectedCategories = Category::query()
                 ->where('is_default', 1)
                 ->pluck('id')
@@ -29,12 +30,12 @@ class PostForm extends FormAbstract
         $tags = null;
 
         if ($this->getModel()) {
-            $tags = $this->getModel()->tags()->pluck('name')->all();
-            $tags = implode(',', $tags);
-        }
-
-        if (! $this->formHelper->hasCustomField('categoryMulti')) {
-            $this->formHelper->addCustomField('categoryMulti', CategoryMultiField::class);
+            $tags = $this->getModel()
+                ->tags()
+                ->select('name')
+                ->get()
+                ->map(fn (Tag $item) => $item->name)
+                ->implode(',');
         }
 
         $this
@@ -43,6 +44,7 @@ class PostForm extends FormAbstract
             ->hasTabs()
             ->withCustomFields()
             ->addCustomField('tags', TagField::class)
+            ->addCustomField('categoryMulti', CategoryMultiField::class)
             ->add('name', 'text', [
                 'label' => trans('core/base::forms.name'),
                 'required' => true,
@@ -73,7 +75,6 @@ class PostForm extends FormAbstract
             ])
             ->add('status', 'customSelect', [
                 'label' => trans('core/base::tables.status'),
-                'required' => true,
                 'choices' => BaseStatusEnum::labels(),
             ])
             ->when(get_post_formats(true), function ($form, $postFormats) {
@@ -87,7 +88,6 @@ class PostForm extends FormAbstract
             })
             ->add('categories[]', 'categoryMulti', [
                 'label' => trans('plugins/blog::posts.form.categories'),
-                'required' => true,
                 'choices' => get_categories_with_children(),
                 'value' => old('categories', $selectedCategories),
             ])

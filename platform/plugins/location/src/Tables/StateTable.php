@@ -86,7 +86,7 @@ class StateTable extends TableAbstract
             NameColumn::make()->route('state.edit'),
             Column::make('country_id')
                 ->title(trans('plugins/location::state.country'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

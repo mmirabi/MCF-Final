@@ -57,10 +57,10 @@ class ContactTable extends TableAbstract
             NameColumn::make()->route('contacts.edit'),
             Column::make('email')
                 ->title(trans('plugins/contact::contact.tables.email'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('phone')
                 ->title(trans('plugins/contact::contact.tables.phone'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

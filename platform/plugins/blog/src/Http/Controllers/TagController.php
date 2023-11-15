@@ -37,7 +37,7 @@ class TagController extends BaseController
     public function store(TagRequest $request, BaseHttpResponse $response)
     {
         $tag = Tag::query()->create(array_merge($request->input(), [
-            'author_id' => Auth::id(),
+            'author_id' => Auth::guard()->id(),
             'author_type' => User::class,
         ]));
         event(new CreatedContentEvent(TAG_MODULE_SCREEN_NAME, $request, $tag));

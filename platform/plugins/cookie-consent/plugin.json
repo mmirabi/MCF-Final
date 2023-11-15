@@ -3,8 +3,8 @@
     "name": "Cookie Consent",
     "namespace": "Botble\\CookieConsent\\",
     "provider": "Botble\\CookieConsent\\Providers\\CookieConsentServiceProvider",
-    "author": "Mehdi Mirabi",
-    "url": "http://medyanossa.com",
+    "author": "MedyaNossa",
+    "url": "https://medyanossa.com",
     "version": "2.0.0",
     "description": "Cookie Consent"
 }

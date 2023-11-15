@@ -155,7 +155,7 @@ class Shippo
     {
         try {
             Shippo_Shipment::all([
-                'object_created_lt' => Carbon::now()->format('Y-m-d'),
+                'object_created_lt' => Carbon::now()->toDateString(),
                 'async' => false,
             ]);
 

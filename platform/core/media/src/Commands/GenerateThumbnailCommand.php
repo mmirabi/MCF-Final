@@ -24,6 +24,9 @@ class GenerateThumbnailCommand extends Command
 
         foreach ($files as $file) {
             try {
+                /**
+                 * @var MediaFile $file
+                 */
                 RvMedia::generateThumbnails($file);
             } catch (Exception $exception) {
                 $errors[] = $file->url;

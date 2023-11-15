@@ -23,7 +23,6 @@ class PublicCartController extends Controller
         protected HandleApplyPromotionsService $applyPromotionsService,
         protected HandleApplyCouponService $handleApplyCouponService
     ) {
-
     }
     public function index()
     {
@@ -61,7 +60,8 @@ class PublicCartController extends Controller
         )->render();
     }
 
-    protected function getCartData(): array {
+    protected function getCartData(): array
+    {
         $products = Cart::instance('cart')->products();
 
         $promotionDiscountAmount = $this->applyPromotionsService->execute();

@@ -18,6 +18,7 @@ class ShippingMethodSettingController extends BaseController
         $data = Arr::where($request->except(['_token']), function ($value, $key) {
             return Str::startsWith($key, 'shipping_');
         });
+
         foreach ($data as $settingKey => $settingValue) {
             $settingStore->set($settingKey, $settingValue);
         }

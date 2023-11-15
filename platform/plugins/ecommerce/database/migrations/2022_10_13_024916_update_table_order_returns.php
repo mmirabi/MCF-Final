@@ -22,7 +22,7 @@ return new class () extends Migration {
 
         if (! Schema::hasColumn('ec_order_return_items', 'product_image')) {
             Schema::table('ec_order_return_items', function (Blueprint $table) {
-                $table->string('product_image')->after('product_name')->nullable();
+                $table->string('product_image', 255)->after('product_name')->nullable();
             });
         }
 

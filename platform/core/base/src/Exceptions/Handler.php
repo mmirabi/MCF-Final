@@ -3,13 +3,12 @@
 namespace Botble\Base\Exceptions;
 
 use App\Exceptions\Handler as ExceptionHandler;
+use Botble\Base\Contracts\Exceptions\IgnoringReport;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\EmailHandler;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Media\Facades\RvMedia;
-use Botble\Theme\Facades\Theme;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -21,6 +20,7 @@ use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -32,7 +32,6 @@ class Handler extends ExceptionHandler
         parent::__construct($container);
 
         $this->ignore(PhpSpreadsheetException::class);
-        $this->ignore(DisabledInDemoModeException::class);
 
         $this->baseHttpResponse = new BaseHttpResponse();
     }
@@ -65,9 +64,14 @@ class Handler extends ExceptionHandler
                 }
 
                 break;
+            case $e instanceof TransportException:
+                return $this->baseHttpResponse
+                    ->setError()
+                    ->setCode($e->getCode())
+                    ->setMessage(trans('core/base::errors.error_when_sending_email'));
             case $e instanceof NotFoundHttpException:
                 if (setting('redirect_404_to_homepage', 0) == 1) {
-                    return redirect(route('public.index'));
+                    return redirect(url('/'));
                 }
 
                 break;
@@ -105,43 +109,51 @@ class Handler extends ExceptionHandler
 
     public function report(Throwable $e)
     {
-        if ($this->shouldReport($e) && ! $this->isExceptionFromBot()) {
-            $key = 'send_error_exception';
+        if ($e instanceof IgnoringReport
+            || $this->shouldntReport($e)
+            || $this->isExceptionFromBot()) {
+            return;
+        }
 
-            if (Cache::has($key)) {
-                return;
+        if (! app()->has('cache')) {
+            parent::report($e);
+
+            return;
+        }
+
+        $key = 'send_error_exception';
+
+        if (Cache::has($key)) {
+            return;
+        }
+
+        Cache::put($key, 1, Carbon::now()->addMinutes(5));
+
+        if (! app()->isLocal() && ! app()->runningInConsole() && ! app()->isDownForMaintenance()) {
+            if (setting('enable_send_error_reporting_via_email', false)
+                && setting('email_driver', Mail::getDefaultDriver())) {
+                EmailHandler::sendErrorException($e);
             }
 
-            Cache::put($key, 1, Carbon::now()->addMinutes(5));
+            if (config('core.base.general.error_reporting.via_slack', false)) {
+                $request = request();
 
-            if (! app()->isLocal() && ! app()->runningInConsole() && ! app()->isDownForMaintenance()) {
-                if (setting('enable_send_error_reporting_via_email', false) &&
-                    setting('email_driver', Mail::getDefaultDriver()) &&
-                    $e instanceof Exception
-                ) {
-                    EmailHandler::sendErrorException($e);
-                }
+                $previous = $e->getPrevious();
 
-                if (config('core.base.general.error_reporting.via_slack', false)) {
-                    $request = request();
-
-                    $previous = $e->getPrevious();
-
-                    logger()->channel('slack')->critical(
-                        $e->getMessage() . ($previous ? '(' . $previous . ')' : null),
-                        [
-                            'Request URL' => $request->fullUrl(),
-                            'Request IP' => $request->ip(),
-                            'Request Referer' => $request->header('referer'),
-                            'Request Method' => $request->method(),
-                            'Request Form Data' => $request->method() != 'GET' ? BaseHelper::jsonEncodePrettify($request->input()) : null,
-                            'Exception Type' => get_class($e),
-                            'File Path' => ltrim(str_replace(base_path(), '', $e->getFile()), '/') . ':' .
-                                $e->getLine(),
-                            'Previous File Path' => $previous ? ltrim(str_replace(base_path(), '', $previous->getFile()), '/') . ':' . $previous->getLine() : null,
-                        ]
-                    );
-                }
+                logger()->channel('slack')->critical(
+                    $e->getMessage() . ($previous ? '(' . $previous . ')' : null),
+                    [
+                        'Request URL' => $request->fullUrl(),
+                        'Request IP' => $request->ip(),
+                        'Request Referer' => $request->header('referer'),
+                        'Request Method' => $request->method(),
+                        'Request Form Data' => $request->method() != 'GET' ? BaseHelper::jsonEncodePrettify($request->input()) : null,
+                        'Exception Type' => get_class($e),
+                        'File Path' => ltrim(str_replace(base_path(), '', $e->getFile()), '/') . ':' .
+                            $e->getLine(),
+                        'Previous File Path' => $previous ? ltrim(str_replace(base_path(), '', $previous->getFile()), '/') . ':' . $previous->getLine() : null,
+                    ]
+                );
             }
         }
 
@@ -168,35 +180,27 @@ class Handler extends ExceptionHandler
 
     protected function getHttpExceptionView(HttpExceptionInterface $e)
     {
+        $defaultView = parent::getHttpExceptionView($e);
+
         if (app()->runningInConsole() || request()->wantsJson() || request()->expectsJson()) {
-            return parent::getHttpExceptionView($e);
+            return $defaultView;
         }
 
-        $code = $e->getStatusCode();
-
-        if (request()->is(BaseHelper::getAdminPrefix() . '/*') || request()->is(BaseHelper::getAdminPrefix())) {
-            $view = 'core/base::errors.' . $code;
-
-            if (view()->exists($view)) {
-                return $view;
-            }
-
-            return parent::getHttpExceptionView($e);
+        if (is_in_admin(true) && view()->exists($view = 'core/base::errors.' . $e->getStatusCode())) {
+            return $view;
         }
 
-        if (class_exists('Theme')) {
-            $view = 'theme.' . Theme::getThemeName() . '::views.' . $code;
-
-            if (view()->exists($view)) {
-                return $view;
-            }
-        }
-
-        return parent::getHttpExceptionView($e);
+        return apply_filters('get_http_exception_view', $defaultView, $e);
     }
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
+        if ($exception->guards()) {
+            $defaultException = parent::unauthenticated($request, $exception);
+
+            return apply_filters('cms_unauthenticated_response', $defaultException, $request, $exception);
+        }
+
         if ($request->expectsJson()) {
             return $this->baseHttpResponse
                 ->setError()

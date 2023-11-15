@@ -15,14 +15,14 @@ return new class () extends Migration {
         Schema::create('ec_invoices', function (Blueprint $table) {
             $table->id();
             $table->morphs('reference');
-            $table->string('code')->unique();
-            $table->string('customer_name')->nullable();
-            $table->string('company_name')->nullable();
-            $table->string('company_logo')->nullable();
-            $table->string('customer_email')->nullable();
-            $table->string('customer_phone')->nullable();
-            $table->string('customer_address')->nullable();
-            $table->string('customer_tax_id')->nullable();
+            $table->string('code', 255)->unique();
+            $table->string('customer_name', 255)->nullable();
+            $table->string('company_name', 255)->nullable();
+            $table->string('company_logo', 255)->nullable();
+            $table->string('customer_email', 255)->nullable();
+            $table->string('customer_phone', 255)->nullable();
+            $table->string('customer_address', 255)->nullable();
+            $table->string('customer_tax_id', 255)->nullable();
             $table->unsignedDecimal('sub_total', 15);
             $table->unsignedDecimal('tax_amount', 15)->default(0);
             $table->unsignedDecimal('shipping_amount', 15)->default(0);
@@ -34,7 +34,7 @@ return new class () extends Migration {
             $table->unsignedDecimal('amount', 15);
             $table->text('description')->nullable();
             $table->foreignId('payment_id')->nullable()->index();
-            $table->string('status')->index()->default('pending');
+            $table->string('status', 60)->index()->default('pending');
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
@@ -43,8 +43,8 @@ return new class () extends Migration {
             $table->id();
             $table->foreignId('invoice_id');
             $table->morphs('reference');
-            $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('name', 255);
+            $table->string('description', 400)->nullable();
             $table->string('image')->nullable();
             $table->unsignedInteger('qty');
             $table->unsignedDecimal('sub_total', 15);

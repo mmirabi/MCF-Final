@@ -330,7 +330,7 @@ class PluginService
 
         $plugins = array_intersect($plugins, $availablePlugins);
 
-        Setting::set('activated_plugins', json_encode($plugins))->save();
+        Setting::forceSet('activated_plugins', json_encode($plugins))->save();
 
         return $plugins;
     }

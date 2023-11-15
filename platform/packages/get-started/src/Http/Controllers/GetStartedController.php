@@ -7,6 +7,7 @@ use Botble\Base\Events\UpdatedContentEvent;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\GetStarted\Http\Requests\GetStartedRequest;
+use Botble\Setting\Facades\Setting;
 use Botble\Theme\Facades\ThemeOption;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -43,29 +44,37 @@ class GetStartedController extends BaseController
                     ThemeOption::setOption($key, $value);
 
                     if (in_array($key, ['admin_logo', 'admin_favicon'])) {
-                        setting()->set($key, $value);
+                        Setting::set($key, $value);
                     }
                 }
 
                 ThemeOption::saveOptions();
 
-                setting()->save();
+                Setting::save();
 
-                $user = Auth::user();
+                $user = Auth::guard()->user();
 
-                if ($user->username != config('core.base.general.demo.account.username', 'botble') &&
-                    ! Hash::check($user->getAuthPassword(), config('core.base.general.demo.account.password', '159357'))
+                $defaultUsername = config('core.base.general.demo.account.username');
+                $defaultPassword = config('core.base.general.demo.account.password');
+
+                if (
+                    $defaultUsername &&
+                    $defaultPassword &&
+                    $user->username != $defaultUsername &&
+                    ! Hash::check($defaultPassword, $user->getAuthPassword())
                 ) {
                     $nextStep = 4;
                 }
 
                 break;
             case 3:
-                $user = Auth::user();
+                $user = Auth::guard()->user();
 
-                if ($user->email !== $request->input('email')) {
+                $email = $request->input('email');
+
+                if ($user->email !== $email) {
                     $users = User::query()
-                        ->where('email', $request->input('email'))
+                        ->where('email', $email)
                         ->where('id', '<>', $user->id)
                         ->exists();
 
@@ -77,9 +86,11 @@ class GetStartedController extends BaseController
                     }
                 }
 
-                if ($user->username !== $request->input('username')) {
+                $username = $request->input('username');
+
+                if ($user->username !== $username) {
                     $users = User::query()
-                        ->where('username', $request->input('username'))
+                        ->where('username', $username)
                         ->where('id', '<>', $user->id)
                         ->exists();
 
@@ -103,7 +114,7 @@ class GetStartedController extends BaseController
 
                 break;
             case 4:
-                setting()->set('is_completed_get_started', '1')->save();
+                Setting::set('is_completed_get_started', '1')->save();
 
                 break;
         }

@@ -5,28 +5,17 @@ namespace Botble\Table\Abstracts;
 use Botble\ACL\Models\User;
 use Botble\Base\Contracts\BaseModel as BaseModelContract;
 use Botble\Base\Facades\Assets;
-use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\Form;
 use Botble\Base\Facades\Html;
 use Botble\Base\Models\BaseModel;
-use Botble\Base\Supports\Enum;
-use Botble\Media\Facades\RvMedia;
-use Botble\Page\Models\Page;
+use Botble\Table\Abstracts\Concerns\DeprecatedFunctions;
 use Botble\Table\Abstracts\Concerns\HasActions;
 use Botble\Table\Abstracts\Concerns\HasBulkActions;
 use Botble\Table\Abstracts\Concerns\HasFilters;
-use Botble\Table\BulkActions\DeleteBulkAction;
 use Botble\Table\Columns\CheckboxColumn;
 use Botble\Table\Columns\Column;
-use Botble\Table\Columns\DateColumn;
-use Botble\Table\Columns\EmailColumn;
-use Botble\Table\Columns\EnumColumn;
-use Botble\Table\Columns\IdColumn;
-use Botble\Table\Columns\ImageColumn;
-use Botble\Table\Columns\LinkableColumn;
-use Botble\Table\Columns\NameColumn;
 use Botble\Table\Columns\RowActionsColumn;
-use Botble\Table\Columns\YesNoColumn;
+use Botble\Table\Contracts\FormattedColumn;
 use Botble\Table\Supports\Builder as CustomTableBuilder;
 use Botble\Table\Supports\TableExportHandler;
 use Closure;
@@ -38,11 +27,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation as EloquentRelation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,6 +41,7 @@ use Yajra\DataTables\Services\DataTable;
 
 abstract class TableAbstract extends DataTable
 {
+    use DeprecatedFunctions;
     use HasActions;
     use HasBulkActions;
     use HasFilters;
@@ -111,14 +101,12 @@ abstract class TableAbstract extends DataTable
         $this->ajaxUrl = $urlGenerator->current();
 
         if (! $this->getOption('id')) {
-            $this->setOption('id', strtolower(Str::slug(Str::snake(get_class($this)))));
+            $this->setOption('id', strtolower(Str::slug(Str::snake($this::class))));
         }
 
         if (! $this->getOption('class')) {
             $this->setOption('class', 'table table-striped table-hover vertical-middle');
         }
-
-        $this->hasColumnVisibility = (bool) setting('datatables_default_show_column_visibility');
 
         $this->setup();
 
@@ -278,9 +266,12 @@ abstract class TableAbstract extends DataTable
 
         if (! $this->isSimpleTable()) {
             foreach ($columns as $key => &$column) {
-                $className = implode(' ', array_filter(
-                    [Arr::get($column, 'className'), Arr::get($column, 'class'), ' column-key-' . $key]
-                ));
+                $className = implode(
+                    ' ',
+                    array_filter(
+                        [Arr::get($column, 'className'), Arr::get($column, 'class'), ' column-key-' . $key]
+                    )
+                );
 
                 $column['class'] = $className;
                 $column['className'] = $className;
@@ -325,7 +316,9 @@ abstract class TableAbstract extends DataTable
 
             throw_unless(
                 ($model = app($model)) instanceof BaseModelContract,
-                new LogicException(sprintf('Class [%s] must be an instance of %s.', $model::class, BaseModelContract::class))
+                new LogicException(
+                    sprintf('Class [%s] must be an instance of %s.', $model::class, BaseModelContract::class)
+                )
             );
 
             $this->model = $model;
@@ -363,11 +356,6 @@ abstract class TableAbstract extends DataTable
         return [
             CheckboxColumn::make(),
         ];
-    }
-
-    protected function getCheckbox(int|string $id): string
-    {
-        return view('core/table::partials.checkbox', compact('id'))->render();
     }
 
     public function getAjaxUrl(): string
@@ -414,7 +402,7 @@ abstract class TableAbstract extends DataTable
 
     public function getButtons(): array
     {
-        $buttons = apply_filters(BASE_FILTER_TABLE_BUTTONS, $this->buttons(), get_class($this->getModel()));
+        $buttons = apply_filters(BASE_FILTER_TABLE_BUTTONS, $this->buttons(), $this->getModel()::class);
 
         if (! $buttons) {
             return [];
@@ -493,6 +481,8 @@ abstract class TableAbstract extends DataTable
         if (setting('datatables_default_show_export_button')) {
             $buttons[] = 'export';
         }
+
+        $this->hasColumnVisibility = (bool) setting('datatables_default_show_column_visibility');
 
         if ($this->hasColumnVisibility) {
             $buttons[] = [
@@ -577,8 +567,8 @@ abstract class TableAbstract extends DataTable
     }
 
     protected function applyScopes(
-        EloquentBuilder|QueryBuilder|EloquentRelation|Collection $query
-    ): EloquentBuilder|QueryBuilder|EloquentRelation|Collection {
+        EloquentBuilder|QueryBuilder|EloquentRelation|Collection|AnonymousResourceCollection $query
+    ): EloquentBuilder|QueryBuilder|EloquentRelation|Collection|AnonymousResourceCollection {
         $request = $this->request();
 
         $requestFilters = [];
@@ -705,150 +695,33 @@ abstract class TableAbstract extends DataTable
         return $buttons;
     }
 
-    /**
-     * @deprecated since v6.8.0, use `DeleteBulkAction::class` instead.
-     */
-    protected function addDeleteAction(string $url, string|null $permission = null, array $actions = []): array
+    protected function setupEditedColumns(DataTableAbstract $table): void
     {
-        return $actions + [DeleteBulkAction::make()->action('DELETE')->permission((string)$permission)->dispatchUrl($url)];
+        foreach ($this->getColumnsFromBuilder() as $column) {
+            switch (true) {
+                case $column instanceof RowActionsColumn:
+                    $table->addColumn($column->name, function ($item) use ($column) {
+                        return $column
+                            ->setRowActions($this->getRowActions())
+                            ->renderCell($item, $this);
+                    });
+
+                    break;
+
+                case $column instanceof Column && $column instanceof FormattedColumn:
+                    $table->editColumn($column->name, function (BaseModelContract|array $item) use ($column) {
+                        return $column->renderCell($item, $this);
+                    });
+
+                    break;
+            }
+        }
     }
 
     public function toJson($data, array $escapeColumn = [], bool $mDataSupport = true)
     {
         if ($data instanceof DataTableAbstract) {
-            foreach ($this->getColumnsFromBuilder() as $column) {
-                switch (true) {
-                    case $column instanceof RowActionsColumn:
-                        $data
-                            ->addColumn($column->name, function ($item) {
-                                return $this->renderActionsCell($item);
-                            });
-
-                        break;
-                    case $column instanceof CheckboxColumn:
-                        $data
-                            ->editColumn($column->name, function (BaseModelContract $item) {
-                                return $this->getCheckbox($item->getKey());
-                            });
-
-                        break;
-                    case $column instanceof IdColumn:
-                        $data
-                            ->editColumn($column->name, function ($item) use ($column) {
-                                if (! $item instanceof BaseModelContract && ! is_object($item)) {
-                                    return $item;
-                                }
-
-                                if (BaseModel::getTypeOfId() !== 'BIGINT') {
-                                    return Str::limit($item->{$column->name}, 5);
-                                }
-
-                                return $item->{$column->name};
-                            });
-
-                        break;
-                    case $column instanceof LinkableColumn:
-
-                        if (! $column->getRoute()) {
-                            break;
-                        }
-
-                        $data
-                            ->editColumn($column->name, function ($item) use ($column) {
-                                if (! $item instanceof BaseModelContract) {
-                                    return Arr::get($item, $column->name);
-                                }
-
-                                $route = $column->getRoute();
-
-                                $value = BaseHelper::clean($item->{$column->name});
-
-                                $valueTruncated = $value;
-
-                                if ($limit = $column->getLimit()) {
-                                    $valueTruncated = Str::limit($value, $limit);
-                                }
-
-                                if (! $this->hasPermission($column->getPermission() ?: $route[0])) {
-                                    return $valueTruncated ?: '&mdash;';
-                                }
-
-                                $value = Html::link(route($route[0], $route[1] ?: $item->getKey(), $route[2]), $valueTruncated, ['title' => $value]);
-
-                                if ($column instanceof NameColumn && $item instanceof Page) {
-                                    $value = apply_filters(PAGE_FILTER_PAGE_NAME_IN_ADMIN_LIST, $value, $item);
-                                }
-
-                                return $value;
-                            });
-
-                        break;
-
-                    case $column instanceof EmailColumn:
-                        $data
-                            ->editColumn($column->name, function (BaseModelContract $item) use ($column) {
-                                $value = $item->{$column->name};
-
-                                if (! $column->isLinkable()) {
-                                    return $value;
-                                }
-
-                                return Html::mailto($value, $value);
-                            });
-
-                        break;
-                    case $column instanceof DateColumn:
-                        $data
-                            ->editColumn($column->name, function (BaseModelContract $item) use ($column) {
-                                $value = $item->{$column->name};
-
-                                if (! $value) {
-                                    return '&mdash;';
-                                }
-
-                                return BaseHelper::formatDate($value);
-                            });
-
-                        break;
-                    case $column instanceof EnumColumn:
-                        $data
-                            ->editColumn($column->name, function (BaseModelContract $item) use ($column) {
-                                $value = $item->{$column->name};
-
-                                if (! $value instanceof Enum) {
-                                    return null;
-                                }
-
-                                if ($this->isExportingToExcel() || $this->isExportingToCSV()) {
-                                    return $value->getValue();
-                                }
-
-                                $value = $value->toHtml() ?: $value->getValue();
-
-                                return BaseHelper::clean($value);
-                            });
-
-                        break;
-                    case $column instanceof ImageColumn:
-                        $data
-                            ->editColumn($column->name, function (BaseModelContract $item) use ($column) {
-                                return $this->displayThumbnail($item->{$column->name}, ['width' => 70]);
-                            });
-
-                        break;
-                    case $column instanceof YesNoColumn:
-                        $data
-                            ->editColumn($column->name, function (BaseModelContract $item) use ($column) {
-                                $value = $item->{$column->name};
-
-                                return Html::tag('span', $value ? trans('core/base::base.yes') : trans('core/base::base.no'), [
-                                    'class' => sprintf('badge badge-%s', $value ? 'success' : 'danger'),
-                                ]);
-                            });
-
-                        break;
-                }
-            }
+            $this->setupEditedColumns($data);
         }
 
         $data = apply_filters(BASE_FILTER_GET_LIST_DATA, $data, $this->getModel());
@@ -856,25 +729,6 @@ abstract class TableAbstract extends DataTable
         return $data
             ->escapeColumns($escapeColumn)
             ->make($mDataSupport);
-    }
-
-    protected function displayThumbnail(string|null $image, array $attributes = ['width' => 50], bool $relative = false): HtmlString|string
-    {
-        if ($this->request()->has('action')) {
-            if ($this->isExportingToCSV()) {
-                return RvMedia::getImageUrl($image, null, $relative, RvMedia::getDefaultImage());
-            }
-
-            if ($this->isExportingToExcel()) {
-                return RvMedia::getImageUrl($image, 'thumb', $relative, RvMedia::getDefaultImage());
-            }
-        }
-
-        return Html::image(
-            RvMedia::getImageUrl($image, 'thumb', $relative, RvMedia::getDefaultImage()),
-            trans('core/base::tables.image'),
-            $attributes
-        );
     }
 
     public function htmlBuilder(): CustomTableBuilder
@@ -897,7 +751,7 @@ abstract class TableAbstract extends DataTable
 
     public function hasPermission(string $permission): bool
     {
-        $user = Auth::user();
+        $user = Auth::guard()->user();
 
         if (! $user instanceof User) {
             return true;
@@ -918,9 +772,9 @@ abstract class TableAbstract extends DataTable
     }
 
     /**
-     * @param \Closure(\Illuminate\Contracts\Database\Eloquent\Builder $query): void $queryUsingCallback
+     * @param \Closure|callable(\Illuminate\Contracts\Database\Eloquent\Builder $query): void $queryUsingCallback
      */
-    public function queryUsing(Closure $queryUsingCallback): static
+    public function queryUsing(Closure|callable $queryUsingCallback): static
     {
         $this->queryUsingCallback = $queryUsingCallback;
 
@@ -950,12 +804,12 @@ abstract class TableAbstract extends DataTable
         return 'core/table::simple-table';
     }
 
-    protected function isExportingToExcel(): bool
+    public function isExportingToExcel(): bool
     {
         return $this->request()->input('action') === 'excel';
     }
 
-    protected function isExportingToCSV(): bool
+    public function isExportingToCSV(): bool
     {
         return $this->request()->input('action') === 'csv';
     }

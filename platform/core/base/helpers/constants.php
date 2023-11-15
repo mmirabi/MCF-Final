@@ -173,3 +173,7 @@ if (! defined('BASE_FILTER_MENU_ITEMS_COUNT')) {
 if (! defined('BASE_FILTER_AVAILABLE_EDITORS')) {
     define('BASE_FILTER_AVAILABLE_EDITORS', 'base_filter_available_editors');
 }
+
+if (! defined('CURL_SSLVERSION_TLSv1_2')) {
+    define('CURL_SSLVERSION_TLSv1_2', 6);
+}

@@ -3,13 +3,12 @@
 @section('content')
     <div id="plugin-list">
         @if (config('packages.plugin-management.general.enable_marketplace_feature') &&
-                auth()->user()->hasPermission('plugins.marketplace'))
+                auth()->guard()->user()->hasPermission('plugins.marketplace'))
             <div class="mb-3">
                 <a
+                    {{-- Mehdi mirabi change add plugin in admin plugin page --}}
                     class="btn btn-info"
-                    href="#"
-                    {{-- mehdi mirabi add new plugin button change link --}}
-                    {{-- href="{{ route('plugins.marketplace') }}" --}}
+                    href=""
                 >
                     <i class="fa fa-plus me-1"></i> {{ trans('packages/plugin-management::plugin.plugins_add_new') }}
                 </a>
@@ -47,7 +46,7 @@
                             <div class="app-version">{{ trans('packages/plugin-management::plugin.version') }}:
                                 {{ $plugin->version }}</div>
                             <div class="app-actions">
-                                @if (auth()->user()->hasPermission('plugins.edit'))
+                                @if (auth()->guard()->user()->hasPermission('plugins.edit'))
                                     <button
                                         class="btn @if ($plugin->status) btn-warning @else btn-info @endif btn-trigger-change-status"
                                         data-plugin="{{ $plugin->path }}"
@@ -69,7 +68,7 @@
                                     style="display: none;"
                                 >{{ trans('packages/plugin-management::plugin.update') }}</button>
 
-                                @if (auth()->user()->hasPermission('plugins.remove'))
+                                @if (auth()->guard()->user()->hasPermission('plugins.remove'))
                                     <button
                                         class="btn btn-link text-danger text-decoration-none btn-trigger-remove-plugin"
                                         data-plugin="{{ $plugin->path }}"

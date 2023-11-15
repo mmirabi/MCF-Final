@@ -6,7 +6,7 @@
         value="{{ $value }}"
         {!! Html::attributes(Arr::except((array) $attributes, ['action'])) !!}
     >
-    @if (!is_in_admin(true) || !auth()->check())
+    @if (!is_in_admin(true) || !auth()->guard()->check())
         <input
             class="media-image-input"
             type="file"
@@ -33,7 +33,7 @@
     </div>
     <div class="image-box-actions">
         <a
-            class="@if (is_in_admin(true) && auth()->check()) btn_gallery @else media-select-image @endif"
+            class="@if (is_in_admin(true) && auth()->guard()->check()) btn_gallery @else media-select-image @endif"
             data-result="{{ $name }}"
             data-action="{{ $attributes['action'] ?? 'select-image' }}"
             data-allow-thumb="{{ $allowThumb == true }}"

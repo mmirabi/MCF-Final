@@ -1,6 +1,6 @@
 <div class="text-center language-column">
     @foreach ($languages as $language)
-        @if (!is_in_admin() || (Auth::check() && Auth::user()->hasPermission($route['edit'])))
+        @if (!is_in_admin() || (Auth::guard()->check() && Auth::guard()->user()->hasPermission($route['edit'])))
             @if ($language->lang_code == Language::getDefaultLocaleCode())
                 <a href="{{ Route::has($route['edit']) ? route($route['edit'], $item->id) : '#' }}">
                     <i class="fa fa-check text-success"></i>

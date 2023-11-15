@@ -31,7 +31,7 @@ class MediaSettingRequest extends Request
 
             'media_do_spaces_access_key_id' => 'nullable|string|required_if:media_driver,do_spaces',
             'media_do_spaces_secret_key' => 'nullable|string|required_if:media_driver,do_spaces',
-            'media_do_spaces_default_region' => 'nullable|string|required_if:media_driver,do_spaces',
+            'media_do_spaces_default_region' => 'nullable|string|size:4|required_if:media_driver,do_spaces,in:NYC1,NYC2,NYC3,SFO1,SFO2,SFO3,TOR1,LON1,AMS2,AMS3,FRA1,SGP1,BLR1,SYD1',
             'media_do_spaces_bucket' => 'nullable|string|required_if:media_driver,do_spaces',
             'media_do_spaces_endpoint' => 'nullable|string|required_if:media_driver,do_spaces',
 

@@ -1,8 +1,20 @@
 <tr class="shipping-rule-item-{{ $item->id }}">
     <th scope="row">{{ $item->id }}</th>
-    <td>{{ $item->state_name }}</td>
-    <td>{{ $item->city_name }}</td>
-    <td>{{ $item->zip_code }}</td>
+    @if($item->state_name)
+        <td>{{ $item->state_name }}</td>
+    @else
+        <td>&mdash;</td>
+    @endif
+    @if($item->city_name)
+        <td>{{ $item->city_name }}</td>
+    @else
+        <td>&mdash;</td>
+    @endif
+    @if($item->zip_code)
+        <td>{{ $item->zip_code }}</td>
+    @else
+        <td>&mdash;</td>
+    @endif
     <td>
         {{ ($item->adjustment_price < 0 ? '-' : '') . format_price($item->adjustment_price) }}
         {!! Html::tag('small', '(' . format_price(max($item->adjustment_price + $item->shippingRule->price, 0)) . ')', [

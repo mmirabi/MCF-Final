@@ -1,8 +1,8 @@
 {
     "id": "botble/mcf",
-    "name": "mcf- medyanossa",
+    "name": "MedyaNossa",
     "namespace": "Theme\\mcf\\",
-    "description": "mcf- medyanossa Flowers ecommerce nestjs theme",
+    "description": "MedyaNossa Flowers ecommerce",
     "author": "MedyaNossa",
     "required_plugins": []
 }

@@ -14,7 +14,7 @@ class UpdatePasswordRequest extends Request
             'password_confirmation' => 'same:password',
         ];
 
-        if (Auth::user() && Auth::user()->isSuperUser()) {
+        if (Auth::guard()->user() && Auth::guard()->user()->isSuperUser()) {
             return $rules;
         }
 

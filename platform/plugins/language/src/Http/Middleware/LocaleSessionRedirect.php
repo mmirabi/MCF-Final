@@ -29,8 +29,10 @@ class LocaleSessionRedirect extends LaravelLocalizationMiddlewareBase
 
         $locale = session('language', false);
 
+        $defaultLocale = Language::getDefaultLocale();
+
         if (! empty($params) && ! Language::checkLocaleInSupportedLocales($params[0])) {
-            $locale = Language::getDefaultLocale();
+            $locale = $defaultLocale;
         }
 
         if (
@@ -43,7 +45,7 @@ class LocaleSessionRedirect extends LaravelLocalizationMiddlewareBase
             // then compute browser language when no session has been set.
             // Once the session has been set, there is no need to negotiate language from browser again.
             $negotiator = new LanguageNegotiator(
-                Language::getDefaultLocale(),
+                $defaultLocale,
                 Language::getSupportedLocales(),
                 $request
             );
@@ -51,13 +53,13 @@ class LocaleSessionRedirect extends LaravelLocalizationMiddlewareBase
             $locale = $negotiator->negotiateLanguage();
         }
 
-        session(['language' => Language::getDefaultLocale()]);
+        session(['language' => $defaultLocale]);
         app()->setLocale(session('language'));
 
         if (
             $locale &&
             Language::checkLocaleInSupportedLocales($locale) &&
-            ! (Language::getDefaultLocale() === $locale &&
+            ! ($defaultLocale === $locale &&
                 Language::hideDefaultLocaleInURL())
         ) {
             app('session')->reflash();

@@ -23,8 +23,8 @@ class HookServiceProvider extends ServiceProvider
 
     public function addMetaBox(string $priority, BaseModel|null $data): void
     {
-        if ($priority == 'advanced' && ! empty($data) && in_array(get_class($data), config('packages.seo-helper.general.supported', []))) {
-            if (get_class($data) == Page::class && BaseHelper::isHomepage($data->id)) {
+        if ($priority == 'advanced' && ! empty($data) && in_array($data::class, config('packages.seo-helper.general.supported', []))) {
+            if ($data instanceof Page && BaseHelper::isHomepage($data->getKey())) {
                 return;
             }
 
@@ -65,7 +65,7 @@ class HookServiceProvider extends ServiceProvider
 
     public function setSeoMeta(string $screen, BaseModel|Model|null $object): bool
     {
-        if (get_class($object) == Page::class && BaseHelper::isHomepage($object->getKey())) {
+        if ($object instanceof Page && BaseHelper::isHomepage($object->getKey())) {
             return false;
         }
 

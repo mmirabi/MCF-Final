@@ -80,6 +80,9 @@ class Menu
         int|string $parentId,
         bool $hasChild = false
     ): array {
+        /**
+         * @var MenuNode $node
+         */
         $node = MenuNode::query()->findOrNew(Arr::get($menuItem, 'id'));
 
         $node->fill($menuItem);
@@ -417,17 +420,21 @@ class Menu
                         return;
                     }
 
-                    $menuNodes = json_decode($request->input('menu_nodes'), true);
+                    if ($menuNodes = $request->input('menu_nodes')) {
+                        $menuNodes = json_decode($menuNodes, true);
 
-                    foreach ($menuNodes as $node) {
-                        if ($node['menuItem']['id'] == $object->getKey() && isset($node['menuItem']['icon_image'])) {
-                            if ($iconImage = $node['menuItem']['icon_image']) {
-                                MetaBox::saveMetaBoxData($object, 'icon_image', $iconImage);
-                            } else {
-                                MetaBox::deleteMetaData($object, 'icon_image');
+                        if ($menuNodes) {
+                            foreach ($menuNodes as $node) {
+                                if ($node['menuItem']['id'] == $object->getKey() && isset($node['menuItem']['icon_image'])) {
+                                    if ($iconImage = $node['menuItem']['icon_image']) {
+                                        MetaBox::saveMetaBoxData($object, 'icon_image', $iconImage);
+                                    } else {
+                                        MetaBox::deleteMetaData($object, 'icon_image');
+                                    }
+
+                                    break;
+                                }
                             }
-
-                            break;
                         }
                     }
                 }

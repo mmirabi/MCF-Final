@@ -28,7 +28,7 @@ class PageService
             'status' => BaseStatusEnum::PUBLISHED,
         ];
 
-        if (Auth::check() && request()->input('preview')) {
+        if (Auth::guard()->check() && request()->input('preview')) {
             Arr::forget($condition, 'status');
         }
 

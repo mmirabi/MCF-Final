@@ -38,7 +38,7 @@ class PublicController extends Controller
             $badWords = collect(json_decode($blacklistWords, true))
                 ->filter(function ($item) use ($content) {
                     $matches = [];
-                    $pattern = '/\b' . $item['value'] . '\b/iu';
+                    $pattern = '/\b' . preg_quote($item['value'], '/') . '\b/iu';
 
                     return preg_match($pattern, $content, $matches, PREG_UNMATCHED_AS_NULL);
                 })
@@ -53,6 +53,9 @@ class PublicController extends Controller
         }
 
         try {
+            /**
+             * @var Contact $contact
+             */
             $contact = Contact::query()->create($request->input());
 
             event(new SentContactEvent($contact));

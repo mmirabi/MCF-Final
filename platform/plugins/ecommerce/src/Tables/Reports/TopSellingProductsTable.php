@@ -98,7 +98,7 @@ class TopSellingProductsTable extends TableAbstract
                 ->searchable(false),
             Column::make('name')
                 ->title(trans('plugins/ecommerce::reports.product_name'))
-                ->alignLeft()
+                ->alignStart()
                 ->orderable(false)
                 ->searchable(false),
             Column::make('qty')

@@ -98,7 +98,7 @@ trait HasFilters
     public function renderFilter(): string
     {
         $tableId = $this->getOption('id');
-        $class = get_class($this);
+        $class = $this::class;
         $columns = $this->getFilters();
 
         $request = $this->request();

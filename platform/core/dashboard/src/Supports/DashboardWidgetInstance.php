@@ -191,7 +191,7 @@ class DashboardWidgetInstance
 
     public function init(array $widgets, Collection $widgetSettings): array
     {
-        if (! Auth::user()->hasPermission($this->permission)) {
+        if (! Auth::guard()->user()->hasPermission($this->permission)) {
             return $widgets;
         }
 
@@ -335,7 +335,7 @@ class DashboardWidgetInstance
 
         $widgetSetting = DashboardWidgetSetting::query()->firstOrCreate([
             'widget_id' => $widget->id,
-            'user_id' => Auth::id(),
+            'user_id' => Auth::guard()->id(),
         ]);
 
         $widgetSetting->settings = array_merge((array)$widgetSetting->settings, $settings);

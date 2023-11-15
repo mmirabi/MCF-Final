@@ -3,8 +3,8 @@
     "name": "Ecommerce",
     "namespace": "Botble\\Ecommerce\\",
     "provider": "Botble\\Ecommerce\\Providers\\EcommerceServiceProvider",
-    "author": "Mehdi Mirabi",
-    "url": "http://medyanossa.com",
+    "author": "MedyaNossa",
+    "url": "https://medyanossa.com",
     "version": "3.1.0",
     "description": "Plugin for E-commerce features"
 }

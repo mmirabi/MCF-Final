@@ -2,7 +2,7 @@
     $prefix = apply_filters(FILTER_SLUG_PREFIX, $prefix);
     $value = $value ?: old('slug');
     $endingURL = SlugHelper::getPublicSingleEndingURL();
-    $previewURL = str_replace('--slug--', (string) $value, url($prefix) . '/' . config('packages.slug.general.pattern')) . $endingURL . (Auth::user() && $preview ? '?preview=true' : '');
+    $previewURL = str_replace('--slug--', (string) $value, url($prefix) . '/' . config('packages.slug.general.pattern')) . $endingURL . (Auth::guard()->user() && $preview ? '?preview=true' : '');
 @endphp
 
 <div
@@ -64,7 +64,7 @@
                     class="cancel button-link ms-1"
                     type="button"
                 >{{ trans('core/base::forms.cancel') }}</button>
-                @if (Auth::user() && $preview && $id)
+                @if (Auth::guard()->user() && $preview && $id)
                     <a
                         class="btn btn-info btn-preview"
                         href="{{ $previewURL }}"

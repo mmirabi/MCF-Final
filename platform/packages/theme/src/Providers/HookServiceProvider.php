@@ -16,6 +16,7 @@ use Botble\Theme\Supports\Vimeo;
 use Botble\Theme\Supports\Youtube;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 class HookServiceProvider extends ServiceProvider
@@ -35,6 +36,14 @@ class HookServiceProvider extends ServiceProvider
         add_filter(DASHBOARD_FILTER_ADMIN_LIST, [$this, 'addStatsWidgets'], 4, 2);
 
         add_filter(BASE_FILTER_AFTER_SETTING_CONTENT, [$this, 'addSetting'], 39);
+
+        add_filter('get_http_exception_view', function (string $defaultView, HttpExceptionInterface $exception) {
+            if (view()->exists($view = Theme::getThemeNamespace('views.' . $exception->getStatusCode()))) {
+                return $view;
+            }
+
+            return $defaultView;
+        }, 10, 2);
 
         theme_option()
             ->setSection([
@@ -156,8 +165,14 @@ class HookServiceProvider extends ServiceProvider
                 ],
             ]);
 
-        add_shortcode('media', null, null, function (Shortcode $shortcode) {
-            $url = rtrim($shortcode->url, '/');
+        add_shortcode('media', 'Media', 'Media', function (Shortcode $shortcode) {
+            $url = $shortcode->url;
+
+            if (! $url) {
+                return null;
+            }
+
+            $url = rtrim($url, '/');
 
             if (! $url) {
                 return null;
@@ -165,27 +180,34 @@ class HookServiceProvider extends ServiceProvider
 
             $iframe = null;
 
-            if (Youtube::isYoutubeURL($url)) {
-                $iframe = Html::tag('iframe', '', [
-                    'class' => 'embed-responsive-item',
-                    'allowfullscreen' => true,
-                    'frameborder' => 0,
-                    'height' => 315,
-                    'width' => 420,
-                    'src' => Youtube::getYoutubeVideoEmbedURL($url),
-                ])->toHtml();
+            $data = [
+                'class' => 'embed-responsive-item',
+                'height' => 315,
+                'width' => 420,
+            ];
+
+            if ($shortcode->width) {
+                $data['width'] = $shortcode->width;
             }
 
-            if (Vimeo::isVimeoURL($url)) {
+            if ($shortcode->height) {
+                $data['height'] = $shortcode->height;
+            }
+
+            if (Youtube::isYoutubeURL($url)) {
+                $data['allowfullscreen'] = true;
+                $data['frameborder'] = 0;
+
+                $data['src'] = Youtube::getYoutubeVideoEmbedURL($url);
+
+                $iframe = Html::tag('iframe', '', $data)->toHtml();
+            } elseif (Vimeo::isVimeoURL($url)) {
                 $videoId = Vimeo::getVimeoID($url);
                 if ($videoId) {
-                    $iframe = Html::tag('iframe', '', [
-                        'class' => 'embed-responsive-item',
-                        'height' => 315,
-                        'width' => 420,
-                        'allow' => 'autoplay; fullscreen; picture-in-picture',
-                        'src' => 'https://player.vimeo.com/video/' . $videoId,
-                    ])->toHtml();
+                    $data['allow'] = 'autoplay; fullscreen; picture-in-picture';
+                    $data['src'] = 'https://player.vimeo.com/video/' . $videoId;
+
+                    $iframe = Html::tag('iframe', '', $data)->toHtml();
                 }
             }
 
@@ -197,10 +219,14 @@ class HookServiceProvider extends ServiceProvider
             return null;
         });
 
+        shortcode()->setAdminConfig('media', function (array $attributes) {
+            return view('packages/theme::shortcodes.media-admin-config', compact('attributes'))->render();
+        });
+
         add_filter(THEME_FRONT_HEADER, function (string|null $html): string|null {
             $file = Theme::getStyleIntegrationPath();
             if ($this->app['files']->exists($file)) {
-                $html .= "\n" . Html::style(Theme::asset()->url('css/style.integration.css?v=' . filectime($file)));
+                $html .= PHP_EOL . Html::style(Theme::asset()->url('css/style.integration.css?v=' . filectime($file)));
             }
 
             return $html;
@@ -261,7 +287,7 @@ class HookServiceProvider extends ServiceProvider
 
         add_filter(THEME_FRONT_FOOTER, function (string|null $html): string|null {
             try {
-                if (! Auth::check() || ! AdminBar::isDisplay() || ! (int)setting('show_admin_bar', 1)) {
+                if (! Auth::guard()->check() || ! AdminBar::isDisplay() || ! (int)setting('show_admin_bar', 1)) {
                     return $html;
                 }
 

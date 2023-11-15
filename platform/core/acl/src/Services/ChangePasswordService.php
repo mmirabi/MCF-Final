@@ -34,6 +34,9 @@ class ChangePasswordService implements ProduceServiceInterface
         $user->password = Hash::make($password);
         $user->save();
 
+        /**
+         * @var User $user
+         */
         if ($user->getKey() != $currentUser->getKey()) {
             try {
                 Auth::setUser($user);

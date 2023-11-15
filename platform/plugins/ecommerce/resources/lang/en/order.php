@@ -312,4 +312,6 @@ return [
     ],
     'generate_invoice' => 'Generate invoice',
     'generated_invoice_successfully' => 'Generated invoice successfully!',
+    'required_customer' => 'Please select or create a customer first!',
+    'customer_not_exists' => 'This customer is not existing!',
 ];

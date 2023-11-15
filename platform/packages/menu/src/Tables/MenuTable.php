@@ -12,9 +12,6 @@ use Botble\Table\Columns\CreatedAtColumn;
 use Botble\Table\Columns\IdColumn;
 use Botble\Table\Columns\NameColumn;
 use Botble\Table\Columns\StatusColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Validation\Rule;
 
 class MenuTable extends TableAbstract
@@ -26,22 +23,13 @@ class MenuTable extends TableAbstract
             ->addActions([
                 EditAction::make()->route('menus.edit'),
                 DeleteAction::make()->route('menus.destroy'),
-            ]);
-    }
-
-    public function query(): Relation|Builder|QueryBuilder
-    {
-        $query = $this
-            ->getModel()
-            ->query()
-            ->select([
+            ])
+            ->queryUsing(fn ($query) => $query->select([
                 'id',
                 'name',
                 'created_at',
                 'status',
-            ]);
-
-        return $this->applyScopes($query);
+            ]));
     }
 
     public function columns(): array

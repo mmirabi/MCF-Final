@@ -28,7 +28,7 @@
 
         @if (
             $driver === 'mysql' &&
-                auth()->user()->hasPermission('backups.restore'))
+                auth()->guard()->user()->hasPermission('backups.restore'))
             <a
                 class="text-info restoreBackup me-2"
                 data-section="{{ route('backups.restore', $key) }}"
@@ -38,7 +38,7 @@
             ><i class="fa fa-rotate-left"></i></a>
         @endif
 
-        @if (auth()->user()->hasPermission('backups.destroy'))
+        @if (auth()->guard()->user()->hasPermission('backups.destroy'))
             <a
                 class="text-danger deleteDialog"
                 data-section="{{ route('backups.destroy', $key) }}"

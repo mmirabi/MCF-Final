@@ -443,8 +443,10 @@ class EditorManagement {
                     name = name.replace('[]', '')
                     if (element.data('shortcode-attribute') !== 'content') {
                         name = name.replace('[]', '')
-                        value = value.replace(/"([^"]*)"/g, '“$1”')
-                        value = value.replace(/"/g, '“')
+                        if (value && typeof value === 'string') {
+                            value = value.replace(/"([^"]*)"/g, '“$1”')
+                            value = value.replace(/"/g, '“')
+                        }
                         attributes += ' ' + name + '="' + value + '"'
                     }
                 }

@@ -28,7 +28,7 @@ class Plugin extends PluginOperationAbstract
             array_unshift($plugins, 'language');
         }
 
-        Setting::set('activated_plugins', json_encode($plugins))->save();
+        Setting::forceSet('activated_plugins', json_encode($plugins))->save();
     }
 
     public static function remove(): void

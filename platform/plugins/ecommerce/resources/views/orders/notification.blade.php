@@ -32,7 +32,7 @@
                             </span>
                             <span class="subject"><span class="from">
                                     {{ $order->address->name ?: $order->user->name }} </span><span
-                                    class="time">{{ $order->created_at->toDateTimeString() }} </span></span>
+                                    class="time">{{ BaseHelper::formatDateTime($order->created_at) }} </span></span>
                             <span class="message"> {{ $order->address->phone ? $order->address->phone . ' - ' : null }}
                                 {{ $order->address->email ?: $order->user->email }} </span>
                         </a>

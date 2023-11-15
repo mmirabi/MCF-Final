@@ -55,8 +55,10 @@ class TableExportHandler extends DataTablesExportHandler implements WithEvents
         $lastColumnName = $this->getNameFromNumber($totalColumns);
 
         $dimensions = 'A1:' . $lastColumnName . '1';
-        $delegate->getStyle($dimensions)->applyFromArray(
-            [
+        $style = $delegate->getStyle($dimensions);
+
+        if ($style->getIndex()) {
+            $style->applyFromArray([
                 'font' => [
                     'bold' => true,
                     'color' => [
@@ -72,8 +74,8 @@ class TableExportHandler extends DataTablesExportHandler implements WithEvents
                         'argb' => '1d9977',
                     ],
                 ],
-            ]
-        );
+            ]);
+        }
 
         $delegate->getColumnDimension('A')->setWidth(10);
         $delegate->getRowDimension(1)->setRowHeight(20);

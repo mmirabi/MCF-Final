@@ -5,7 +5,7 @@
         type="hidden"
         value="{{ $value }}"
     >
-    @if (!is_in_admin(true) || !auth()->check())
+    @if (!is_in_admin(true) || !auth()->guard()->check())
         <input
             class="media-file-input"
             type="file"
@@ -21,7 +21,7 @@
     </div>
     <div class="image-box-actions">
         <a
-            class="@if (is_in_admin(true) && auth()->check()) btn_gallery @else media-select-file @endif"
+            class="@if (is_in_admin(true) && auth()->guard()->check()) btn_gallery @else media-select-file @endif"
             data-result="{{ $name }}"
             data-action="{{ $attributes['action'] ?? 'attachment' }}"
             href="#"

@@ -2,7 +2,6 @@
 
 namespace Botble\Table\Abstracts\Concerns;
 
-use Botble\Base\Models\BaseModel;
 use Botble\Table\Abstracts\TableActionAbstract;
 use Botble\Table\Columns\Column;
 use Botble\Table\Columns\RowActionsColumn;
@@ -130,18 +129,6 @@ trait HasActions
         return [
             RowActionsColumn::make()->width(70 * count($this->getRowActions())),
         ];
-    }
-
-    public function renderActionsCell($model): string
-    {
-        if (! $model instanceof BaseModel) {
-            return '';
-        }
-
-        return view('core/table::row-actions', [
-            'model' => $model,
-            'actions' => $this->getRowActions(),
-        ])->render();
     }
 
     /**

@@ -5,7 +5,6 @@ namespace Botble\Slug;
 use Botble\Base\Contracts\BaseModel;
 use Botble\Page\Models\Page;
 use Botble\Slug\Models\Slug;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -102,12 +101,18 @@ class SlugHelper
 
     public function createSlug(BaseModel $model, string $name = null): BaseModel|Slug
     {
-        return Slug::query()->create([
+        $slug = new Slug();
+
+        $slug->fill([
             'reference_type' => $model::class,
             'reference_id' => $model->getKey(),
-            'key' => Str::slug($name ?: $model->name),
+            'key' => Str::slug($name ?: $model->{$this->getColumnNameToGenerateSlug($model::class)}),
             'prefix' => $this->getPrefix($model::class),
         ]);
+
+        $slug->save();
+
+        return $slug;
     }
 
     public function getSlug(
@@ -140,8 +145,14 @@ class SlugHelper
             $condition['prefix'] = $prefix;
         }
 
-        /** @var Builder $query */
-        $query = apply_filters('slug_helper_get_slug_query', Slug::query()->where($condition), $condition, (string) $key, (string) $prefix, $model);
+        $query = apply_filters(
+            'slug_helper_get_slug_query',
+            Slug::query()->where($condition),
+            $condition,
+            (string) $key,
+            (string) $prefix,
+            $model
+        );
 
         return $query->first();
     }

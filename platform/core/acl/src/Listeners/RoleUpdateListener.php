@@ -18,6 +18,6 @@ class RoleUpdateListener
             $user->save();
         }
 
-        cache()->forget(md5('cache-dashboard-menu-' . Auth::id()));
+        cache()->forget(md5('cache-dashboard-menu-' . Auth::guard()->id()));
     }
 }

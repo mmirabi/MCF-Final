@@ -54,7 +54,7 @@ class PublicController extends Controller
         $slug = SlugHelper::getSlug($key, $prefix);
 
         if (! $slug) {
-            return redirect()->route('public.index');
+            abort(404);
         }
 
         if (
@@ -109,6 +109,11 @@ class PublicController extends Controller
 
     public function getViewWithPrefix(string $prefix, string|null $slug = null)
     {
+        if (Str::contains($prefix, '/')) {
+            $slug = Str::afterLast($prefix, '/');
+            $prefix = Str::beforeLast($prefix, '/');
+        }
+
         return $this->getView($slug, $prefix);
     }
 }

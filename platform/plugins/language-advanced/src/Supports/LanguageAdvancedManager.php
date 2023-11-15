@@ -166,7 +166,7 @@ class LanguageAdvancedManager
             /**
              * @var Model $item
              */
-            $item::resolveRelationUsing('translations', function ($model) use ($locale, $isDefaultLocale) {
+            $item::resolveRelationUsing('translations', function ($model) use ($locale) {
                 $instance = tap(
                     new TranslationResolver(),
                     function ($instance) {
@@ -183,7 +183,7 @@ class LanguageAdvancedManager
                 $instance->fillable(array_merge([
                     'lang_code',
                     $modelTable . '_id',
-                ], self::getTranslatableColumns(get_class($model))));
+                ], self::getTranslatableColumns($model::class)));
 
                 return (new HasMany(
                     $instance->newQuery(),
@@ -198,17 +198,15 @@ class LanguageAdvancedManager
                     $item,
                     'get' . ucfirst(Str::camel($column)) . 'Attribute',
                     function () use ($column, $locale, $isDefaultLocale) {
-                        /**
-                         * @var Model $this
-                         */
                         if (
-                            ! $this->lang_code &&
+                            ! $this->lang_code && // @phpstan-ignore-line
                             ! $isDefaultLocale &&
-                            $translation = $this->translations->where('lang_code', $locale)->value($column)
+                            $translation = $this->translations->where('lang_code', $locale)->value($column) // @phpstan-ignore-line
                         ) {
                             return $translation;
                         }
 
+                        // @phpstan-ignore-next-line
                         return $this->getAttribute($column);
                     }
                 );

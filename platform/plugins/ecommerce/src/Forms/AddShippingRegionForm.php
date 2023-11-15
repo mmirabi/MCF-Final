@@ -25,8 +25,8 @@ class AddShippingRegionForm extends FormAbstract
 
         $this
             ->setupModel(new Shipping())
+            ->contentOnly()
             ->setFormOptions([
-                'template' => 'core/base::forms.form-content-only',
                 'url' => route('shipping_methods.region.create'),
             ])
             ->setTitle(trans('plugins/ecommerce::shipping.add_shipping_region'))

@@ -8,17 +8,17 @@
             </p>
             <p>
                 <span>{{ __('Time') }}: </span>
-                <strong>{{ $order->created_at->format('h:m d/m/Y') }}</strong>
+                <strong>{{ $order->created_at->translatedFormat('M d, Y h:m') }}</strong>
             </p>
         </div>
         <div class="col-md-6">
             <p>
                 <span>{{ __('Completed at') }}: </span>
-                <strong class="text-info">{{ $order->completed_at->format('h:m d/m/Y') }}</strong>
+                <strong class="text-info">{{ $order->completed_at->translatedFormat('M d, Y h:m') }}</strong>
             </p>
             @if ($order->shipment && $order->shipment->id)
                 <p>
-                    <span>{{ __('Shipment Status') }}: </span>
+                    <span>{{ __('Shipment status') }}: </span>
                     <strong class="text-info">{{ $order->shipment->status->label() }}</strong>
                 </p>
             @endif
@@ -42,7 +42,7 @@
             >
                 <strong>{{ __('Return Reason') }}:</strong>
             </label>
-            {!! Form::select('reason', \Botble\Ecommerce\Enums\OrderReturnReasonEnum::labels(), old('reason'), [
+            {!! Form::select('reason', Botble\Ecommerce\Enums\OrderReturnReasonEnum::labels(), old('reason'), [
                 'class' => 'form-control form-select',
                 'placeholder' => __('Choose Reason'),
             ]) !!}
@@ -148,7 +148,7 @@
                                     <td class="text-center">
                                         {!! Form::select(
                                             'return_items[' . $key . '][reason]',
-                                            \Botble\Ecommerce\Enums\OrderReturnReasonEnum::labels(),
+                                            Botble\Ecommerce\Enums\OrderReturnReasonEnum::labels(),
                                             old('return_items.' . $key . '.reason'),
                                             [
                                                 'class' => 'form-control form-select',

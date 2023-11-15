@@ -8,11 +8,9 @@ use Botble\Table\Abstracts\TableAbstract;
 use Botble\Table\Actions\DeleteAction;
 use Botble\Table\BulkActions\DeleteBulkAction;
 use Botble\Table\Columns\Column;
+use Botble\Table\Columns\FormattedColumn;
 use Botble\Table\Columns\IdColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class AuditLogTable extends TableAbstract
 {
@@ -22,38 +20,20 @@ class AuditLogTable extends TableAbstract
             ->model(AuditHistory::class)
             ->addActions([
                 DeleteAction::make()->route('audit-log.destroy'),
-            ]);
-    }
-
-    public function ajax(): JsonResponse
-    {
-        $data = $this->table
-            ->eloquent($this->query())
-            ->editColumn('action', function (AuditHistory $item) {
-                return view('plugins/audit-log::activity-line', ['history' => $item])->render();
-            });
-
-        return $this->toJson($data);
-    }
-
-    public function query(): Relation|Builder|QueryBuilder
-    {
-        $query = $this
-            ->getModel()
-            ->query()
-            ->with(['user'])
-            ->select(['*']);
-
-        return $this->applyScopes($query);
+            ])
+            ->queryUsing(fn (Builder $query) => $query->with('user'));
     }
 
     public function columns(): array
     {
         return [
             IdColumn::make(),
-            Column::make('action')
+            FormattedColumn::make('action')
                 ->title(trans('plugins/audit-log::history.action'))
-                ->alignLeft(),
+                ->alignStart()
+                ->renderUsing(function (Column $column) {
+                    return view('plugins/audit-log::activity-line', ['history' => $column->getItem()])->render();
+                }),
         ];
     }
 

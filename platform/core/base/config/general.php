@@ -3,7 +3,7 @@
 return [
     'admin_dir' => env('ADMIN_DIR', 'admin'),
     'default-theme' => env('DEFAULT_THEME', 'default'),
-    'base_name' => env('APP_NAME', 'Botble Technologies'),
+    'base_name' => env('APP_NAME', 'MedyaNossa'),
     'logo' => '/vendor/core/core/base/images/logo_white.png',
     'favicon' => '/vendor/core/core/base/images/favicon.png',
     'editor' => [
@@ -40,12 +40,13 @@ return [
     'locale' => env('APP_LOCALE', 'en'),
     'demo' => [
         'account' => [
-            'username' => env('CMS_DEMO_ACCOUNT_USERNAME', 'botble'),
-            'password' => env('CMS_DEMO_ACCOUNT_PASSWORD', '159357'),
+            'username' => env('CMS_DEMO_ACCOUNT_USERNAME', 'admin'),
+            'password' => env('CMS_DEMO_ACCOUNT_PASSWORD', '12345678'),
         ],
     ],
     'google_fonts' => [
         'Aclonica',
+        'Almarai',
         'Allan',
         'Annie Use Your Telescope',
         'Anonymous Pro',

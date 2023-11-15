@@ -38,6 +38,9 @@ class ImportLocationService
 
     protected function storeCountry(array $row): void
     {
+        /**
+         * @var Country $country
+         */
         $country = Country::query()->firstOrCreate(
             ['name' => $row['name']],
             [
@@ -56,6 +59,9 @@ class ImportLocationService
 
     protected function storeState(array $row): void
     {
+        /**
+         * @var State $state
+         */
         $state = State::query()->updateOrCreate(
             [
                 'name' => $row['name'],
@@ -78,6 +84,9 @@ class ImportLocationService
 
     protected function storeCity(array $row): void
     {
+        /**
+         * @var City $city
+         */
         $city = City::query()->firstOrCreate(
             [
                 'name' => $row['name'],

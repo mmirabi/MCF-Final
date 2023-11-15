@@ -76,7 +76,7 @@ if (! function_exists('get_cms_version')) {
 if (! function_exists('get_core_version')) {
     function get_core_version(): string
     {
-        return '6.10.0';
+        return '6.10.3';
     }
 }
 

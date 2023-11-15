@@ -42,7 +42,7 @@ class DashboardController extends BaseController
 
         $availableWidgetIds = collect($widgetData)->pluck('id')->all();
 
-        $widgets = $widgets->reject(function (DashboardWidget $item) use ($availableWidgetIds) {
+        $widgets = $widgets->reject(function ($item) use ($availableWidgetIds) {
             return ! in_array($item->getKey(), $availableWidgetIds);
         });
 

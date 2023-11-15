@@ -8,10 +8,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
 use RuntimeException;
 
 class DashboardMenu
 {
+    use Conditionable;
+
     protected array $links = [];
 
     public function make(): self
@@ -145,7 +148,7 @@ class DashboardMenu
         $protocol = request()->getScheme() . '://' . BaseHelper::getAdminPrefix();
 
         foreach ($links as $key => &$link) {
-            if ($link['permissions'] && ! Auth::user()->hasAnyPermission($link['permissions'])) {
+            if ($link['permissions'] && ! Auth::guard()->user()->hasAnyPermission($link['permissions'])) {
                 Arr::forget($links, $key);
 
                 continue;
@@ -165,7 +168,7 @@ class DashboardMenu
                 ->toArray();
 
             foreach ($link['children'] as $subKey => $subMenu) {
-                if ($subMenu['permissions'] && ! Auth::user()->hasAnyPermission($subMenu['permissions'])) {
+                if ($subMenu['permissions'] && ! Auth::guard()->user()->hasAnyPermission($subMenu['permissions'])) {
                     Arr::forget($link['children'], $subKey);
 
                     continue;
@@ -179,17 +182,6 @@ class DashboardMenu
         }
 
         return collect($links)->sortBy('priority');
-    }
-
-    public function when($value = null, callable $callback = null, callable $default = null): self
-    {
-        if ($value) {
-            return $callback($this, $value) ?? $this;
-        } elseif ($default) {
-            return $default($this, $value) ?? $this;
-        }
-
-        return $this;
     }
 
     public function tap(callable $callback = null): self

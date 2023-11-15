@@ -16,7 +16,7 @@ class FetchGoogleFontsCommand extends Command
 
         $this->components->info(sprintf('Fetching <comment>%s</comment>...', $font));
 
-        app('core:google-fonts')->load($font, forceDownload: true);
+        app('core.google-fonts')->load($font, forceDownload: true);
 
         $this->components->info('All done!');
 

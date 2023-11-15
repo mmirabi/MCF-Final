@@ -65,7 +65,7 @@ class SimpleSliderTable extends TableAbstract
             NameColumn::make()->route('simple-slider.edit'),
             Column::make('key')
                 ->title(trans('plugins/simple-slider::simple-slider.key'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

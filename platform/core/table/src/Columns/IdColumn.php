@@ -2,7 +2,10 @@
 
 namespace Botble\Table\Columns;
 
-class IdColumn extends Column
+use Botble\Base\Models\BaseModel;
+use Botble\Table\Contracts\FormattedColumn;
+
+class IdColumn extends Column implements FormattedColumn
 {
     public static function make(array|string $data = [], string $name = ''): static
     {
@@ -11,5 +14,14 @@ class IdColumn extends Column
             ->alignCenter()
             ->width(20)
             ->columnVisibility();
+    }
+
+    public function editedFormat($value): string|null
+    {
+        return $this
+            ->when(BaseModel::getTypeOfId() !== 'BIGINT', function (IdColumn $column) {
+                return $column->limit();
+            })
+            ->applyLimitIfAvailable($value);
     }
 }

@@ -16,6 +16,7 @@ class ProfileForm extends FormAbstract
             ->setFormOption('id', 'profile-form')
             ->setFormOption('class', 'row')
             ->setValidatorClass(UpdateProfileRequest::class)
+            ->setMethod('PUT')
             ->withCustomFields()
             ->add('first_name', 'text', [
                 'label' => trans('core/acl::users.info.first_name'),

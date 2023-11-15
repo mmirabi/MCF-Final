@@ -163,7 +163,7 @@ class InvoiceHelper
             File::makeDirectory($folderPath);
         }
 
-        $invoicePath = $folderPath . '/invoice-' . $invoice->code . '.pdf';
+        $invoicePath = sprintf('%s/invoice-%s.pdf', $folderPath, $invoice->code);
 
         if (File::exists($invoicePath)) {
             return $invoicePath;
@@ -176,7 +176,7 @@ class InvoiceHelper
 
     public function downloadInvoice(Invoice $invoice): Response
     {
-        return $this->makeInvoicePDF($invoice)->download('invoice-' . $invoice->code . '.pdf');
+        return $this->makeInvoicePDF($invoice)->download(sprintf('invoice-%s.pdf', $invoice->code));
     }
 
     public function streamInvoice(Invoice $invoice): Response

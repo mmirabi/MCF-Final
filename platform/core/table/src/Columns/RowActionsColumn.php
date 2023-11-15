@@ -2,8 +2,15 @@
 
 namespace Botble\Table\Columns;
 
-class RowActionsColumn extends Column
+use Botble\Table\Contracts\FormattedColumn;
+
+class RowActionsColumn extends Column implements FormattedColumn
 {
+    /**
+     * @var \Botble\Table\Abstracts\TableActionAbstract[] $actions
+     */
+    protected array $rowActions = [];
+
     public static function make(array|string $data = [], string $name = ''): static
     {
         return parent::make($data ?: 'row_actions', $name)
@@ -15,5 +22,25 @@ class RowActionsColumn extends Column
             ->printable(false)
             ->responsivePriority(99)
             ->columnVisibility();
+    }
+
+    public function setRowActions(array $actions): static
+    {
+        $this->rowActions = $actions;
+
+        return $this;
+    }
+
+    public function getRowActions(): array
+    {
+        return $this->rowActions;
+    }
+
+    public function editedFormat($value): string
+    {
+        return view('core/table::row-actions', [
+            'model' => $this->getItem(),
+            'actions' => $this->getRowActions(),
+        ])->render();
     }
 }

@@ -26,10 +26,9 @@ class CategoryController extends BaseController
         PageTitle::setTitle(trans('plugins/blog::categories.menu'));
 
         $categories = Category::query()
-            ->wherePublished()
-            ->orderByDesc('created_at')
             ->orderByDesc('is_default')
             ->orderBy('order')
+            ->orderByDesc('created_at')
             ->with('slugable')
             ->withCount('posts')
             ->get();
@@ -67,9 +66,12 @@ class CategoryController extends BaseController
             Category::query()->where('id', '>', 0)->update(['is_default' => 0]);
         }
 
+        /**
+         * @var Category $category
+         */
         $category = Category::query()->create(
             array_merge($request->input(), [
-                'author_id' => Auth::id(),
+                'author_id' => Auth::guard()->id(),
                 'author_type' => User::class,
             ])
         );
@@ -91,7 +93,7 @@ class CategoryController extends BaseController
 
         return $response
             ->setPreviousUrl(route('categories.index'))
-            ->setNextUrl(route('categories.edit', $category->id))
+            ->setNextUrl(route('categories.edit', $category->getKey()))
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
@@ -118,7 +120,7 @@ class CategoryController extends BaseController
         event(new UpdatedContentEvent(CATEGORY_MODULE_SCREEN_NAME, $request, $category));
 
         if ($request->ajax()) {
-            if ($request->input('submit') == $response->saveAction) {
+            if ($response->isSaving()) {
                 $form = $this->getForm();
             } else {
                 $form = $this->getForm($category);
@@ -171,7 +173,7 @@ class CategoryController extends BaseController
             $form->setUrl(route('categories.create'));
         }
 
-        if (! Auth::user()->hasPermission('categories.create') && ! $model) {
+        if (! Auth::guard()->user()->hasPermission('categories.create') && ! $model) {
             $class = $form->getFormOption('class');
             $form->setFormOption('class', $class . ' d-none');
         }
@@ -184,9 +186,9 @@ class CategoryController extends BaseController
     protected function getOptions(array $options = []): array
     {
         return array_merge([
-            'canCreate' => Auth::user()->hasPermission('categories.create'),
-            'canEdit' => Auth::user()->hasPermission('categories.edit'),
-            'canDelete' => Auth::user()->hasPermission('categories.destroy'),
+            'canCreate' => Auth::guard()->user()->hasPermission('categories.create'),
+            'canEdit' => Auth::guard()->user()->hasPermission('categories.edit'),
+            'canDelete' => Auth::guard()->user()->hasPermission('categories.destroy'),
             'createRoute' => 'categories.create',
             'editRoute' => 'categories.edit',
             'deleteRoute' => 'categories.destroy',

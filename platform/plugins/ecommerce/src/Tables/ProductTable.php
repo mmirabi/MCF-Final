@@ -18,7 +18,6 @@ use Botble\Table\Columns\Column;
 use Botble\Table\Columns\CreatedAtColumn;
 use Botble\Table\Columns\IdColumn;
 use Botble\Table\Columns\ImageColumn;
-use Botble\Table\Columns\NameColumn;
 use Botble\Table\Columns\StatusColumn;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
@@ -120,18 +119,20 @@ class ProductTable extends TableAbstract
         return [
             IdColumn::make(),
             ImageColumn::make(),
-            NameColumn::make(),
+            Column::make('name')
+                ->title(trans('plugins/ecommerce::products.name'))
+                ->alignStart(),
             Column::make('price')
                 ->title(trans('plugins/ecommerce::products.price'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('stock_status')
                 ->title(trans('plugins/ecommerce::products.stock_status')),
             Column::make('quantity')
                 ->title(trans('plugins/ecommerce::products.quantity'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('sku')
                 ->title(trans('plugins/ecommerce::products.sku'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('order')
                 ->title(trans('core/base::tables.order'))
                 ->width(50),

@@ -3,8 +3,8 @@
     "name": "Audit Log",
     "namespace": "Botble\\AuditLog\\",
     "provider": "Botble\\AuditLog\\Providers\\AuditLogServiceProvider",
-    "author": "Mehdi Mirabi",
-    "url": "http://medyanossa.com",
+    "author": "MedyaNossa",
+    "url": "https://medyanossa.com",
     "version": "2.0.0",
     "description": "Record activities logs"
 }

@@ -4,7 +4,6 @@ namespace Botble\Base\Helpers;
 
 use Botble\Base\Facades\Html;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
@@ -88,15 +87,13 @@ class BaseHelper
                 $data = $this->jsonEncodePrettify($data);
             }
 
-            if (! File::isDirectory(File::dirname($path))) {
-                File::makeDirectory(File::dirname($path), 493, true);
-            }
+            File::ensureDirectoryExists(File::dirname($path));
 
             File::put($path, $data);
 
             return true;
-        } catch (Exception $exception) {
-            $this->logError($exception);
+        } catch (Throwable $throwable) {
+            $this->logError($throwable);
 
             return false;
         }
@@ -109,6 +106,10 @@ class BaseHelper
 
     public function scanFolder(string $path, array $ignoreFiles = []): array
     {
+        if (! $path) {
+            return [];
+        }
+
         if (File::isDirectory($path)) {
             $data = array_diff(scandir($path), array_merge(['.', '..', '.DS_Store'], $ignoreFiles));
             natsort($data);
@@ -161,6 +162,10 @@ class BaseHelper
 
     public function getHomepageId(): string|null
     {
+        if (! function_exists('theme_option')) {
+            return null;
+        }
+
         return theme_option('homepage_id', setting('show_on_front'));
     }
 
@@ -364,6 +369,10 @@ class BaseHelper
 
         $content = $this->clean($content);
 
+        if (! function_exists('shortcode')) {
+            return $content;
+        }
+
         $shortcodeCompiler = shortcode()->getCompiler();
 
         return $shortcodeCompiler->strip($content);
@@ -412,7 +421,7 @@ class BaseHelper
         try {
             $fontUrl = str_replace($this->getGoogleFontsURL(), 'https://fonts.googleapis.com', $font);
 
-            $googleFont = app('core:google-fonts')->load($fontUrl);
+            $googleFont = app('core.google-fonts')->load($fontUrl);
 
             if (! $googleFont) {
                 return $directlyUrl;
@@ -423,7 +432,7 @@ class BaseHelper
             }
 
             return $googleFont->toHtml();
-        } catch (Exception) {
+        } catch (Throwable) {
             return $directlyUrl;
         }
     }
@@ -441,9 +450,9 @@ class BaseHelper
         return App::environment('demo');
     }
 
-    public function logError(Exception|Throwable $exception): void
+    public function logError(Throwable $throwable): void
     {
-        logger()->error($exception->getMessage() . ' - ' . $exception->getFile() . ':' . $exception->getLine());
+        logger()->error($throwable->getMessage() . ' - ' . $throwable->getFile() . ':' . $throwable->getLine());
     }
 
     public function getDateFormat(): string

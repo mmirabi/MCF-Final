@@ -81,7 +81,7 @@
                                     <ul class="ps-3">
                                         <li style="list-style-type: circle;">
                                             <span>{!! BaseHelper::clean(
-                                                trans('plugins/shippo::shippo.note_1', ['link' => 'https://medyanossa.com/farmart/usage-location.html']),
+                                                trans('plugins/shippo::shippo.note_1', ['link' => 'https://docs.botble.com/farmart/usage-location.html']),
                                             ) !!}</span>
                                         </li>
                                         <li style="list-style-type: circle;">

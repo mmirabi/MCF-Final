@@ -36,7 +36,7 @@ class StoreTagService extends StoreTagServiceAbstract
                 if ($tag === null && ! empty($tagName)) {
                     $tag = Tag::query()->create([
                         'name' => $tagName,
-                        'author_id' => Auth::check() ? Auth::id() : 0,
+                        'author_id' => Auth::guard()->check() ? Auth::guard()->id() : 0,
                         'author_type' => User::class,
                     ]);
 

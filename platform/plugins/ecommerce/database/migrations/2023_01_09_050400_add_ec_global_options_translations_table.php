@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::dropIfExists('ec_global_option_value_translations');
 
         Schema::create('ec_global_options_translations', function (Blueprint $table) {
-            $table->string('lang_code');
+            $table->string('lang_code', 20);
             $table->foreignId('ec_global_options_id');
             $table->string('name', 255)->nullable();
 
@@ -21,7 +21,7 @@ return new class () extends Migration {
         });
 
         Schema::create('ec_options_translations', function (Blueprint $table) {
-            $table->string('lang_code');
+            $table->string('lang_code', 20);
             $table->foreignId('ec_options_id');
             $table->string('name', 255)->nullable();
 
@@ -29,7 +29,7 @@ return new class () extends Migration {
         });
 
         Schema::create('ec_option_value_translations', function (Blueprint $table) {
-            $table->string('lang_code');
+            $table->string('lang_code', 20);
             $table->foreignId('ec_option_value_id');
             $table->string('option_value', 255)->nullable();
 
@@ -37,7 +37,7 @@ return new class () extends Migration {
         });
 
         Schema::create('ec_global_option_value_translations', function (Blueprint $table) {
-            $table->string('lang_code');
+            $table->string('lang_code', 20);
             $table->foreignId('ec_global_option_value_id');
             $table->string('option_value', 255)->nullable();
 

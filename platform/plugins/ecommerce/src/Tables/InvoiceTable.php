@@ -74,17 +74,17 @@ class InvoiceTable extends TableAbstract
             IdColumn::make(),
             Column::make('customer_name')
                 ->title(trans('core/base::tables.name'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('reference_id')
                 ->title(trans('plugins/ecommerce::invoice.order'))
-                ->alignLeft(),
+                ->alignStart(),
             LinkableColumn::make('code')
                 ->title(trans('plugins/ecommerce::invoice.table.code'))
                 ->route('ecommerce.invoice.edit')
-                ->alignLeft(),
+                ->alignStart(),
             Column::formatted('amount')
                 ->title(trans('plugins/ecommerce::invoice.table.amount'))
-                ->alignLeft(),
+                ->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

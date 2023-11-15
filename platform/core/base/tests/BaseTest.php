@@ -3,17 +3,23 @@
 namespace Botble\Base\Tests;
 
 use Botble\ACL\Models\User;
+use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class BaseTest extends TestCase
 {
+    use WithoutEvents;
+
     public function testRoutes(): void
     {
-        $this->withoutEvents();
+        $this->disableEventsForAllTests();
 
-        $auth = User::first();
+        /**
+         * @var User $auth
+         */
+        $auth = User::query()->first();
 
         if ($auth) {
             $this->be($auth);

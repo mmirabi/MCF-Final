@@ -72,7 +72,7 @@ class DiscountTable extends TableAbstract
             Column::make('detail')
                 ->name('code')
                 ->title(trans('plugins/ecommerce::discount.detail'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('total_used')
                 ->title(trans('plugins/ecommerce::discount.used'))
                 ->width(100),

@@ -17,23 +17,22 @@ class CreateUserService implements ProduceServiceInterface
 
     public function execute(Request $request): User
     {
-        $user = User::query()->create($request->input());
+        $user = new User();
+        $user->fill($request->input());
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
 
-        if ($request->has('username') && $request->has('password')) {
-            $user->fill([
-                'username' => $request->input('username'),
-                'password' => Hash::make($request->input('password')),
-            ]);
+        if (
+            $this->activateUserService->activate($user) &&
+            ($roleId = $request->input('role_id')) &&
+            $role = Role::query()->find($roleId)
+        ) {
+            /**
+             * @var Role $role
+             */
+            $role->users()->attach($user->getKey());
 
-            if ($this->activateUserService->activate($user) && $roleId = $request->input('role_id')) {
-                $role = Role::query()->find($roleId);
-
-                if ($role) {
-                    $role->users()->attach($user->id);
-
-                    event(new RoleAssignmentEvent($role, $user));
-                }
-            }
+            event(new RoleAssignmentEvent($role, $user));
         }
 
         return $user;

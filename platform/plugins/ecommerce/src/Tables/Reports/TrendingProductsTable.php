@@ -75,7 +75,7 @@ class TrendingProductsTable extends TableAbstract
             IdColumn::make(),
             Column::make('name')
                 ->title(trans('plugins/ecommerce::reports.product_name'))
-                ->alignLeft()
+                ->alignStart()
                 ->orderable(false)
                 ->searchable(false),
             Column::make('views')

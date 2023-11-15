@@ -59,6 +59,9 @@ class InsertWatermarkCommand extends Command
 
         foreach ($files as $file) {
             try {
+                /**
+                 * @var MediaFile $file
+                 */
                 if (! $file->canGenerateThumbnails()) {
                     continue;
                 }

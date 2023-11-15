@@ -15,7 +15,7 @@
             <div class="col-md-6">
                 <p>
                     <span>{{ __('Time') }}: </span>
-                    <strong class="text-info">{{ $orderReturn->created_at->translatedFormat('h:m d/m/Y') }}</strong>
+                    <strong class="text-info">{{ $orderReturn->created_at->translatedFormat('M d, Y h:m') }}</strong>
                 </p>
                 <p>
                     <span>{{ __('Status') }}: </span>

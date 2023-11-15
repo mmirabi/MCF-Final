@@ -14,7 +14,7 @@ class DatabaseSettingStore extends SettingStore
 {
     protected bool $connectedDatabase = false;
 
-    public function forget($key): SettingStore
+    public function forget(string $key, bool $force = false): SettingStore
     {
         parent::forget($key);
 
@@ -117,10 +117,20 @@ class DatabaseSettingStore extends SettingStore
         return $results;
     }
 
-    public function delete(array $keys = [], array $except = [])
+    public function delete(array|string $keys = [], array $except = [], bool $force = false)
     {
         if (! $keys && ! $except) {
             return false;
+        }
+
+        if (! is_array($keys)) {
+            $keys = [$keys];
+        }
+
+        foreach ($keys as $k => $v) {
+            if (! $force && in_array($k, $this->guard)) {
+                unset($keys[$k]);
+            }
         }
 
         $query = $this->newQuery();
@@ -134,5 +144,10 @@ class DatabaseSettingStore extends SettingStore
         }
 
         return $query->delete();
+    }
+
+    public function forceDelete(array|string $keys = [], array $except = [])
+    {
+        return $this->delete($keys, $except, true);
     }
 }

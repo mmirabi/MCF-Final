@@ -2,14 +2,80 @@
 
 namespace Botble\Table\Columns;
 
-class ImageColumn extends Column
+use Botble\Base\Facades\Html;
+use Botble\Media\Facades\RvMedia;
+use Botble\Table\Contracts\FormattedColumn;
+
+class ImageColumn extends Column implements FormattedColumn
 {
+    protected bool $relative = false;
+
+    protected int $width = 50;
+
+    protected string|null $mediaSize = 'thumb';
+
     public static function make(array|string $data = [], string $name = ''): static
     {
         return parent::make($data ?: 'image', $name)
             ->title(trans('core/base::tables.image'))
             ->orderable(false)
             ->searchable(false)
-            ->width(70);
+            ->width(50);
+    }
+
+    public function relative(bool $flag = true): static
+    {
+        $this->relative = $flag;
+
+        return $this;
+    }
+
+    public function with(int $width): static
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    public function mediaSize(string|null $mediaSize): static
+    {
+        $this->mediaSize = $mediaSize;
+
+        return $this;
+    }
+
+    public function fullMediaSize(): static
+    {
+        return $this->mediaSize(null);
+    }
+
+    public function editedFormat($value): string
+    {
+        $table = $this->getTable();
+
+        if ($table->request()->has('action')) {
+            if ($table->isExportingToCSV()) {
+                return $this->getImageUrl($value, null);
+            }
+
+            if ($table->isExportingToExcel()) {
+                return $this->getImageUrl($value);
+            }
+        }
+
+        return Html::image(
+            $this->getImageUrl($value, $this->mediaSize),
+            trans('core/base::tables.image'),
+            ['width' => $this->width]
+        )->toHtml();
+    }
+
+    protected function getImageUrl(string|null $value, string|null $mediaSize = 'thumb'): string
+    {
+        if (! $value) {
+            return '';
+        }
+
+        return (string) RvMedia::getImageUrl($value, $mediaSize, $this->relative, RvMedia::getDefaultImage());
     }
 }

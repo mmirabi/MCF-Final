@@ -34,7 +34,7 @@ class Backup
         $file = $this->getBackupPath('backup.json');
         $data = [];
 
-        if (file_exists($file)) {
+        if ($this->files->exists($file)) {
             $data = BaseHelper::getFileData($file);
         }
 
@@ -73,13 +73,13 @@ class Backup
     {
         $file = $this->getBackupDatabasePath($key);
 
-        return file_exists($file) && filesize($file) > 1024;
+        return $this->files->exists($file) && $this->files->size($file) > 1024;
     }
 
     public function getBackupList(): array
     {
         $file = $this->getBackupPath('backup.json');
-        if (file_exists($file)) {
+        if ($this->files->exists($file)) {
             return BaseHelper::getFileData($file);
         }
 
@@ -146,7 +146,7 @@ class Backup
         $this->compressFileToZip($filePath, $fileZip = $path . '.zip');
 
         if ($this->files->exists($fileZip)) {
-            chmod($fileZip . '.zip', 0755);
+            $this->files->chmod($fileZip, 0755);
         }
 
         return true;
@@ -168,7 +168,7 @@ class Backup
         $this->compressFileToZip($file, $fileZip = $path . '.zip');
 
         if ($this->files->exists($fileZip)) {
-            chmod($fileZip . '.zip', 0755);
+            $this->files->chmod($fileZip, 0755);
         }
 
         return true;
@@ -198,8 +198,8 @@ class Backup
             $this->deleteFolderBackup($this->folder);
         }
 
-        if (file_exists($file)) {
-            chmod($file, 0755);
+        if ($this->files->exists($file)) {
+            $this->files->chmod($file, 0755);
         }
 
         return true;
@@ -223,7 +223,7 @@ class Backup
         $file = $this->getBackupPath('backup.json');
         $data = [];
 
-        if (file_exists($file)) {
+        if ($this->files->exists($file)) {
             $data = BaseHelper::getFileData($file);
         }
 
@@ -247,7 +247,7 @@ class Backup
             $driver === 'mysql' ? '.sql' : '.dump'
         );
 
-        if (! file_exists($file)) {
+        if (! $this->files->exists($file)) {
             return false;
         }
 

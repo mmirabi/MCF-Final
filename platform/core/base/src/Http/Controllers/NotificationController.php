@@ -3,14 +3,22 @@
 namespace Botble\Base\Http\Controllers;
 
 use Botble\Base\Models\AdminNotification;
+use Botble\Base\Models\AdminNotificationQueryBuilder;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 
 class NotificationController extends BaseController
 {
     public function getNotification()
     {
-        $notifications = AdminNotification::query()
-            ->hasPermission()
+        /**
+         * @var AdminNotificationQueryBuilder $adminQuery
+         */
+        $adminQuery = AdminNotification::query();
+
+        $query = $adminQuery->hasPermission();
+
+        $notifications = $query
             ->latest()
             ->paginate(10);
 
@@ -29,7 +37,17 @@ class NotificationController extends BaseController
         $notificationItem = AdminNotification::query()->findOrFail($id);
         $notificationItem->delete();
 
-        if (! AdminNotification::query()->hasPermission()->exists()) {
+        /**
+         * @var AdminNotificationQueryBuilder $adminQuery
+         */
+        $adminQuery = AdminNotification::query();
+
+        /**
+         * @var Builder $query
+         */
+        $query = $adminQuery->hasPermission();
+
+        if (! $query->exists()) {
             return [
                 'view' => view('core/base::notification.partials.sidebar-notification')->render(),
             ];
@@ -47,6 +65,9 @@ class NotificationController extends BaseController
 
     public function read(int|string $id)
     {
+        /**
+         * @var AdminNotification $notificationItem
+         */
         $notificationItem = AdminNotification::query()->findOrFail($id);
 
         if ($notificationItem->read_at === null) {

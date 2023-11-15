@@ -77,7 +77,7 @@ class WidgetServiceProvider extends ServiceProvider
             }
 
             add_filter('widget_rendered', function (string|null $html, AbstractWidget $widget) {
-                if (! setting('show_theme_guideline_link', false) || ! Auth::check() || ! Auth::user()->hasPermission('widgets.index')) {
+                if (! setting('show_theme_guideline_link', false) || ! Auth::guard()->check() || ! Auth::guard()->user()->hasPermission('widgets.index')) {
                     return $html;
                 }
 
@@ -92,7 +92,7 @@ class WidgetServiceProvider extends ServiceProvider
             }, 9999, 2);
 
             add_filter(THEME_FRONT_HEADER, function ($html) {
-                if (! setting('show_theme_guideline_link', false) || ! Auth::check() || ! Auth::user()->hasPermission('widgets.index')) {
+                if (! setting('show_theme_guideline_link', false) || ! Auth::guard()->check() || ! Auth::guard()->user()->hasPermission('widgets.index')) {
                     return $html;
                 }
 

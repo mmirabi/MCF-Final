@@ -91,8 +91,10 @@ Route::group(['namespace' => 'Botble\Location\Http\Controllers', 'middleware' =>
         });
     });
 
-    Route::get('ajax/states-by-country', 'StateController@ajaxGetStates')
-        ->name('ajax.states-by-country');
-    Route::get('ajax/cities-by-state', 'CityController@ajaxGetCities')
-        ->name('ajax.cities-by-state');
+    Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
+        Route::get('ajax/states-by-country', 'StateController@ajaxGetStates')
+            ->name('ajax.states-by-country');
+        Route::get('ajax/cities-by-state', 'CityController@ajaxGetCities')
+            ->name('ajax.cities-by-state');
+    });
 });

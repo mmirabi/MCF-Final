@@ -39,11 +39,18 @@ class LanguageMeta extends BaseModel
             $originValue = md5($model->getKey() . get_class($model) . time());
         }
 
-        LanguageMeta::create([
+        LanguageMeta::query()->create([
             'reference_id' => $model->getKey(),
             'reference_type' => get_class($model),
             'lang_meta_code' => $locale,
             'lang_meta_origin' => $originValue,
         ]);
+    }
+
+    protected static function booted(): void
+    {
+        self::deleted(function (LanguageMeta $languageMeta) {
+            $languageMeta->reference()->delete();
+        });
     }
 }

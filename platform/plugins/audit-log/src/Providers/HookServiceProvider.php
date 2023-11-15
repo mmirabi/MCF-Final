@@ -40,7 +40,7 @@ class HookServiceProvider extends ServiceProvider
         ));
     }
 
-    public function handleUpdateProfile(string $screen, Request $request, Model $data)
+    public function handleUpdateProfile(string $screen, Request $request, Model $data): void
     {
         event(new AuditHandlerEvent(
             $screen,
@@ -51,7 +51,7 @@ class HookServiceProvider extends ServiceProvider
         ));
     }
 
-    public function handleUpdatePassword(string $screen, Request $request, Model $data)
+    public function handleUpdatePassword(string $screen, Request $request, Model $data): void
     {
         event(new AuditHandlerEvent(
             $screen,
@@ -62,19 +62,19 @@ class HookServiceProvider extends ServiceProvider
         ));
     }
 
-    public function handleBackup(string $screen)
+    public function handleBackup(string $screen): void
     {
         event(new AuditHandlerEvent($screen, 'created', 0, '', 'info'));
     }
 
-    public function handleRestore(string $screen)
+    public function handleRestore(string $screen): void
     {
         event(new AuditHandlerEvent($screen, 'restored', 0, '', 'info'));
     }
 
     public function registerDashboardWidgets(array $widgets, Collection $widgetSettings): array
     {
-        if (! Auth::user()->hasPermission('audit-log.index')) {
+        if (! Auth::guard()->user()->hasPermission('audit-log.index')) {
             return $widgets;
         }
 

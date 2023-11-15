@@ -85,7 +85,7 @@ class SimpleSliderItemTable extends TableAbstract
             ImageColumn::make(),
             Column::make('title')
                 ->title(trans('core/base::tables.title'))
-                ->alignLeft(),
+                ->alignStart(),
             Column::make('order')
                 ->title(trans('core/base::tables.order'))
                 ->className('text-start order-column'),

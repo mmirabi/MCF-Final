@@ -54,8 +54,8 @@ class ProductAttributeSetsTable extends TableAbstract
         return [
             IdColumn::make(),
             NameColumn::make('title')->route('product-attribute-sets.edit'),
-            Column::make('slug')->title(trans('core/base::tables.slug'))->alignLeft(),
-            Column::make('order')->title(trans('core/base::tables.order'))->alignLeft(),
+            Column::make('slug')->title(trans('core/base::tables.slug'))->alignStart(),
+            Column::make('order')->title(trans('core/base::tables.order'))->alignStart(),
             CreatedAtColumn::make(),
             StatusColumn::make(),
         ];

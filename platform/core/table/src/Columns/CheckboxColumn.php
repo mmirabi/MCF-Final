@@ -3,8 +3,10 @@
 namespace Botble\Table\Columns;
 
 use Botble\Base\Facades\Form;
+use Botble\Base\Models\BaseModel;
+use Botble\Table\Contracts\FormattedColumn;
 
-class CheckboxColumn extends Column
+class CheckboxColumn extends Column implements FormattedColumn
 {
     public static function make(array|string $data = [], string $name = ''): static
     {
@@ -12,7 +14,7 @@ class CheckboxColumn extends Column
             ->content('')
             ->title(
                 Form::input('checkbox', '', null, [
-                    'class' => 'table-check-all',
+                    'class' => 'form-check-input m-0 align-middle table-check-all',
                     'data-set' => '.dataTable .checkboxes',
                 ])->toHtml()
             )
@@ -23,5 +25,12 @@ class CheckboxColumn extends Column
             ->searchable(false)
             ->columnVisibility()
             ->titleAttr(trans('core/base::tables.checkbox'));
+    }
+
+    public function editedFormat($value): string
+    {
+        return view('core/table::partials.checkbox', [
+            'id' => ($item = $this->getItem()) && $item instanceof BaseModel ? $item->getKey() : null,
+        ])->render();
     }
 }

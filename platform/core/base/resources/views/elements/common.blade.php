@@ -1,7 +1,7 @@
 <script type="text/javascript">
     var BotbleVariables = BotbleVariables || {};
 
-    @if (Auth::check())
+    @if (Auth::guard()->check())
         BotbleVariables.languages = {
             tables: {!! json_encode(trans('core/base::tables'), JSON_HEX_APOS) !!},
             notices_msg: {!! json_encode(trans('core/base::notices'), JSON_HEX_APOS) !!},

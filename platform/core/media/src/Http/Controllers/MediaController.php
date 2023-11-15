@@ -180,7 +180,7 @@ class MediaController extends Controller
                 $favoriteItems = MediaSetting::query()
                     ->where([
                         'key' => 'favorites',
-                        'user_id' => Auth::id(),
+                        'user_id' => Auth::guard()->id(),
                     ])->first();
 
                 if (! empty($favoriteItems)) {
@@ -337,6 +337,9 @@ class MediaController extends Controller
                 foreach ($request->input('selected', []) as $item) {
                     $id = $item['id'];
                     if (! $item['is_folder']) {
+                        /**
+                         * @var MediaFile $file
+                         */
                         $file = MediaFile::query()->find($id);
 
                         if (! $file) {
@@ -358,7 +361,7 @@ class MediaController extends Controller
                             $oldFolder->parent_id
                         );
                         $folderData['name'] = $oldFolder->name . '-(copy)';
-                        $folderData['user_id'] = Auth::id();
+                        $folderData['user_id'] = Auth::guard()->id();
                         $folder = $this->folderRepository->create($folderData);
 
                         $files = $this->fileRepository->getFilesByFolderId($id, [], false);
@@ -382,7 +385,7 @@ class MediaController extends Controller
                                     $oldFolder->parent_id
                                 );
                                 $folderData['name'] = $oldFolder->name . '-(copy)';
-                                $folderData['user_id'] = Auth::id();
+                                $folderData['user_id'] = Auth::guard()->id();
                                 $folderData['parent_id'] = $folder->id;
                                 $folder = $this->folderRepository->create($folderData);
 
@@ -400,13 +403,13 @@ class MediaController extends Controller
 
                                 $subFolderData = $sub->replicate()->toArray();
 
-                                $subFolderData['user_id'] = Auth::id();
+                                $subFolderData['user_id'] = Auth::guard()->id();
                                 $subFolderData['parent_id'] = $folder->id;
 
                                 $sub = $this->folderRepository->create($subFolderData);
 
                                 foreach ($subFiles as $subFile) {
-                                    $this->copyFile($subFile, $sub->id);
+                                    $this->copyFile($subFile, $sub->getKey());
                                 }
                             }
                         }
@@ -443,7 +446,7 @@ class MediaController extends Controller
             case 'favorite':
                 $meta = MediaSetting::query()->firstOrCreate([
                     'key' => 'favorites',
-                    'user_id' => Auth::id(),
+                    'user_id' => Auth::guard()->id(),
                 ]);
 
                 if (! empty($meta->value)) {
@@ -461,7 +464,7 @@ class MediaController extends Controller
             case 'remove_favorite':
                 $meta = MediaSetting::query()->firstOrCreate([
                     'key' => 'favorites',
-                    'user_id' => Auth::id(),
+                    'user_id' => Auth::guard()->id(),
                 ]);
 
                 if (! empty($meta)) {
@@ -500,6 +503,9 @@ class MediaController extends Controller
                     'height' => ['required', 'numeric'],
                 ]);
 
+                /**
+                 * @var MediaFile $file
+                 */
                 $file = MediaFile::query()->findOrFail($validated['imageId']);
 
                 if (! $file->canGenerateThumbnails()) {
@@ -588,7 +594,7 @@ class MediaController extends Controller
     protected function copyFile(MediaFile $file, int|string|null $newFolderId = null)
     {
         $file = $file->replicate();
-        $file->user_id = Auth::id();
+        $file->user_id = Auth::guard()->id();
 
         if ($newFolderId == null) {
             $file->name = $file->name . '-(copy)';

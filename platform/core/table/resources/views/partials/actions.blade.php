@@ -1,7 +1,7 @@
 <div class="table-actions">
     {!! $extra !!}
     @if (!empty($edit))
-        @if (Auth::user()->hasPermission($edit))
+        @if (Auth::guard()->user()->hasPermission($edit))
             <a
                 class="btn btn-icon btn-sm btn-primary"
                 data-bs-toggle="tooltip"
@@ -12,7 +12,7 @@
     @endif
 
     @if (!empty($delete))
-        @if (Auth::user()->hasPermission($delete))
+        @if (Auth::guard()->user()->hasPermission($delete))
             <a
                 class="btn btn-icon btn-sm btn-danger deleteDialog"
                 data-bs-toggle="tooltip"

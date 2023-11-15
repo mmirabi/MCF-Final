@@ -17,7 +17,7 @@ class NewsletterRequest extends Request
             'email' => [
                 'required',
                 'email',
-                Rule::unique(Newsletter::getModel()->getTable())->where(function (Builder $query) {
+                Rule::unique((new Newsletter())->getTable())->where(function (Builder $query) {
                     $query->where('status', NewsletterStatusEnum::SUBSCRIBED);
                 }),
             ],
