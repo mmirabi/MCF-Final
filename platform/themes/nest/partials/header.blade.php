@@ -11,6 +11,7 @@
 
     <style>
         :root {
+            --font-logo: {{ theme_option('font_logo', 'Lato') }}, sans-serif;
             --font-text: {{ theme_option('font_text', 'Lato') }}, sans-serif;
             --font-heading: {{ theme_option('font_heading', 'Quicksand') }}, sans-serif;
             --color-brand: {{ theme_option('color_brand', '#3BB77E') }};

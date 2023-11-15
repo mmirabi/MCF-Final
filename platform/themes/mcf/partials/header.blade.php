@@ -7,10 +7,11 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {!! BaseHelper::googleFonts('https://fonts.googleapis.com/css2?family=' . urlencode(theme_option('font_text', 'Lato')) . ':ital,wght@0,400;0,700;1,400;1,700&family=' . urlencode(theme_option('font_heading', 'Quicksand')) . ':wght@400;500;600;700&display=swap') !!}
+    {!! BaseHelper::googleFonts('https://fonts.googleapis.com/css2?family=' . urlencode(theme_option('font_text', 'Lato')) . ':ital,wght@0,400;0,700;1,400;1,700&family=' . urlencode(theme_option('font_heading', 'Quicksand')) . ':wght@400;500;600;700&display=swap' . ':ital,wght@0,400;0,700;1,400;1,700&family=' . urlencode(theme_option('font_logo', 'Lato')) . ':wght@400;500;600;700&display=swap')  !!}
 
     <style>
         :root {
+            --font-logo: {{ theme_option('font_logo', 'Lato') }}, sans-serif;
             --font-text: {{ theme_option('font_text', 'Lato') }}, sans-serif;
             --font-heading: {{ theme_option('font_heading', 'Quicksand') }}, sans-serif;
             --color-brand: {{ theme_option('color_brand', '#3BB77E') }};
@@ -330,7 +331,11 @@
                 <div class="logo logo-width-1 d-block d-lg-none">
                     <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
                 </div>
-            @endif
+                @else
+                <div class="logo logo-width-1" style="margin-left: 27px;">
+                <a href="{{ route('public.index') }}"><span class="mcf-logo-type">{{ theme_option('site_title') }}</span></a>
+                </div>
+                @endif
             {{-- Mehdi Mirabi hidden navbar menu  --}}
              {{-- <div class="header-nav d-none d-lg-flex">
                 @if (is_plugin_active('ecommerce') && theme_option('enabled_browse_categories_on_header', 'yes') == 'yes')
@@ -397,9 +402,9 @@
                             </div>
                         @endif
                         @if (EcommerceHelper::isWishlistEnabled())
-                            <div class="header-action-icon-2">
+                            <div class="header-action-icon-2" style="margin-right:7px">
                                 <a href="{{ route('public.wishlist') }}">
-                                    <img alt="{{ __('Wishlist') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-heart.svg') }}" />
+                                    <img alt="{{ __('Wishlist') }}" style="width:305px; max-width:30px;" src="{{ Theme::asset()->url('imgs/theme/icons/icon-heart.svg') }}" />
                                     <span class="pro-count white wishlist-count">@if (auth('customer')->check()) {{ auth('customer')->user()->wishlist()->count() }} @else {{ Cart::instance('wishlist')->count() }} @endif</span>
                                 </a>
                             </div>
@@ -407,7 +412,7 @@
                         @if (EcommerceHelper::isCartEnabled())
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="#">
-                                    <img alt="{{ __('Cart') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
+                                    <img alt="{{ __('Cart') }}" style="width:30px; max-width:305px;" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
                                     <span class="pro-count white">{{ Cart::instance('cart')->count() }}</span>
                                 </a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
@@ -507,7 +512,7 @@
                 {{-- Mehdi Mirabi mobile user menu edit --}}
                 <div class="single-mobile-header-info">
                     @if (auth('customer')->check())
-                        <a class="mobile-language-active" href="#"><i class="fi fi-rs-user mr-10"></i> {{ auth('customer')->check() ? Str::limit(auth('customer')->user()->name, 10) : __('') }} <span><i class="fi-rs-angle-down"></i></span>
+                        <a class="mobile-language-active" href="#" style="text-transform: capitalize; font-family: 'uicons-regular-straight';"><i class="fi fi-rs-user mr-10"></i> {{ auth('customer')->check() ? Str::limit(auth('customer')->user()->name, 10) : __('') }} <span><i class="fi-rs-angle-down"></i></span></a>
                         <div class="lang-curr-dropdown lang-dropdown-active">
                             <ul>
                                 <li><a href="{{ route('customer.overview') }}"><i class="fi fi-rs-user mr-10"></i>{{ __('My Account') }}</a></li>
@@ -538,7 +543,10 @@
                 @endforeach
             </div>
         @endif
-        <div class="site-copyright">{{ theme_option('copyright') }}</div>
+        {{-- Mehdi Mirabi add copyright in mobile menu --}}
+        <div class="site-copyright">{{ theme_option('copyright') }}
+           <p style="font-size: 13px; color: var(--color-muted);">Powered By: <a href="https://medyanossa.com/" target="_blank" title="E-ticaret Yazılımı Medya Nossa">MedyaNossa</a></p>
+        </div>
     </div>
 </div>
 </div>

@@ -5,6 +5,13 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Sacramento-Regular";
+  src: url("/vendor/core/core/base/fonts/Sacramento-Regular.ttf");
+  src: url("/vendor/core/core/base/fonts/Sacramento-Regular.ttf?#iefix") format("ttf"), url("/vendor/core/core/base/fonts/Sacramento-Regular.ttf") format("ttf"), url("/vendor/core/core/base/fonts/Sacramento-Regular.ttf") format("ttf"), url("/vendor/core/core/base/fonts/Sacramento-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 /*
  Use the following CSS code if you want to have a class per icon.
  Instead of a list of all class selectors, you can use the generic [class*="icon-"] selector, but it's slower:

@@ -25,6 +25,7 @@ TABLE CONTENT
  Post share social
  WP STYPE
  Custom amine
+ Logo
 ***/
 
 // 1. Configuration and helpers
@@ -60,5 +61,8 @@ TABLE CONTENT
 'layout/footer',
 'layout/spacing',
 'layout/responsive';
+
+// 7. Logo 
+@import 'logo';
 
 @import 'custom';
