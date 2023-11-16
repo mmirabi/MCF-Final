@@ -5,7 +5,8 @@
                 <div class="thumb text-center">
                     <img src="{{ $review->user->avatar_url }}"
                          alt="{{ $review->user->name }}" />
-                    <span class="font-heading text-brand d-block">{{ $review->user->name }}</span>
+                         {{-- mehdi mirabi change full customer name in review products page to uicons-regular-straight font family  --}}
+                    <span class="font-heading text-brand d-block" style="text-transform: capitalize; font-family: 'uicons-regular-straight';">{{ $review->user->name }}</span>
                 </div>
                 <div class="desc">
                     <div class="d-flex justify-content-between mb-10">

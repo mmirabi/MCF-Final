@@ -138,45 +138,124 @@
 <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
     <div class="container">
         <div class="header-wrap">
-            @if (theme_option('logo'))
-                <div class="logo logo-width-1">
-                    <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
-                </div>
-            @endif
-
             <div class="header-right">
                 @if (is_plugin_active('ecommerce'))
-                    {{-- Mehdi mirabi hidden search form in header --}}
-                    {{-- <div class="search-style-2">
-                        <form action="{{ route('public.products') }}" class="form--quick-search" data-ajax-url="{{ route('public.ajax.search-products') }}" method="GET">
-                            <div class="form-group--icon position-relative">
-                                <div class="product-cat-label">{{ __('All Categories') }}</div>
-                                <select class="product-category-select" name="categories[]" aria-label="Select category">
-                                    <option value="">{{ __('All Categories') }}</option>
-                                    {!! ProductCategoryHelper::renderProductCategoriesSelect() !!}
-                                </select>
+                    <div class="header-bottom @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
+                        <div class="container">
+                            <div class="header-wrap header-space-between position-relative">
+                                @if (theme_option('logo'))
+                                    <div class="logo logo-width-1 d-block d-lg-none">
+                                        <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
+                                    </div>
+                                    {{-- mehdi mirabi add logo text with special font for mobile --}}
+                                    @else
+                                    <div class="logo logo-width-1" style="margin-left: 27px;">
+                                        <a href="{{ route('public.index') }}"><span class="mcf-logo-type">{{ theme_option('site_title') }}</span></a>
+                                    </div>
+                                @endif
+                                <div class="header-nav d-none d-lg-flex">
+                                    @if (is_plugin_active('ecommerce') && theme_option('enabled_browse_categories_on_header', 'yes') == 'yes')
+                                        <div class="main-categories-wrap d-none d-lg-block">
+                                            <a class="categories-button-active" href="#">
+                                                <span class="fi-rs-apps"></span> {!! BaseHelper::clean(__('<span class="et">Browse</span> All Categories')) !!}
+                                                <i class="fi-rs-angle-down"></i>
+                                            </a>
+                                            <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
+                                                @php
+                                                    $categories = ProductCategoryHelper::getProductCategoriesWithUrl();
+                                                @endphp
+                    
+                                                <div class="d-flex categories-dropdown-inner">
+                                                    {!! Theme::partial('product-categories-dropdown', ['categories' => $categories, 'more' => false]) !!}
+                                                </div>
+                                                @if (count($categories) > 10)
+                                                    <div class="more_slide_open" style="display: none">
+                                                        <div class="d-flex categories-dropdown-inner">
+                                                            {!! Theme::partial('product-categories-dropdown', ['categories' => $categories, 'more' => true]) !!}
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if (count($categories) > 10)
+                                                    <div class="more_categories"><span class="icon"></span> <span class="heading-sm-1">{{ __('Show more...') }}</span></div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+                    
+                                    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
+                                        <nav>
+                                            {!!
+                                                Menu::renderMenuLocation('main-menu', [
+                                                    'view' => 'main-menu',
+                                                ])
+                                            !!}
+                                        </nav>
+                                    </div>
+                                </div>
+                                @if (theme_option('hotline'))
+                                    <div class="hotline d-none d-lg-flex">
+                                        <img src="{{ Theme::asset()->url('imgs/theme/icons/icon-headphone.svg') }}" alt="hotline" />
+                                        <p>{{ theme_option('hotline') }}<span>{{ __('24/7 Support Center') }}</span></p>
+                                    </div>
+                                @endif
+                                <div class="header-action-icon-2 d-block d-lg-none">
+                                    <div class="burger-icon burger-icon-white">
+                                        <span class="burger-icon-top"></span>
+                                        <span class="burger-icon-mid"></span>
+                                        <span class="burger-icon-bottom"></span>
+                                    </div>
+                                </div>
+                                @if (is_plugin_active('ecommerce'))
+                                    <div class="header-action-right d-block d-lg-none">
+                                        <div class="header-action-2">
+                                            @if (EcommerceHelper::isCompareEnabled())
+                                                <div class="header-action-icon-2">
+                                                    <a href="{{ route('public.compare') }}">
+                                                        <img alt="{{ __('Compare') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-compare.svg') }}" />
+                                                        <span class="pro-count white compare-count">{{ Cart::instance('compare')->count() }}</span>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            @if (EcommerceHelper::isWishlistEnabled())
+                                                <div class="header-action-icon-2">
+                                                    <a href="{{ route('public.wishlist') }}">
+                                                        <img alt="{{ __('Wishlist') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-heart.svg') }}" />
+                                                        <span class="pro-count white wishlist-count">@if (auth('customer')->check()) {{ auth('customer')->user()->wishlist()->count() }} @else {{ Cart::instance('wishlist')->count() }} @endif</span>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            @if (EcommerceHelper::isCartEnabled())
+                                                <div class="header-action-icon-2">
+                                                    <a class="mini-cart-icon" href="#">
+                                                        <img alt="{{ __('Cart') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
+                                                        <span class="pro-count white">{{ Cart::instance('cart')->count() }}</span>
+                                                    </a>
+                                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
+                                                        {!! Theme::partial('cart-panel') !!}
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-                            <input type="text" class="input-search-product" name="q" placeholder="{{ __('Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off">
-                            <div class="panel--search-result"></div>
-                        </form>
-                    </div> --}}
+                        </div>
+                    </div>
                     <div class="header-action-right">
                         <div class="header-action-2">
-                            {{-- Mehdi mirabi add search icon in header --}}
-                            <div class="header-action-icon-2">
-                                <body>
+                                {{-- Mehdi mirabi add search icon in header --}}
+                                <div class="header-action-icon-2">
                                     <div class="search-box">
                                         <form action="{{ route('public.products') }}" class="form--quick-search" data-ajax-url="{{ route('public.ajax.search-products') }}" method="GET">
-
                                             <input type="text" class="input-search-product" name="q" placeholder="{{ __('Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off">
                                             <div class="panel--search-result"></div>
                                         </form>
                                         {{-- <input type="text" class="input-search-product" name="q" placeholder="{{ __('Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off"> --}}
-                                            <div class="search-icon">
-                                                <i class="fas fa-search"></i>
-                                                <div class="cancel-button1">
-                                                    <img class="svgInject" style="width: 25px" alt="{{ __('Search') }}" src="{{ Theme::asset()->url('imgs/theme/icons/search.svg') }}" />
-                                                </div>
+                                        <div class="search-icon">
+                                            <i class="fas fa-search"></i>
+                                            <div class="cancel-button1">
+                                                <img class="svgInject" style="width: 25px" alt="{{ __('Search') }}" src="{{ Theme::asset()->url('imgs/theme/icons/search.svg') }}" />
+                                            </div>
                                             </div>
                                         <div class="cancel-icon">
                                             <i class="fas fa-times"></i>
@@ -187,43 +266,43 @@
                                         <div class="search-data">
                                         </div>
                                     </div>
-                                <script>
-                                      const searchBox = document.querySelector(".search-box");
-                                      const searchBtn = document.querySelector(".search-icon");
-                                      const cancelBtn = document.querySelector(".cancel-icon");
-                                      const searchInput = document.querySelector("input");
-                                      const searchData = document.querySelector(".search-data");
-                                      searchBtn.onclick =()=>{
-                                        searchBox.classList.add("active");
-                                        searchBtn.classList.add("active");
-                                        searchInput.classList.add("active");
-                                        cancelBtn.classList.add("active");
-                                        searchInput.focus();
-                                        if(searchInput.value != ""){
-                                          var values = searchInput.value;
-                                          searchData.classList.remove("active");
-                                          searchData.innerHTML = "You just typed " + "<span style='font-weight: 500;'>" + values + "</span>";
-                                        }else{
-                                          searchData.textContent = "";
+                                    <script>
+                                        const searchBox = document.querySelector(".search-box");
+                                        const searchBtn = document.querySelector(".search-icon");
+                                        const cancelBtn = document.querySelector(".cancel-icon");
+                                        const searchInput = document.querySelector("input");
+                                        const searchData = document.querySelector(".search-data");
+                                        searchBtn.onclick =()=>{
+                                            searchBox.classList.add("active");
+                                            searchBtn.classList.add("active");
+                                            searchInput.classList.add("active");
+                                            cancelBtn.classList.add("active");
+                                            searchInput.focus();
+                                            if(searchInput.value != ""){
+                                            var values = searchInput.value;
+                                            searchData.classList.remove("active");
+                                            searchData.innerHTML = "You just typed " + "<span style='font-weight: 500;'>" + values + "</span>";
+                                            }else{
+                                            searchData.textContent = "";
+                                            }
                                         }
-                                      }
-                                      cancelBtn.onclick =()=>{
-                                        searchBox.classList.remove("active");
-                                        searchBtn.classList.remove("active");
-                                        searchInput.classList.remove("active");
-                                        cancelBtn.classList.remove("active");
-                                        searchData.classList.toggle("active");
-                                        searchInput.value = "";
-                                      }
+                                        cancelBtn.onclick =()=>{
+                                            searchBox.classList.remove("active");
+                                            searchBtn.classList.remove("active");
+                                            searchInput.classList.remove("active");
+                                            cancelBtn.classList.remove("active");
+                                            searchData.classList.toggle("active");
+                                            searchInput.value = "";
+                                        }
                                     </script>
-                            </div>
+                                </div>
                             @if (EcommerceHelper::isCompareEnabled())
                                 <div class="header-action-icon-2">
                                     <a href="{{ route('public.compare') }}">
                                         <img class="svgInject" alt="{{ __('Compare') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-compare.svg') }}" />
                                         <span class="pro-count blue compare-count">{{ Cart::instance('compare')->count() }}</span>
                                     </a>
-                                    {{-- Mehdi mirabi hidden text in heeader icons --}}
+                                    {{-- mehdi mirabi hidden compare text --}}
                                     {{-- <a href="{{ route('public.compare') }}"><span class="lable">{{ __('Compare') }}</span></a> --}}
                                 </div>
                             @endif
@@ -233,17 +312,18 @@
                                         <img class="svgInject" alt="{{ __('Wishlist') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-heart.svg') }}" />
                                         <span class="pro-count blue wishlist-count">@if (auth('customer')->check()) {{ auth('customer')->user()->wishlist()->count() }} @else {{ Cart::instance('wishlist')->count() }} @endif</span>
                                     </a>
-                                    {{-- Mehdi mirabi hidden text in heeader icons --}}
+                                    {{-- mehdi mirabi hidden wishlist text --}}
                                     {{-- <a href="{{ route('public.wishlist') }}"><span class="lable">{{ __('Wishlist') }}</span></a> --}}
                                 </div>
                             @endif
+                            
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="{{ route('public.cart') }}">
                                     <img alt="{{ __('Cart') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
                                     <span class="pro-count blue">{{ Cart::instance('cart')->count() }}</span>
                                 </a>
-                                {{-- Mehdi mirabi hidden text in heeader icons --}}
-                                <a href="{{ route('public.cart') }}"><span class="lable"></span></a>
+                                {{-- mehdi mirabi hidden cart text --}}
+                                {{-- <a href="{{ route('public.cart') }}"><span class="lable">{{ __('Cart') }}</span></a> --}}
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
                                     {!! Theme::partial('cart-panel') !!}
                                 </div>
@@ -254,8 +334,7 @@
                                         alt="{{ __('Account') }}"
                                         src="{{ auth('customer')->check() ? auth('customer')->user()->avatar_url : Theme::asset()->url('imgs/theme/icons/icon-user.svg') }}" />
                                 </a>
-                                {{-- Mehdi mirabi hidden text in heeader icons --}}
-                                <a href="{{ route('customer.overview') }}"><span class="lable me-1">{{ auth('customer')->check() ? Str::limit(auth('customer')->user()->name, 10) : __('') }}</span></a>
+                                <a href="{{ route('customer.overview') }}"><span class="lable me-1">{{ auth('customer')->check() ? Str::limit(auth('customer')->user()->name, 10) : __('Account') }}</span></a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                     <ul>
                                         @if (auth('customer')->check())
@@ -278,66 +357,25 @@
                         </div>
                     </div>
                 @endif
-                <div class="header-bottom header-bottom-bg-color @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
-                <div class="header-nav d-none d-lg-flex">
-                    @if (is_plugin_active('ecommerce') && theme_option('enabled_browse_categories_on_header', 'yes') == 'yes')
-                        <div class="main-categories-wrap d-none d-lg-block">
-                            <a class="categories-button-active" href="#">
-                                <span class="fi-rs-apps"></span> {!! BaseHelper::clean(__('<span class="et">Browse</span> All Categories')) !!}
-                                <i class="fi-rs-angle-down"></i>
-                            </a>
-                            <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
-                                @php
-                                    $categories = ProductCategoryHelper::getProductCategoriesWithUrl();
-                                @endphp
-    
-                                <div class="d-flex categories-dropdown-inner">
-                                    {!! Theme::partial('product-categories-dropdown', ['categories' => $categories, 'more' => false]) !!}
-                                </div>
-                                @if (count($categories) > 10)
-                                    <div class="more_slide_open" style="display: none">
-                                        <div class="d-flex categories-dropdown-inner">
-                                            {!! Theme::partial('product-categories-dropdown', ['categories' => $categories, 'more' => true]) !!}
-                                        </div>
-                                    </div>
-                                @endif
-                                @if (count($categories) > 10)
-                                    <div class="more_categories"><span class="icon"></span> <span class="heading-sm-1">{{ __('Show more...') }}</span></div>
-                                @endif
-                            </div>
-                        </div>
-                    @endif
-    
-                    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
-                        <nav>
-                            {!!
-                                Menu::renderMenuLocation('main-menu', [
-                                    'view' => 'main-menu',
-                                ])
-                            !!}
-                        </nav>
-                    </div>
-                </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="header-bottom header-bottom-bg-color @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
-    
+</header>
+<div class="header-bottom @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
     <div class="container">
-        <div class="header-wrap header-space-between position-relative nossastyle">
+        <div class="header-wrap header-space-between position-relative medyanossa-d-none">
             @if (theme_option('logo'))
                 <div class="logo logo-width-1 d-block d-lg-none">
                     <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
                 </div>
+                {{-- mehdi mirabi add logo text with special font for mobile --}}
                 @else
                 <div class="logo logo-width-1" style="margin-left: 27px;">
-                <a href="{{ route('public.index') }}"><span class="mcf-logo-type">{{ theme_option('site_title') }}</span></a>
+                    <a href="{{ route('public.index') }}"><span class="mcf-logo-type">{{ theme_option('site_title') }}</span></a>
                 </div>
-                @endif
-            {{-- Mehdi Mirabi hidden navbar menu  --}}
-             {{-- <div class="header-nav d-none d-lg-flex">
+            @endif
+            <div class="header-nav d-none d-lg-flex">
                 @if (is_plugin_active('ecommerce') && theme_option('enabled_browse_categories_on_header', 'yes') == 'yes')
                     <div class="main-categories-wrap d-none d-lg-block">
                         <a class="categories-button-active" href="#">
@@ -364,7 +402,6 @@
                             @endif
                         </div>
                     </div>
-
                 @endif
 
                 <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
@@ -376,7 +413,7 @@
                         !!}
                     </nav>
                 </div>
-            </div> --}}
+            </div>
             @if (theme_option('hotline'))
                 <div class="hotline d-none d-lg-flex">
                     <img src="{{ Theme::asset()->url('imgs/theme/icons/icon-headphone.svg') }}" alt="hotline" />
@@ -402,9 +439,9 @@
                             </div>
                         @endif
                         @if (EcommerceHelper::isWishlistEnabled())
-                            <div class="header-action-icon-2" style="margin-right:7px">
+                            <div class="header-action-icon-2" style="margin-right: 5px;">
                                 <a href="{{ route('public.wishlist') }}">
-                                    <img alt="{{ __('Wishlist') }}" style="width:305px; max-width:30px;" src="{{ Theme::asset()->url('imgs/theme/icons/icon-heart.svg') }}" />
+                                    <img alt="{{ __('Wishlist') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-heart.svg') }}" />
                                     <span class="pro-count white wishlist-count">@if (auth('customer')->check()) {{ auth('customer')->user()->wishlist()->count() }} @else {{ Cart::instance('wishlist')->count() }} @endif</span>
                                 </a>
                             </div>
@@ -412,7 +449,7 @@
                         @if (EcommerceHelper::isCartEnabled())
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="#">
-                                    <img alt="{{ __('Cart') }}" style="width:30px; max-width:305px;" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
+                                    <img alt="{{ __('Cart') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
                                     <span class="pro-count white">{{ Cart::instance('cart')->count() }}</span>
                                 </a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
@@ -426,7 +463,7 @@
         </div>
     </div>
 </div>
-</header>
+<hr>
 <div class="mobile-header-active mobile-header-wrapper-style">
 <div class="mobile-header-wrapper-inner">
     <div class="mobile-header-top">
@@ -530,10 +567,10 @@
                 </div>
             @endif
         </div>
-        @if (theme_option('social_links'))
+        @if ($socialLinks = theme_option('social_links'))
             <div class="mobile-social-icon mb-50">
-                <p class="mb-15 font-heading h6">{{ __('Follow Us') }}</p>
-                @foreach(json_decode(theme_option('social_links'), true) as $socialLink)
+                <p class="mb-15 font-heading h6 me-2">{{ __('Follow Us') }}</p>
+                @foreach(json_decode($socialLinks, true) as $socialLink)
                     @if (count($socialLink) == 3)
                         <a href="{{ $socialLink[2]['value'] }}"
                         title="{{ $socialLink[0]['value'] }}">
@@ -545,9 +582,8 @@
         @endif
         {{-- Mehdi Mirabi add copyright in mobile menu --}}
         <div class="site-copyright">{{ theme_option('copyright') }}
-           <p style="font-size: 13px; color: var(--color-muted);">Powered By: <a href="https://medyanossa.com/" target="_blank" title="E-ticaret Yazılımı Medya Nossa">MedyaNossa</a></p>
+            <p style="font-size: 13px; color: var(--color-muted);">Powered By: <a href="https://medyanossa.com/" target="_blank" title="E-ticaret Yazılımı Medya Nossa">MedyaNossa</a></p>
         </div>
     </div>
 </div>
 </div>
-<!--End header-->
