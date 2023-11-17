@@ -1,25 +1,13 @@
 <div class="mb-80 mt-50 section--shopping-cart">
-    <div class="row row-cols-2 row-cols-lg-3">
-        <div class="col-4 col-lg-2" style="display: inline-block;
-        width: 20%;
-        max-width: 212px;
-        cursor: pointer;     display: inline-block;"><img style="width: 56%;" src="{{ Theme::asset()->url('imgs/theme/cart/cart1.png') }}"><br><span>Delivery</span></div>
-        <div class="col-4 col-lg-2" style="display: inline-block;
-        width: 20%;
-        max-width: 212px;
-        cursor: pointer;     display: inline-block;"><img style="width: 56%;" src="{{ Theme::asset()->url('imgs/theme/cart/cart2.png') }}"><br><span>Additional Gifts</span></div>
-        <div class="col-4 col-lg-2" style="display: inline-block;
-        width: 20%;
-        max-width: 212px;
-        cursor: pointer;     display: inline-block;"><img style="width: 56%;" src="{{ Theme::asset()->url('imgs/theme/cart/cart3.png') }}"><br><span>Message Card</span></div>
-        <div class="col-4 col-lg-2" style="display: inline-block;
-        width: 20%;
-        max-width: 212px;
-        cursor: pointer;     display: inline-block;"><img style="width: 56%;" src="{{ Theme::asset()->url('imgs/theme/cart/cart4.png') }}"><br><span>Invoice</span></div>
-        <div class="col-4 col-lg-2" style="display: inline-block;
-        width: 20%;
-        max-width: 212px;
-        cursor: pointer;     display: inline-block;"><img style="width: 56%;" src="{{ Theme::asset()->url('imgs/theme/cart/cart5.png') }}"><br><span>Payment</span></div>
+    <div class="row">
+        <div class="col-lg-8 mb-40">
+            <h1 class="heading-2 mb-10">{{ __('Your Cart') }}</h1>
+            <div class="d-flex justify-content-between">
+                @if (count($products) > 0)
+                    <p class="text-body font-heading h6">{!! BaseHelper::clean(__('There are :total products in your cart', ['total' => '<span class="text-brand">' . count($products) . '</span>'])) !!}</p>
+                @endif
+            </div>
+        </div>
     </div>
     <form method="post" action="{{ route('public.ajax.cart.update') }}">
         @csrf

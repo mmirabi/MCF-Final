@@ -247,7 +247,7 @@
                                 <div class="header-action-icon-2">
                                     <div class="search-box">
                                         <form action="{{ route('public.products') }}" class="form--quick-search" data-ajax-url="{{ route('public.ajax.search-products') }}" method="GET">
-                                            <input type="text" class="input-search-product" name="q" placeholder="{{ __('Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off">
+                                            <input type="text" class="input-search-product" name="q" placeholder="{{ __('   Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off">
                                             <div class="panel--search-result"></div>
                                         </form>
                                         {{-- <input type="text" class="input-search-product" name="q" placeholder="{{ __('Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off"> --}}
