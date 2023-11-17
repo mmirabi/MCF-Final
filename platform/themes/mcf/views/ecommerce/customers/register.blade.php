@@ -128,6 +128,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 pr-30">
+                        <h3 class="mb-55">{{ __('Register with social networks') }}</h3>
                         {!! apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, \Botble\Ecommerce\Models\Customer::class) !!}
                     </div>
                 </div>
