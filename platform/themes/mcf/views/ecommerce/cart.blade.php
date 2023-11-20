@@ -21,8 +21,7 @@
                                 <tr class="main-heading">
                                     <th scope="col" colspan="2" class="start pl-30">{{ __('Product') }}</th>
                                     <th scope="col">{{ __('Unit Price') }}</th>
-                                    {{-- mehdi mirabi hidden Quantity cart page --}}
-                                    {{-- <th scope="col">{{ __('Quantity') }}</th> --}}
+                                    <th scope="col">{{ __('Quantity') }}</th>
                                     <th scope="col">{{ __('Subtotal') }}</th>
                                     <th scope="col" class="end">{{ __('Remove') }}</th>
                                 </tr>
@@ -30,173 +29,76 @@
                             <tbody class="border-0">
                                 @foreach(Cart::instance('cart')->content() as $key => $cartItem)
                                     @if ($product = $products->find($cartItem->id))
-                                        <div class="row">
-                                            <div class="col">
-                                                <tr class="pt-30">
-                                                    <td class="image product-thumbnail pt-40">
-                                                        <input type="hidden" name="items[{{ $key }}][rowId]" value="{{ $cartItem->rowId }}">
-                                                        <img src="{{ RvMedia::getImageUrl($cartItem->options['image'], 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $product->original_product->name }}" />
-                                                    </td>
-                                                    <td class="product-des product-name">
-                                                        <p class="mb-5 font-heading h6">
-                                                            <a class="product-name mb-10 text-heading" href="{{ $product->original_product->url }}">{{ $product->original_product->name }}  @if ($product->isOutOfStock()) <span class="stock-status-label">({!! $product->stock_status_html !!})</span> @endif</a>
-                                                        </p>
-                                                        @if (is_plugin_active('marketplace') && $product->original_product->store->id)
-                                                            <p class="d-block mb-0 sold-by">
-                                                                <small>
-                                                                    <span>{{ __('Sold by') }}: </span>
-                                                                    <a href="{{ $product->original_product->store->url }}">{{ $product->original_product->store->name }}</a>
-                                                                </small>
-                                                            </p>
+                                        <tr class="pt-30">
+                                            <td class="image product-thumbnail pt-40">
+                                                <input type="hidden" name="items[{{ $key }}][rowId]" value="{{ $cartItem->rowId }}">
+                                                <img src="{{ RvMedia::getImageUrl($cartItem->options['image'], 'thumb', false, RvMedia::getDefaultImage()) }}" alt="{{ $product->original_product->name }}" />
+                                            </td>
+                                            <td class="product-des product-name">
+                                                <p class="mb-5 font-heading h6">
+                                                    <a class="product-name mb-10 text-heading" href="{{ $product->original_product->url }}">{{ $product->original_product->name }}  @if ($product->isOutOfStock()) <span class="stock-status-label">({!! $product->stock_status_html !!})</span> @endif</a>
+                                                </p>
+                                                @if (is_plugin_active('marketplace') && $product->original_product->store->id)
+                                                    <p class="d-block mb-0 sold-by">
+                                                        <small>
+                                                            <span>{{ __('Sold by') }}: </span>
+                                                            <a href="{{ $product->original_product->store->url }}">{{ $product->original_product->store->name }}</a>
+                                                        </small>
+                                                    </p>
+                                                @endif
+                                                <p class="mb-0">
+                                                    <small>{{ Arr::get($cartItem->options, 'attributes') }}</small>
+                                                </p>
+
+                                                @if (!empty($cartItem->options['options']))
+                                                    {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
+                                                @endif
+
+                                                @if (!empty($cartItem->options['extras']) && is_array($cartItem->options['extras']))
+                                                    @foreach($cartItem->options['extras'] as $option)
+                                                        @if (!empty($option['key']) && !empty($option['value']))
+                                                            <p class="mb-0"><small>{{ $option['key'] }}: <strong> {{ $option['value'] }}</strong></small></p>
                                                         @endif
-                                                        {{-- mehdi mirabi hidden products attributes and products options in cart page --}}
-                                                        {{-- <p class="mb-0">
-                                                            <small>{{ Arr::get($cartItem->options, 'attributes') }}</small>
-                                                        </p>
-        
-                                                        @if (!empty($cartItem->options['options']))
-                                                            {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
-                                                        @endif --}}
-        
-                                                        @if (!empty($cartItem->options['extras']) && is_array($cartItem->options['extras']))
-                                                            @foreach($cartItem->options['extras'] as $option)
-                                                                @if (!empty($option['key']) && !empty($option['value']))
-                                                                    <p class="mb-0"><small>{{ $option['key'] }}: <strong> {{ $option['value'] }}</strong></small></p>
-                                                                @endif
-                                                            @endforeach
-                                                        @endif
-        
-                                                        @if (EcommerceHelper::isReviewEnabled() && $product->reviews_count)
-                                                            <div class="product-rate-cover">
-                                                                <div class="product-rate d-inline-block">
-                                                                    <div class="product-rating" style="width: {{ $product->reviews_avg * 20 }}%"></div>
-                                                                </div>
-                                                                <span class="font-small ml-5 text-muted">({{ $product->reviews_count }})</span>
-                                                            </div>
-                                                        @endif
-                                                    </td>
-                                                    <td class="price" data-title="{{ __('Price') }}">
-                                                        <h4 class="text-body">{{ format_price($cartItem->price) }} </h4>
-                                                        @if ($product->front_sale_price != $product->price)
-                                                            <small><del>{{ format_price($product->price) }}</del></small>
-                                                        @endif
-                                                    </td>
-                                                    {{-- mehdi mirabi hidden Quantity in cart page --}}
-                                                    {{-- <td class="text-center detail-info" data-title="{{ __('Stock') }}">
-                                                        <div class="detail-extralink mr-15">
-                                                            <div class="detail-qty border radius m-auto">
-                                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                                <input type="number" min="1" value="{{ $cartItem->qty }}" name="items[{{ $key }}][values][qty]" class="qty-val qty-input" />
-                                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                                            </div>
+                                                    @endforeach
+                                                @endif
+
+                                                @if (EcommerceHelper::isReviewEnabled() && $product->reviews_count)
+                                                    <div class="product-rate-cover">
+                                                        <div class="product-rate d-inline-block">
+                                                            <div class="product-rating" style="width: {{ $product->reviews_avg * 20 }}%"></div>
                                                         </div>
-                                                    </td> --}}
-                                                    <td class="price" data-title="{{ __('Price') }}">
-                                                        <h4 class="text-brand">{{ format_price($cartItem->price * $cartItem->qty) }} </h4>
-                                                    </td>
-                                                    <td class="action text-center" data-title="{{ __('Remove') }}">
-                                                        <a href="#" class="text-body remove-cart-button" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}"><i class="fi-rs-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <h1>test</h1>
-                                            </div>
-                                            <div class="col">
-                                                <div class="d-grid gap-2 col-4 mx-auto" >
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-primary" style="background-color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                        {{ __('Add a new address') }}
-                                                    </button>
-                                                    
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                {!! Form::open(['route' => 'customer.edit-account']) !!}
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <div class="card-body">
-                                                                        <div class="form-group mb-3 @error('address.name') has-error @enderror">
-                                                                            <div class="form-input-wrapper">
-                                                                                <input
-                                                                                    data-form-parent=".customer-address-payment-form"
-                                                                                    class="form-control"
-                                                                                    id="address_name"
-                                                                                    name="address[name]"
-                                                                                    type="text"
-                                                                                    value=""
-                                                                                    required
-                                                                                >
-                                                                                <label for="address_name">{{ __('Full Name') }}</label>
-                                                                            </div>
-                                                                            {!! Form::error('address.name', $errors) !!}
-                                                                            <div class="customer-address-payment-form">
-                                                                                @if (!in_array('phone', EcommerceHelper::getHiddenFieldsAtCheckout()))
-                                                                                    <div @class([
-                                                                                        'form-input-wrapper' => !in_array(
-                                                                                            'email',
-                                                                                            EcommerceHelper::getHiddenFieldsAtCheckout()),
-                                                                                        ])>
-                                                                                        <div class="form-group mb-3 @error('address.phone') has-error @enderror">
-                                                                                            <div class="form-input-wrapper">
-                                                                                                <input
-                                                                                                    data-form-parent=".customer-address-payment-form"
-                                                                                                    class="form-control"
-                                                                                                    id="address_phone"
-                                                                                                    name="address[phone]"
-                                                                                                    type="tel"
-                                                                                                    value=""
-                                                                                                    required
-                                                                                                >
-                                                                                                <label for="address_phone">{{ __('Phone') }}</label>
-                                                                                            </div>
-                                                                                            {!! Form::error('address.phone', $errors) !!}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                @endif
-                                                                                @if (!in_array('address', EcommerceHelper::getHiddenFieldsAtCheckout()))
-                                                                                    <div class="form-group mb-3 @error('address.address') has-error @enderror">
-                                                                                        <div class="form-input-wrapper">
-                                                                                            <input
-                                                                                                data-form-parent=".customer-address-payment-form"
-                                                                                                class="form-control"
-                                                                                                id="address_address"
-                                                                                                name="address[address]"
-                                                                                                type="text"
-                                                                                                value=""
-                                                                                                required
-                                                                                            >
-                                                                                            <label for="address_address">{{ __('Address') }}</label>
-                                                                                        </div>
-                                                                                        {!! Form::error('address.address', $errors) !!}
-                                                                                    </div>
-                                                                                @endif
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                                                                    <button type="submit" class="btn btn-fill-out submit">{{ __('Update') }}</button>
-                                                                </div>
-                                                            </div>
-                                                            {!! Form::close() !!}
-                                                        </div>
+                                                        <span class="font-small ml-5 text-muted">({{ $product->reviews_count }})</span>
+                                                    </div>
+                                                @endif
+                                            </td>
+                                            <td class="price" data-title="{{ __('Price') }}">
+                                                <h4 class="text-body">{{ format_price($cartItem->price) }} </h4>
+                                                @if ($product->front_sale_price != $product->price)
+                                                    <small><del>{{ format_price($product->price) }}</del></small>
+                                                @endif
+                                            </td>
+                                            <td class="text-center detail-info" data-title="{{ __('Stock') }}">
+                                                <div class="detail-extralink mr-15">
+                                                    <div class="detail-qty border radius m-auto">
+                                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                        <input type="number" min="1" value="{{ $cartItem->qty }}" name="items[{{ $key }}][values][qty]" class="qty-val qty-input" />
+                                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </td>
+                                            <td class="price" data-title="{{ __('Price') }}">
+                                                <h4 class="text-brand">{{ format_price($cartItem->price * $cartItem->qty) }} </h4>
+                                            </td>
+                                            <td class="action text-center" data-title="{{ __('Remove') }}">
+                                                <a href="#" class="text-body remove-cart-button" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}"><i class="fi-rs-trash"></i></a>
+                                            </td>
+                                        </tr>
                                     @endif
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    
-                   
-
-                    <hr style="margin-top: 100px">
+                    <div class="divider-2 mb-30"></div>
                     <div class="cart-action d-flex justify-content-between">
                         <a class="btn " href="{{ route('public.products') }}"><i class="fi-rs-arrow-left mr-10"></i>{{ __('Continue Shopping') }}</a>
                     </div>
@@ -274,13 +176,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{-- Mehdi Mirabi change Proceed To Checkout button to a link --}}
-                        {{-- <button type="submit" name="checkout" class="btn mb-20 w-100">{{ __('Proceed To Checkout') }} <i class="fi-rs-sign-out ml-15"></i></button> --}}
-                        <div class="shopping-cart-button">
-                            @if (session('tracked_start_checkout'))
-                                <a class="btn mb-20 w-100" href="{{ route('public.checkout.information', session('tracked_start_checkout')) }}">{{ __('Proceed To Checkout') }} <i class="fi-rs-sign-out ml-15"></i></a>
-                            @endif
-                        </div>
+                        <a href="{{ route('public.checkout.information', session('tracked_start_checkout')) }}" class="btn mb-20 w-100">{{ __('Proceed To Checkout') }} <i class="fi-rs-sign-out ml-15"></i></a>
                     </div>
                 </div>
             @endif
