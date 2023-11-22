@@ -43,13 +43,13 @@ class ShipmentInfoForm extends FormAbstract
                     'placeholder' => trans('plugins/ecommerce::shipping.add_note'),
                 ],
             ])
-            ->add('submit', 'button', [
+            ->add('submitter', 'button', [
                 'label' => '<i class="fa fa-check-circle me-2"></i>' . trans('core/base::forms.save'),
                 'attr' => [
                     'class' => 'btn btn-success',
                     'value' => 'save',
                     'type' => 'submit',
-                    'name' => 'submit',
+                    'name' => 'submitter',
                 ],
             ]);
     }

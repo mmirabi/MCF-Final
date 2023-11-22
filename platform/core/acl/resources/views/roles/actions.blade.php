@@ -14,7 +14,7 @@
             @endif
             <button
                 class="btn btn-info"
-                name="submit"
+                name="submitter"
                 type="submit"
                 value="save"
             >
@@ -22,7 +22,7 @@
             </button>
             <button
                 class="btn btn-success"
-                name="submit"
+                name="submitter"
                 type="submit"
                 value="apply"
             >
@@ -43,7 +43,7 @@
         @endif
         <button
             class="btn btn-info"
-            name="submit"
+            name="submitter"
             type="submit"
             value="save"
         >
@@ -51,7 +51,7 @@
         </button>
         <button
             class="btn btn-success"
-            name="submit"
+            name="submitter"
             type="submit"
             value="apply"
         >

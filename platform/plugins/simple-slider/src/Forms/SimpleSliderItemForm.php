@@ -56,7 +56,7 @@ class SimpleSliderItemForm extends FormAbstract
                     'data-fancybox-close' => true,
                 ],
             ])
-            ->add('submit', 'submit', [
+            ->add('submitter', 'submit', [
                 'label' => trans('core/base::forms.save_and_continue'),
                 'attr' => [
                     'class' => 'btn btn-info float-end',

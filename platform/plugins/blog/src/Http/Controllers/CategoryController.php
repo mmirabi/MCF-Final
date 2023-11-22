@@ -79,7 +79,7 @@ class CategoryController extends BaseController
         event(new CreatedContentEvent(CATEGORY_MODULE_SCREEN_NAME, $request, $category));
 
         if ($request->ajax()) {
-            if ($request->input('submit') == $response->saveAction) {
+            if ($response->isSaving()) {
                 $form = $this->getForm();
             } else {
                 $form = $this->getForm($category);

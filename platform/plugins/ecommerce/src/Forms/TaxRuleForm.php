@@ -75,7 +75,7 @@ class TaxRuleForm extends FormAbstract
                 ]);
         }
         $this
-            ->add('submit', 'html', [
+            ->add('submitter', 'html', [
                 'html' => Html::tag('button', '<i class="fa fa-save me-2"></i>' . trans('core/base::forms.save'), [
                     'class' => 'btn btn-success btn-block',
                 ]),

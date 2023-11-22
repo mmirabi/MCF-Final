@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique()->index();
-            $table->text('value')->nullable();
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('settings')) {
+            Schema::create('settings', function (Blueprint $table) {
+                $table->id();
+                $table->string('key', 255)->unique()->index();
+                $table->text('value')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     public function down(): void

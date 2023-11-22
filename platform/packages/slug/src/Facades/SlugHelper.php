@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getSettingKey(string $key)
  * @method static array getCanEmptyPrefixes()
  * @method static \Botble\Slug\SlugCompiler getTranslator()
+ * @method static array getSlugPrefixes()
  *
  * @see \Botble\Slug\SlugHelper
  */

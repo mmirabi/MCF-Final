@@ -344,7 +344,7 @@
                         <div class="text-start">
                             <button
                                 class="btn btn-info button-save-language-settings"
-                                name="submit"
+                                name="submitter"
                                 type="submit"
                                 value="save"
                             >

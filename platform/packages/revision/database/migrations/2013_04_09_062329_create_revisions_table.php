@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->string('revisionable_type');
             $table->foreignId('revisionable_id');
             $table->foreignId('user_id')->nullable();
-            $table->string('key');
+            $table->string('key', 120);
             $table->text('old_value')->nullable();
             $table->text('new_value')->nullable();
             $table->timestamps();

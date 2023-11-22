@@ -6,10 +6,8 @@ use Botble\Blog\Models\Category;
 use Botble\Blog\Models\Post;
 use Botble\Blog\Models\Tag;
 use Botble\Slug\Facades\SlugHelper;
-use Botble\Slug\Models\Slug;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 trait HasBlogSeeder
 {
@@ -42,6 +40,9 @@ trait HasBlogSeeder
         }
 
         foreach ($tags as $item) {
+            /**
+             * @var Tag $tag
+             */
             $tag = Tag::query()->create($item);
 
             SlugHelper::createSlug($tag);
@@ -68,7 +69,11 @@ trait HasBlogSeeder
                 $item['description'] = $faker->realText();
             }
 
-            if ($item['content']) {
+            if (! isset($item['is_featured'])) {
+                $item['is_featured'] = $faker->boolean();
+            }
+
+            if (! empty($item['content'])) {
                 $item['content'] = $this->removeBaseUrlFromString($item['content']);
             }
 
@@ -99,6 +104,9 @@ trait HasBlogSeeder
 
     protected function createBlogCategory(array $item, int $parentId = 0, bool $isFeatured = false): Category
     {
+        /**
+         * @var Category $category
+         */
         $category = Category::query()->create(array_merge($item, [
             'description' => $this->fake()->text(),
             'author_id' => 1,
@@ -106,12 +114,7 @@ trait HasBlogSeeder
             'is_featured' => $isFeatured,
         ]));
 
-        Slug::query()->create([
-            'reference_type' => Category::class,
-            'reference_id' => $category->id,
-            'key' => Str::slug($category->name),
-            'prefix' => SlugHelper::getPrefix(Category::class),
-        ]);
+        SlugHelper::createSlug($category);
 
         return $category;
     }

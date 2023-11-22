@@ -12,10 +12,10 @@ return new class () extends Migration {
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
+            $table->string('first_name', 120)->nullable();
+            $table->string('last_name', 120)->nullable();
             $table->string('username', 60)->unique()->nullable();
-            $table->string('password')->nullable()->change();
+            $table->string('password', 120)->nullable()->change();
             $table->foreignId('avatar_id')->nullable();
             $table->boolean('super_user')->default(0);
             $table->boolean('manage_supers')->default(0);
@@ -53,8 +53,8 @@ return new class () extends Migration {
 
         Schema::create('user_meta', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->nullable();
-            $table->string('value')->nullable();
+            $table->string('key', 120)->nullable();
+            $table->string('value', 255)->nullable();
             $table->foreignId('user_id')->index();
             $table->timestamps();
         });

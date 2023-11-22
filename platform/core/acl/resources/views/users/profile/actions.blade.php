@@ -3,7 +3,7 @@
         <div class="btn-set text-center">
             <button
                 class="btn btn-success"
-                name="submit"
+                name="submitter"
                 type="submit"
                 value="submit"
             >

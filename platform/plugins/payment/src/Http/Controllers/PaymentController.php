@@ -5,25 +5,20 @@ namespace Botble\Payment\Http\Controllers;
 use Botble\Base\Events\DeletedContentEvent;
 use Botble\Base\Facades\Assets;
 use Botble\Base\Facades\PageTitle;
+use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Payment\Enums\PaymentStatusEnum;
 use Botble\Payment\Http\Requests\PaymentMethodRequest;
 use Botble\Payment\Http\Requests\UpdatePaymentRequest;
 use Botble\Payment\Models\Payment;
-use Botble\Payment\Repositories\Interfaces\PaymentInterface;
 use Botble\Payment\Tables\PaymentTable;
 use Botble\Setting\Supports\SettingStore;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
 
-class PaymentController extends Controller
+class PaymentController extends BaseController
 {
-    public function __construct(protected PaymentInterface $paymentRepository)
-    {
-    }
-
     public function index(PaymentTable $table)
     {
         PageTitle::setTitle(trans('plugins/payment::payment.name'));
@@ -119,7 +114,7 @@ class PaymentController extends Controller
     {
         $payment = Payment::query()->findOrFail($id);
 
-        $this->paymentRepository->update(['id' => $payment->id], [
+        $payment->update([
             'status' => $request->input('status'),
         ]);
 

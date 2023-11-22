@@ -34,7 +34,7 @@ class FaqCategoryController extends BaseController
 
     public function store(FaqCategoryRequest $request, BaseHttpResponse $response)
     {
-        $faqCategory = FaqCategory::query()->create($request->input());
+        $faqCategory = FaqCategory::query()->create($request->validated());
 
         event(new CreatedContentEvent(FAQ_CATEGORY_MODULE_SCREEN_NAME, $request, $faqCategory));
 
@@ -53,8 +53,7 @@ class FaqCategoryController extends BaseController
 
     public function update(FaqCategory $faqCategory, FaqCategoryRequest $request, BaseHttpResponse $response)
     {
-        $faqCategory->fill($request->input());
-        $faqCategory->save();
+        $faqCategory->update($request->validated());
 
         event(new UpdatedContentEvent(FAQ_CATEGORY_MODULE_SCREEN_NAME, $request, $faqCategory));
 

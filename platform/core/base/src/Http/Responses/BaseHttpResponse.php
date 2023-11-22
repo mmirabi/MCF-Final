@@ -134,7 +134,7 @@ class BaseHttpResponse extends Response implements Responsable
                 ->json($data, $this->code);
         }
 
-        if ($request->input('submit') === $this->saveAction && ! empty($this->previousUrl)) {
+        if ($this->getSubmitterValue() === $this->saveAction && ! empty($this->previousUrl)) {
             return $this->responseRedirect($this->previousUrl);
         } elseif (! empty($this->nextUrl)) {
             return $this->responseRedirect($this->nextUrl);
@@ -159,6 +159,11 @@ class BaseHttpResponse extends Response implements Responsable
 
     public function isSaving(): bool
     {
-        return request()->input('submit') === $this->saveAction;
+        return $this->getSubmitterValue() === $this->saveAction;
+    }
+
+    protected function getSubmitterValue(): string
+    {
+        return (string)request()->input('submitter');
     }
 }

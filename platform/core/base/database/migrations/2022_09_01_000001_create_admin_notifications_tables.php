@@ -11,8 +11,8 @@ return new class () extends Migration {
             Schema::create('admin_notifications', function (Blueprint $table) {
                 $table->id();
                 $table->string('title', 255);
-                $table->string('action_label')->nullable();
-                $table->string('action_url')->nullable();
+                $table->string('action_label', 255)->nullable();
+                $table->string('action_url', 255)->nullable();
                 $table->string('description', 400);
                 $table->timestamp('read_at')->nullable();
                 $table->timestamps();

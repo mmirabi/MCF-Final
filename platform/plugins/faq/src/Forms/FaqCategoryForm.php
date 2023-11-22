@@ -23,6 +23,14 @@ class FaqCategoryForm extends FormAbstract
                     'data-counter' => 120,
                 ],
             ])
+            ->add('description', 'textarea', [
+                'label' => trans('core/base::forms.description'),
+                'attr' => [
+                    'placeholder' => trans('core/base::forms.description_placeholder'),
+                    'data-counter' => 300,
+                    'rows' => 3,
+                ],
+            ])
             ->add('order', 'number', [
                 'label' => trans('core/base::forms.order'),
                 'attr' => [

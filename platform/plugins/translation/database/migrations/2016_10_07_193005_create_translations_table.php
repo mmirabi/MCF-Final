@@ -10,9 +10,9 @@ return new class () extends Migration {
         Schema::create('translations', function (Blueprint $table) {
             $table->id();
             $table->integer('status')->default(0);
-            $table->string('locale');
-            $table->string('group');
-            $table->string('key');
+            $table->string('locale', 20);
+            $table->string('group', 255);
+            $table->string('key', 255);
             $table->text('value')->nullable();
             $table->timestamps();
         });

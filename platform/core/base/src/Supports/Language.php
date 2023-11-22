@@ -370,6 +370,7 @@ class Language
         'zh_CN' => ['zh', 'zh_CN', '中文 (中国)', 'ltr', 'cn'],
         'zh_HK' => ['zh', 'zh_HK', '中文 (香港)', 'ltr', 'hk'],
         'zh_TW' => ['zh', 'zh_TW', '中文 (台灣)', 'ltr', 'tw'],
+        'tg' => ['tg', 'tg', 'Tajik', 'ltr', 'tj'],
     ];
 
     public static function getListLanguageFlags(): array

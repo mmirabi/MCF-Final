@@ -9,7 +9,7 @@ return new class () extends Migration {
     {
         if (! Schema::hasColumn('media_files', 'alt')) {
             Schema::table('media_files', function (Blueprint $table) {
-                $table->string('alt')->nullable()->after('name');
+                $table->string('alt', 255)->nullable()->after('name');
             });
         }
     }

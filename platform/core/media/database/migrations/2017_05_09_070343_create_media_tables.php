@@ -10,8 +10,8 @@ return new class () extends Migration {
         Schema::create('media_folders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
-            $table->string('name')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('name', 255)->nullable();
+            $table->string('slug', 255)->nullable();
             $table->foreignId('parent_id')->default(0);
             $table->timestamps();
             $table->softDeletes();

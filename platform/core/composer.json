@@ -8,13 +8,13 @@
     ],
     "homepage": "https://medyanossa.com",
     "support": {
-        "issues": "https://botble.ticksy.com",
-        "document": "https://docs.botble.com"
+        "issues": "https://medyanossa.ticksy.com",
+        "document": "https://docs.medyanossa.com"
     },
     "authors": [
         {
             "name": "MedyaNossa",
-            "email": "contact@botble.com"
+            "email": "contact@medyanossa.com"
         }
     ],
     "type": "project",

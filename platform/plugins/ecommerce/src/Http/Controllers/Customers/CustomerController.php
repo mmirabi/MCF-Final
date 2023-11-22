@@ -189,19 +189,11 @@ class CustomerController extends BaseController
         event(new CreatedContentEvent(CUSTOMER_MODULE_SCREEN_NAME, $request, $customer));
 
         $request->merge([
-            'customer_id' => $customer->id,
+            'customer_id' => $customer->getKey(),
             'is_default' => true,
         ]);
 
         $address = Address::query()->create($request->input());
-
-        $address->country = $address->country_name;
-        $address->state = $address->state_name;
-        $address->city = $address->city_name;
-
-        $address->country_name = $address->country;
-        $address->state_name = $address->state;
-        $address->city_name = $address->city;
 
         return $response
             ->setData(compact('address', 'customer'))

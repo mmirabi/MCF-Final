@@ -13,7 +13,7 @@
             @if (!isset($onlySave) || !$onlySave)
                 <button
                     class="btn btn-info"
-                    name="submit"
+                    name="submitter"
                     type="submit"
                     value="save"
                 >
@@ -23,7 +23,7 @@
             &nbsp;
             <button
                 class="btn btn-success"
-                name="submit"
+                name="submitter"
                 type="submit"
                 value="apply"
             >
@@ -42,7 +42,7 @@
         @if (!isset($onlySave) || !$onlySave)
             <button
                 class="btn btn-info"
-                name="submit"
+                name="submitter"
                 type="submit"
                 value="save"
             >
@@ -53,7 +53,7 @@
         &nbsp;
         <button
             class="btn btn-success"
-            name="submit"
+            name="submitter"
             type="submit"
             value="apply"
         >

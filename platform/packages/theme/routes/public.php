@@ -1,5 +1,6 @@
 <?php
 
+use Botble\Slug\Facades\SlugHelper;
 use Botble\Theme\Events\ThemeRoutingAfterEvent;
 use Botble\Theme\Events\ThemeRoutingBeforeEvent;
 use Botble\Theme\Facades\SiteMapManager;
@@ -20,7 +21,7 @@ Route::group(['controller' => PublicController::class, 'middleware' => ['web', '
         Route::get('{slug?}', 'getView')->name('public.single');
 
         Route::get('{prefix}/{slug?}', 'getViewWithPrefix')
-            ->where(['prefix' => '[a-zA-Z0-9_/.-]+', 'slug' => '[a-zA-Z0-9_.-]+']);
+            ->whereIn('prefix', SlugHelper::getSlugPrefixes() ?: ['1437bcd2-d94e-4a5fd-9a39-b5d60225e9af']);
 
         event(new ThemeRoutingAfterEvent(app()->make('router')));
     });

@@ -11,10 +11,10 @@ class FaqRequest extends Request
     public function rules(): array
     {
         return [
-            'category_id' => 'required|exists:faq_categories,id',
-            'question' => 'required|string',
-            'answer' => 'required|string',
-            'status' => Rule::in(BaseStatusEnum::values()),
+            'category_id' => ['required', 'exists:faq_categories,id'],
+            'question' => ['required', 'string'],
+            'answer' => ['required', 'string'],
+            'status' => ['required', Rule::in(BaseStatusEnum::values())],
         ];
     }
 }

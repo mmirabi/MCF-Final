@@ -130,7 +130,7 @@
                 >{{ trans('core/setting::setting.email.reset_to_default') }}</a>
                 <button
                     class="btn btn-info"
-                    name="submit"
+                    name="submitter"
                     type="submit"
                 >{{ trans('core/setting::setting.save_settings') }}</button>
             </div>

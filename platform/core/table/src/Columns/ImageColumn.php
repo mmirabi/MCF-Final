@@ -72,10 +72,6 @@ class ImageColumn extends Column implements FormattedColumn
 
     protected function getImageUrl(string|null $value, string|null $mediaSize = 'thumb'): string
     {
-        if (! $value) {
-            return '';
-        }
-
         return (string) RvMedia::getImageUrl($value, $mediaSize, $this->relative, RvMedia::getDefaultImage());
     }
 }

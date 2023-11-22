@@ -222,4 +222,15 @@ class SlugHelper
     {
         return $this->translator;
     }
+
+    public function getSlugPrefixes(): array
+    {
+        $prefixes = [];
+
+        foreach ($this->supportedModels() as $class => $model) {
+            $prefixes[] = addslashes($this->getPrefix($class, translate: false));
+        }
+
+        return array_values(array_filter($prefixes));
+    }
 }

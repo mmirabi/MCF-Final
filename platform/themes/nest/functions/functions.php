@@ -378,7 +378,7 @@ add_action([BASE_ACTION_AFTER_CREATE_CONTENT, BASE_ACTION_AFTER_UPDATE_CONTENT],
                 }
             } elseif ($request->input('cover_image')) {
                 MetaBox::saveMetaBoxData($object, 'cover_image', $request->input('cover_image'));
-            } elseif ($request->has('cover_image') && ! $request->input('cover_image')) {
+            } elseif ($request->has('cover_image')) {
                 MetaBox::deleteMetaData($object, 'cover_image');
             }
 
