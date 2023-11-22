@@ -1,6 +1,6 @@
 @extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
-    <div id="dashboard-alerts">
+    {{-- <div id="dashboard-alerts">
         <verify-license-component
             verify-url="{{ route('settings.license.verify') }}"
             setting-url="{{ route('settings.options') }}"
@@ -11,7 +11,7 @@
                 setting-url="{{ route('system.updater') }}"
             ></check-update-component>
         @endif
-    </div>
+    </div> --}}
     {!! apply_filters(DASHBOARD_FILTER_ADMIN_NOTIFICATIONS, null) !!}
     <div class="row">
         {!! apply_filters(DASHBOARD_FILTER_TOP_BLOCKS, null) !!}
