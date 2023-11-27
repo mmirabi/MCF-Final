@@ -88,7 +88,7 @@
                                     @if (count($headerMessage) == 4)
                                         <li @if (!$loop->first) style="display: none" @endif>
                                             @if ($headerMessage[0]['value'])
-                                                <i class="{{ $headerMessage[0]['value'] }} d-inline-block mr-5"></i>&nbsp;
+                                                <i class="{{ $headerMessage[0]['value'] }} d-inline-block mr-5" style="font-size: 16px;"></i>&nbsp;
                                             @endif
 
                                             @if ($headerMessage[1]['value'])
@@ -226,13 +226,13 @@
                                             @endif
                                             @if (EcommerceHelper::isCartEnabled())
                                                 <div class="header-action-icon-2">
-                                                    <a class="mini-cart-icon" href="#">
+                                                    <a class="mini-cart-icon" href="/delivery">
                                                         <img alt="{{ __('Cart') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
                                                         <span class="pro-count white">{{ Cart::instance('cart')->count() }}</span>
                                                     </a>
-                                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
+                                                    {{-- <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
                                                         {!! Theme::partial('cart-panel') !!}
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             @endif
                                         </div>
@@ -247,20 +247,20 @@
                                 <div class="header-action-icon-2">
                                     <div class="search-box">
                                         <form action="{{ route('public.products') }}" class="form--quick-search" data-ajax-url="{{ route('public.ajax.search-products') }}" method="GET">
-                                            <input type="text" class="input-search-product" name="q" placeholder="{{ __('   Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off">
+                                            <input type="text" class="input-search-product" name="q" placeholder="{{ __('Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off">
                                             <div class="panel--search-result"></div>
                                         </form>
                                         {{-- <input type="text" class="input-search-product" name="q" placeholder="{{ __('Search for items...') }}" value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off"> --}}
                                         <div class="search-icon">
                                             <i class="fas fa-search"></i>
                                             <div class="cancel-button1">
-                                                <img class="svgInject" style="width: 25px" alt="{{ __('Search') }}" src="{{ Theme::asset()->url('imgs/theme/icons/search.svg') }}" />
+                                                <img class="svgInject" style="width: 30px" alt="{{ __('Search') }}" src="{{ Theme::asset()->url('imgs/theme/icons/search.svg') }}" />
                                             </div>
                                             </div>
                                         <div class="cancel-icon">
                                             <i class="fas fa-times"></i>
                                             <div class="cancel-button">
-                                                <img class="svgInject" style="width: 25px" alt="{{ __('Search') }}" src="{{ Theme::asset()->url('imgs/theme/icons/search.svg') }}" />
+                                                <img class="svgInject" style="width: 30px" alt="{{ __('Search') }}" src="{{ Theme::asset()->url('imgs/theme/icons/search.svg') }}" />
                                             </div>
                                         </div>
                                         <div class="search-data">
@@ -318,15 +318,15 @@
                             @endif
                             
                             <div class="header-action-icon-2">
-                                <a class="mini-cart-icon" href="{{ route('public.cart') }}">
+                                <a class="mini-cart-icon" href="{{ route('public.delivery') }}">
                                     <img alt="{{ __('Cart') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
                                     <span class="pro-count blue">{{ Cart::instance('cart')->count() }}</span>
                                 </a>
                                 {{-- mehdi mirabi hidden cart text --}}
                                 {{-- <a href="{{ route('public.cart') }}"><span class="lable">{{ __('Cart') }}</span></a> --}}
-                                <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
+                                {{-- <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
                                     {!! Theme::partial('cart-panel') !!}
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="header-action-icon-2">
                                 <a href="{{ route('customer.overview') }}">
@@ -449,13 +449,13 @@
                         @endif
                         @if (EcommerceHelper::isCartEnabled())
                             <div class="header-action-icon-2">
-                                <a class="mini-cart-icon" href="#">
+                                <a class="mini-cart-icon" href="/delivery">
                                     <img alt="{{ __('Cart') }}" src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
                                     <span class="pro-count white">{{ Cart::instance('cart')->count() }}</span>
                                 </a>
-                                <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
+                                {{-- <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
                                     {!! Theme::partial('cart-panel') !!}
-                                </div>
+                                </div> --}}
                             </div>
                         @endif
                     </div>

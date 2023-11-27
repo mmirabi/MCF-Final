@@ -46,9 +46,9 @@
                                                         </small>
                                                     </p>
                                                 @endif
-                                                <p class="mb-0">
+                                                {{-- <p class="mb-0">
                                                     <small>{{ Arr::get($cartItem->options, 'attributes') }}</small>
-                                                </p>
+                                                </p> --}}
 
                                                 @if (!empty($cartItem->options['options']))
                                                     {!! render_product_options_info($cartItem->options['options'], $product, true) !!}

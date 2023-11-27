@@ -49,7 +49,7 @@
                     </div>
                 @endforeach
 
-                <h2 class="title-detail">{!! BaseHelper::clean($product->name) !!}</h2>
+                <h1 class="title-detail">{!! BaseHelper::clean($product->name) !!}</h1>
                 <div class="product-detail-rating">
                     @if (EcommerceHelper::isReviewEnabled())
                         <a href="#Reviews">
@@ -97,20 +97,20 @@
                     @endif --}}
 
                     {!! render_product_options($product) !!}
-
+                        
                     {!! Theme::partial('product-availability', compact('product', 'productVariation')) !!}
 
                     {!! apply_filters(ECOMMERCE_PRODUCT_DETAIL_EXTRA_HTML, null, $product) !!}
                     <input type="hidden" name="id" class="hidden-product-id" value="{{ ($product->is_variation || !$product->defaultVariation->product_id) ? $product->id : $product->defaultVariation->product_id }}"/>
                     <div class="detail-extralink mb-50">
-                        @if (EcommerceHelper::isCartEnabled())
+                        {{-- @if (EcommerceHelper::isCartEnabled())
                             <div class="detail-qty border radius">
                                 <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
                                 <input type="number" min="1" value="1" name="qty" class="qty-val qty-input" />
                                 <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                             </div>
-                        @endif
-
+                        @endif --}}
+                            
                         <div class="product-extra-link2 @if (EcommerceHelper::isQuickBuyButtonEnabled()) has-buy-now-button @endif">
                             @if (EcommerceHelper::isCartEnabled())
                                 <button type="submit"

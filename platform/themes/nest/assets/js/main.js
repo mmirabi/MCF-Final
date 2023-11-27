@@ -820,8 +820,8 @@
 
     /*--- VSticker ----*/
     $('#news-flash').vTicker({
-        speed: 500,
-        pause: 3000,
+        speed: 5000,
+        pause: 30000,
         animation: 'fade',
         mousePause: false,
         showItems: 1,

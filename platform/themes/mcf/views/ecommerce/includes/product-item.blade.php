@@ -73,7 +73,7 @@
 
                 {!! apply_filters('ecommerce_after_product_price_in_listing', null, $product) !!}
 
-                @if (EcommerceHelper::isCartEnabled())
+                {{-- @if (EcommerceHelper::isCartEnabled())
                     <div class="add-cart">
                         <a aria-label="{{ __('Add To Cart') }}"
                             class="action-btn add-to-cart-button add"
@@ -83,7 +83,7 @@
                             <i class="fi-rs-shopping-cart mr-5"></i> <span class="d-inline-block">{{ __('Add') }}</span>
                         </a>
                     </div>
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>

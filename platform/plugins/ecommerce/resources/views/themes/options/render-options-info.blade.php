@@ -1,7 +1,7 @@
 @if(! empty($productOptions['optionCartValue']))
     @if ($displayBasePrice)
-        <small style="display:block">{{ trans('plugins/ecommerce::product-option.price') }}: <strong
-                style="float: right">{{ format_price($product->original_product->front_sale_price_with_taxes) }}</strong></small>
+        {{-- <small style="display:block">{{ trans('plugins/ecommerce::product-option.price') }}: <strong
+                style="float: right">{{ format_price($product->original_product->front_sale_price_with_taxes) }}</strong></small> --}}
     @endif
 
     @foreach ($productOptions['optionCartValue'] as $key => $optionValue)
@@ -10,24 +10,25 @@
             $totalOptionValue = count($optionValue);
         @endphp
         @continue(!$totalOptionValue)
-        <small style="display: block">
-            {{ $productOptions['optionInfo'][$key] }}:
+        {{-- style="display: block" add required in small tag--}}
+        <small style="font-size:12px;">
+            {{-- {{ $productOptions['optionInfo'][$key] }}: --}}
 
             @foreach ($optionValue as $value)
-                @php
+                {{-- @php
                     if ($value['affect_type'] == 1) {
                         $price += ($product->original_product->front_sale_price_with_taxes * $value['affect_price']) / 100;
                     } else {
                         $price += $value['affect_price'];
                     }
-                @endphp
+                @endphp --}}
 
                 <strong>{{ $value['option_value'] }}</strong>@if (! $loop->last),&nbsp;@endif
             @endforeach
 
-            @if ($price > 0)
+            {{-- @if ($price > 0)
                 <strong style="float: right">+ {{ format_price($price) }}</strong>
-            @endif
+            @endif --}}
         </small>
     @endforeach
 @endif

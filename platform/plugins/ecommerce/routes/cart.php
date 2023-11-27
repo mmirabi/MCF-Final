@@ -28,5 +28,31 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers\Fronts', 'middle
             'as' => 'public.cart.destroy',
             'uses' => 'PublicCartController@empty',
         ]);
+        // mehdi mirabi add 5 step order 
+        Route::get('delivery', [
+            'as' => 'public.delivery',
+            'uses' => 'PublicStepController@delivery',
+        ]);
+
+        Route::get('additionalgifts', [
+            'as' => 'public.additionalgifts',
+            'uses' => 'PublicStepController@additionalgifts',
+        ]);
+
+        Route::get('messagecard', [
+            'as' => 'public.messagecard',
+            'uses' => 'PublicStepController@messagecard',
+        ]);
+
+        Route::get('invoice', [
+            'as' => 'public.invoice',
+            'uses' => 'PublicStepController@invoice',
+        ]);
+        
+        Route::get('payment', [
+            'as' => 'public.payment',
+            'uses' => 'PublicStepController@payment',
+        ]);
+
     });
 });
