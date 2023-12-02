@@ -84,11 +84,6 @@
                                                                 </div>
                                                                 <textarea name="ctl00$MainContent$seethem" rows="3" cols="20" id="MainContent_seethem" style="display:none;"></textarea>
                                                                 <div id="MainContent_UpdatePanel1">
-                                                                  <script type="text/javascript" language="javascript">
-                                                                    function jScript() {
-                                                                     
-                                                                    Sys.Application.add_load(jScript);
-                                                                  </script>
                                                                   <div>
                                                                     <div id="MainContent_faturagoster">
                                                                       <div id="MainContent_yeniadrestable">

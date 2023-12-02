@@ -7,7 +7,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {!! BaseHelper::googleFonts('https://fonts.googleapis.com/css2?family=' . urlencode(theme_option('font_text', 'Lato')) . ':ital,wght@0,400;0,700;1,400;1,700&family=' . urlencode(theme_option('font_heading', 'Quicksand')) . ':wght@400;500;600;700&display=swap') !!}
+    {!! BaseHelper::googleFonts('https://fonts.googleapis.com/css2?family=' . urlencode(theme_option('font_text', 'Lato')) . ':ital,wght@0,400;0,700;1,400;1,700&family=' . urlencode(theme_option('font_heading', 'Quicksand')) . urlencode(theme_option('font_logo', 'Quicksand')) . ':wght@400;500;600;700&display=swap') !!}
 
     <style>
         :root {

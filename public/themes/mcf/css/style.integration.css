@@ -335,3 +335,12 @@ p:last-child {
 }
   
 }
+
+.google-map-contact-page {
+  border-radius: 15px;
+}
+
+@media only screen and (max-width: 400px) {
+  .mcf-logo-type {
+    font-size: 22px!important;
+}
