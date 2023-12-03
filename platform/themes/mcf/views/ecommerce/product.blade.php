@@ -95,9 +95,23 @@
                             ]) !!}
                         </div>
                     @endif --}}
+                    @php
+                        Theme::asset()
+                            ->usePath()->add('select2.css', 'plugins/select2/css/select2.min.css');
 
+                        Theme::asset()
+                            ->container('footer')
+                            ->scriptUsingPath('select2.js', 'plugins/select2/js/select2.min.js');
+                    @endphp
+
+                    <select name="city" class="form-select" id="city" data-type="city" data-placeholder="{{ __('Select city...') }}" data-using-select2="true" data-url="{{ route('ajax.cities-by-state') }}">
+                        <option value="">{{ __('Select city...') }}</option>
+                        @foreach(\Botble\Location\Models\City::get()->pluck('name', 'id')->toArray() as $cityId => $cityName)
+                            <option value="{{ $cityId }}">{{ $cityName }}</option>
+                        @endforeach
+                    </select>
                     {!! render_product_options($product) !!}
-                        
+
                     {!! Theme::partial('product-availability', compact('product', 'productVariation')) !!}
 
                     {!! apply_filters(ECOMMERCE_PRODUCT_DETAIL_EXTRA_HTML, null, $product) !!}
@@ -110,7 +124,7 @@
                                 <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                             </div>
                         @endif --}}
-                            
+
                         <div class="product-extra-link2 @if (EcommerceHelper::isQuickBuyButtonEnabled()) has-buy-now-button @endif">
                             @if (EcommerceHelper::isCartEnabled())
                                 <button type="submit"

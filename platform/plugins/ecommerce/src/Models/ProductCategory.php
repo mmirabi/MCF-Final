@@ -5,6 +5,7 @@ namespace Botble\Ecommerce\Models;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Facades\Html;
 use Botble\Base\Models\BaseModel;
+use Botble\Ecommerce\Enums\ProductCategoryTypeEnum;
 use Botble\Ecommerce\Tables\ProductTable;
 use Botble\Media\Facades\RvMedia;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -26,6 +27,7 @@ class ProductCategory extends BaseModel
         'description',
         'order',
         'status',
+        'cat_type',
         'image',
         'is_featured',
         'icon',
@@ -34,6 +36,7 @@ class ProductCategory extends BaseModel
 
     protected $casts = [
         'status' => BaseStatusEnum::class,
+        'type' => ProductCategoryTypeEnum::class,
     ];
 
     public function products(): BelongsToMany
