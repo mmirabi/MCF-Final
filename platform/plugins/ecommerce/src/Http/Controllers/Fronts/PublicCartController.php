@@ -90,6 +90,21 @@ class PublicCartController extends Controller
         if (! EcommerceHelper::isCartEnabled()) {
             abort(404);
         }
+        if(!$request->shipping_location) {
+            return $response
+                ->setError()
+                ->setMessage(__('Shipping location is not selected.'));
+        }
+        if(!$request->shipping_date) {
+            return $response
+                ->setError()
+                ->setMessage(__('Shipping date is not selected.'));
+        }
+        if(!in_array($request->shipping_time, [0,1])) {
+            return $response
+                ->setError()
+                ->setMessage(__('Shipping time is not selected.'));
+        }
 
         $product = Product::query()->find($request->input('id'));
 

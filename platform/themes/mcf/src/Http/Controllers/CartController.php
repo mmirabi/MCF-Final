@@ -18,6 +18,10 @@ class CartController extends PublicCartController
             'html' => Theme::partial('cart-panel'),
         ]);
 
+        $response->setData([
+            'next_url' => route('public.delivery'),
+        ]);
+
         return $response;
     }
 

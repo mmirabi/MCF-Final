@@ -97,11 +97,19 @@
                     @endif --}}
                     @php
                         Theme::asset()
-                            ->usePath()->add('select2.css', 'plugins/select2/css/select2.min.css');
+                            ->usePath()->add('air-datepicker.css', 'plugins/air-datepicker/css/datepicker.css');
+                        Theme::asset()
+                            ->usePath()->add('product-add-cart.css', 'css/product-add-cart.css');
 
                         Theme::asset()
                             ->container('footer')
-                            ->scriptUsingPath('select2.js', 'plugins/select2/js/select2.min.js');
+                            ->scriptUsingPath('air-datepicker.js', 'plugins/air-datepicker/js/datepicker.js');
+                        Theme::asset()
+                            ->container('footer')
+                            ->scriptUsingPath('datepicker.tr.js', 'plugins/air-datepicker/js/i18n/datepicker.tr.js');
+                        Theme::asset()
+                            ->container('footer')
+                            ->scriptUsingPath('product-add-cart.js', 'js/product-add-cart.js?v='.time());
                     @endphp
                     <div class="form-group mb-3 option-field product-option-shipping product-option-10" style="margin-bottom: 10px">
                         <div class="product-option-item-wrapper">
@@ -111,7 +119,7 @@
                                 </label>
                             </div>
                             <div class="product-option-item-values">
-                                <select name="location" class="form-select" id="location" data-type="location" data-placeholder="{{ __('Select city...') }}" required data-using-select2="true">
+                                <select name="shipping_location" class="i-dropzone form-select square" id="shipping_location" data-type="location" data-placeholder="{{ __('Select city...') }}" required data-using-select2="true">
                                     <option value="">{{ __('Select location...') }}</option>
                                     @foreach(\Botble\Ecommerce\Models\ShippingRule::all() as $shippingRule)
                                         @foreach($shippingRule->items as $item)
@@ -119,6 +127,48 @@
                                         @endforeach
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div id="add-cart-dates" class="product-option-item-wrapper mt-4">
+                            <div class="product-option-item-values">
+                                <div class="add-cart-dates d-flex justify-content-between text-center font-weight-bold">
+                                    @for($i = 0;$i < 3;$i++)
+                                        <div class="date-item cursor-pointer" data-date-value="{{ now()->addDays($i)->format('Y-m-d') }}">
+                                            <div class="child">
+                                                <div class="h5">
+                                                    {{ now()->addDays($i)->format('d') }} {{ now()->addDays($i)->locale('tr')->translatedFormat('F') }}
+                                                </div>
+                                                <div class="h3">
+                                                    {{ now()->addDays($i)->locale('tr')->translatedFormat('l') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                        <div class="date-item nochek">
+                                            <div class="child d-flex justify-content-center align-items-center">
+                                                <div class="i-datepicker">
+                                                    <span class="input-group-addon"><i class="h2 fi-rs-calendar"></i></span>
+                                                    <input type="text" required name="shipping_date" id="shipping_date" class="form-control p-1" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="add-cart-times" class="product-option-item-wrapper mt-4">
+                            <div class="product-option-item-values">
+                                <div class="add-cart-times d-flex text-center font-weight-bold">
+                                    <input type="hidden" name="shipping_time" required>
+                                    @foreach(['10:00-16:00', '14:00-20:00'] as $index => $time)
+                                        <div class="time-item cursor-pointer mr-5" data-index="{{ $index }}" data-time-value="{{ $time }}">
+                                            <div class="child">
+                                                <div class="h5">
+                                                    {{ $time }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
