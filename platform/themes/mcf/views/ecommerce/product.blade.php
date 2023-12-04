@@ -38,8 +38,7 @@
                     @endforeach
                 </div>
             </div>
-            {!! Theme::partial('social-share', ['url' => $product->url, 'description' => strip_tags(SeoHelper::getDescription())]) !!}
-            <a class="mail-to-friend font-sm color-grey" href="mailto:someone@example.com?subject={{ __('Buy :name', ['name' => $product->name]) }}&body={{ __('Buy this one: :link', ['link' => $product->url]) }}"><i class="fi-rs-envelope"></i> {{ __('Email to a Friend') }}</a>
+            
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="detail-info pr-30 pl-30">
@@ -208,38 +207,61 @@
                         </div>
                     </div>
                 </form>
-                <div class="font-xs">
-
-                    <ul class="mr-50 float-start">
-
-                        <li class="mb-5 @if (! $product->sku) d-none @endif" id="product-sku">
-                            <span class="d-inline-block me-1">{{ __('SKU') }}:</span> <span class="sku-text">{{ $product->sku }}</span>
-                        </li>
-
-                        @if ($product->categories->isNotEmpty())
-                            <li class="mb-5">
-                                <span class="d-inline-block me-1">{{ __('Categories') }}:</span>
-                                @foreach($product->categories as $category)
-                                    <a href="{{ $category->url }}" title="{{ $category->name }}">{!! BaseHelper::clean($category->name) !!}</a>@if (!$loop->last),@endif
-                                @endforeach
-                            </li>
-                        @endif
-                        @if ($product->tags->isNotEmpty())
-                            <li class="mb-5">
-                                <span class="d-inline-block me-1">{{ __('Tags') }}:</span>
-                                @foreach($product->tags as $tag)
-                                    <a href="{{ $tag->url }}" rel="tag" title="{{ $tag->name }}">{{ $tag->name }}</a>@if (!$loop->last),@endif
-                                @endforeach
-                            </li>
-                        @endif
-
-                        @if ($product->brand->id)
-                            <li class="mb-5">
-                                <span class="d-inline-block me-1">{{ __('Brands') }}:</span>
-                                <a href="{{ $product->brand->url }}" title="{{ $product->brand->name }}">{{ $product->brand->name }}</a>
-                            </li>
-                        @endif
-                    </ul>
+                <hr >
+                <div class="container">
+                    <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-2 g-3">
+                      <div class="col">
+                        <h4 style="margin-bottom:20px;">{{ __('Other') }}</h4>
+                        <div class="font-xs">
+                            <ul class="mr-50 float-start">        
+                                <li class="mb-5 @if (! $product->sku) d-none @endif" id="product-sku">
+                                    <span class="d-inline-block me-1">{{ __('SKU') }}:</span> <span class="sku-text">{{ $product->sku }}</span>
+                                </li>       
+                                @if ($product->categories->isNotEmpty())
+                                    <li class="mb-5">
+                                        <span class="d-inline-block me-1">{{ __('Categories') }}:</span>
+                                        @foreach($product->categories as $category)
+                                            <a href="{{ $category->url }}" title="{{ $category->name }}">{!! BaseHelper::clean($category->name) !!}</a>@if (!$loop->last),@endif
+                                        @endforeach
+                                    </li>
+                                @endif
+                                @if ($product->tags->isNotEmpty())
+                                    <li class="mb-5">
+                                        <span class="d-inline-block me-1">{{ __('Tags') }}:</span>
+                                        @foreach($product->tags as $tag)
+                                            <a href="{{ $tag->url }}" rel="tag" title="{{ $tag->name }}">{{ $tag->name }}</a>@if (!$loop->last),@endif
+                                        @endforeach
+                                    </li>
+                                @endif       
+                                @if ($product->brand->id)
+                                    <li class="mb-5">
+                                        <span class="d-inline-block me-1">{{ __('Brands') }}:</span>
+                                        <a href="{{ $product->brand->url }}" title="{{ $product->brand->name }}">{{ $product->brand->name }}</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                      </div>
+                        <div class="col">
+                            <div>
+                                <div class="mb-5">
+                                    <h4 style="margin-bottom:20px;">{{ __('Size') }}</h4>
+                                    <img class="svgInject" style="width:30px;float: left;margin-right: 8px;margin-bottom: 30px;" src="{{ Theme::asset()->url('imgs/theme/icons/ruler.svg') }}" /><p>{{ __('Included in our')}} {{ $category->name }} {{ __('Category') }}</p>
+                                    
+                                    <i class="fas fa-quote-left fa-xs text-primary"></i>
+                                    <span>{!! BaseHelper::clean($product->name) !!}</span>
+                                    <i class="fas fa-quote-right fa-xs text-primary"></i>
+                                    <p> <em><u> {{ $product->size}} </u></em> {{ __('is a') }} {{ $category->name }} {{ __('tray') }}.</p>
+                                    <span class="d-inline-block me-1 text-lowercase">{{ $product->wide}}{{ __('cm') }} {{ __('Wide') }} x {{ $product->weight}}{{ __('cm') }} {{ __('Weight') }} x {{ $product->height}}{{ __('cm') }}  {{ __('Height') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {!! Theme::partial('social-share', ['url' => $product->url, 'description' => strip_tags(SeoHelper::getDescription())]) !!}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

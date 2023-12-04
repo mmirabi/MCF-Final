@@ -15,7 +15,8 @@
 @extends(BaseHelper::getAdminMasterLayoutTemplate())
 
 @section('content')
-    <div id="main-settings">
+    {{-- mehdi mirabi license section deactivate --}}
+    {{-- <div id="main-settings">
         <license-component
             verify-url="{{ route('settings.license.verify') }}"
             activate-license-url="{{ route('settings.license.activate') }}"
@@ -23,7 +24,7 @@
             reset-license-url="{{ route('settings.license.reset') }}"
             manage-license="{{ auth()->guard()->user()->hasPermission('core.manage.license') ? 'yes': 'no' }}"
         ></license-component>
-    </div>
+    </div> --}}
 
     <div class="max-width-1200">
         {!! Form::open(['route' => ['settings.edit']]) !!}

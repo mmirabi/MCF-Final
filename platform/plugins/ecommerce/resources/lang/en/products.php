@@ -57,6 +57,9 @@ return [
             'out_stock' => 'Out stock',
             'title' => 'Stock status',
         ],
+        // Mehdi Mirabi size feild added
+        'size_box' => 'Size (Small Sized, Medium Sized, Large Sized)',
+        'size_placeholder' => 'Enter size',
         'storehouse' => [
             'no_storehouse' => 'No storehouse management',
             'storehouse' => 'With storehouse management',

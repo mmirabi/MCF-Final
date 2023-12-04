@@ -139,9 +139,24 @@
                 </div>
             </div>
         </div>
+        {{-- Mehdi Mirabi added size feild box in product admin panel --}}
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label class="text-title-field">{{ trans('plugins/ecommerce::products.form.size_box') }}</label>
+                <div class="next-input--stylized">
+                    <input
+                        class="next-input next-input--invisible"
+                        name="size"
+                        type="text"
+                        value="{{ old('size', $product ? $product->size : $originalProduct->size ?? null) }}"
+                        step="any"
+                        placeholder="{{ trans('plugins/ecommerce::products.form.size_placeholder') }}"
+                    >
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 <hr />
 
 {!! apply_filters('ecommerce_product_variation_form_middle', null, $product) !!}

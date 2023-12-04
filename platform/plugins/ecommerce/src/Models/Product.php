@@ -65,6 +65,8 @@ class Product extends BaseModel
         'barcode',
         'cost_per_item',
         'generate_license_code',
+        //mehdi mirabi added size feild
+        'size',
     ];
 
     protected $appends = [
