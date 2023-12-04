@@ -103,13 +103,25 @@
                             ->container('footer')
                             ->scriptUsingPath('select2.js', 'plugins/select2/js/select2.min.js');
                     @endphp
-
-                    <select name="city" class="form-select" id="city" data-type="city" data-placeholder="{{ __('Select city...') }}" data-using-select2="true" data-url="{{ route('ajax.cities-by-state') }}">
-                        <option value="">{{ __('Select city...') }}</option>
-                        @foreach(\Botble\Location\Models\City::get()->pluck('name', 'id')->toArray() as $cityId => $cityName)
-                            <option value="{{ $cityId }}">{{ $cityName }}</option>
-                        @endforeach
-                    </select>
+                    <div class="form-group mb-3 option-field product-option-shipping product-option-10" style="margin-bottom: 10px">
+                        <div class="product-option-item-wrapper">
+                            <div class="product-option-item-label">
+                                <label class="required" for="location">
+                                    Shipping
+                                </label>
+                            </div>
+                            <div class="product-option-item-values">
+                                <select name="location" class="form-select" id="location" data-type="location" data-placeholder="{{ __('Select city...') }}" required data-using-select2="true">
+                                    <option value="">{{ __('Select location...') }}</option>
+                                    @foreach(\Botble\Ecommerce\Models\ShippingRule::all() as $shippingRule)
+                                        @foreach($shippingRule->items as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name_item }} ({{ format_price($item->adjustment_price) }})</option>
+                                        @endforeach
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     {!! render_product_options($product) !!}
 
                     {!! Theme::partial('product-availability', compact('product', 'productVariation')) !!}
