@@ -1322,7 +1322,7 @@
             font-size: 12px;
              line-height: 13px;
         }
-        .header-style-1.header-height-2 { 
+        .header-style-1.header-height-2 {
             display: none;
         }
         footer.main {
@@ -1409,7 +1409,7 @@
                                                                         @if (!empty($cartItem->options['options']))
                                                                         {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
                                                                         @endif
-                                                                    </p> 
+                                                                    </p>
                                                                 </div>
                                                                 <div class="col col-lg-2">
                                                                     <span><span class="d-inline-block">{{ format_price($cartItem->price) }}</span> @if ($product->front_sale_price != $product->price)
@@ -1426,14 +1426,19 @@
                                             <tr>
                                                 <td>
                                                     <div class="adreseklebtn2">
-                                                        <b style="padding-right:20px;">Teslimat:</b>
-                                                        
+                                                        <b style="padding-right:20px;">
+                                                            <span>Teslimat: </span>
+                                                            <span>{{ $cartItem->getShippingRule()->name_item }} ({{ format_price($cartItem->getShippingRule()->adjustment_price) }})</span>
+                                                            <span>, {{ $cartItem->shipping_date }}</span>
+                                                            <span>, {{ $cartItem->shipping_time }}</span>
+                                                        </b>
+
                                                     </div>
                                                 </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
-                                    </table>   
+                                    </table>
                                 </div>
                                 <center>
                                     <a href="/products">
@@ -1511,7 +1516,7 @@
                                                 </div>
                                                 <div class="col-6 float-end">
                                                     <p class="price-text shipping-price-text">
-                                                        {{ format_price($shippingAmount) }}</p>
+                                                        {{ format_price($shippingAmount + Cart::instance('cart')->shippingFee()) }}</p>
                                                 </div>
                                             </div>
                                         @endif
@@ -1521,6 +1526,10 @@
                                                     <strong>{{ __('Shipping fee') }}</strong>:
                                                 </p>
                                             </div>
+                                            <div class="col-6 float-end">
+                                                <p class="price-text shipping-price-text">
+                                                    {{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1529,7 +1538,7 @@
                                 <hr>
                                 <a href="/additionalgifts" class="btn green sonrakibuton">{{ __('Continue') }}</a>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1543,14 +1552,14 @@
         <div class="col-md-auto">
             <h3>{{ __('No products in the cart.') }}</h3>
         </div>
-        
+
     </div>
-    
+
     <div class="row row justify-content-md-center">
         <div class="col-md-auto margin-50">
             <a class="btn btn-primary" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
         </div>
     </div>
-    
+
 </div>
 @endif

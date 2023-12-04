@@ -1592,7 +1592,7 @@
                 line-height: 13px;
             }
             .header-style-1.header-height-2 {
-            
+
                 display: none;
             }
             footer.main {
@@ -1600,6 +1600,10 @@
             }
             body {
                 background-color: #f8f7f5;
+            }
+            .EKURUNDIVactive {
+                border: 4px solid #679A97;
+                background-image: url(https://www.ribbonflowers.com/ikonlar/checked.png);
             }
     </style>
 </head>
@@ -1674,7 +1678,7 @@
                                                                         @if (!empty($cartItem->options['options']))
                                                                         {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
                                                                         @endif
-                                                                    </p>  
+                                                                    </p>
                                                                 </div>
                                                                 <div class="col col-lg-2">
                                                                     <span><span class="d-inline-block">{{ format_price($cartItem->price) }}</span> @if ($product->front_sale_price != $product->price)
@@ -1692,91 +1696,26 @@
                                                 <td>
                                                     <div class="ekuruneklebtn">
                                                         <span class="modal-title" id="modal-title3" style="font-weight:bold;">{{ __('Would You Like to Send Additional Gifts?')}}</span>
-                                                        <div aaaa="max-height:100%;max-height: 60vh;overflow-y: auto;">
+                                                        <div style="max-height:100%;max-height: 60vh;overflow-y: auto;">
                                                             <div class="ekcatdivTABLE">
-                                                                <div class="ekcatdiv ekcatdivACTIVE" catid="0"> TÜMÜ </div>
-                                                                <div class="ekcatdiv" catid="1458"> NOT KARTI </div>
-                                                                <div class="ekcatdiv" catid="1460"> BALON </div>
-                                                                <div class="ekcatdiv" catid="1463"> FOTOĞRAF </div>
-                                                                <div class="ekcatdiv" catid="1461"> AYICIK </div>
-                                                                <div class="ekcatdiv" catid="1459"> ÇİKOLATA </div>
-                                                                <div class="ekcatdiv" catid="1462"> MUM </div>
-                                                                <div class="ekcatdiv" catid="1464"> HEDİYE KUTULARI </div>
-                                                                <div class="ekcatdiv" catid="1465"> VAZO VE ÇANTA </div>
+                                                                <div class="ekcatdiv ekcatdivACTIVE">Tüm</div>
+                                                                @foreach(\Botble\Ecommerce\Models\ProductCategory::where('cat_type', 'additional')->get() as $cate_index => $category)
+                                                                    <div class="ekcatdiv" catid="{{ $cartItem->id }}-{{ $category->id }}">{{ $category->name }}</div>
+                                                                @endforeach
                                                             </div>
                                                             <div class="products product-list">
-                                                                <a hids="-1459-" pid="86925" code="D518355" pr="1984" urunad="Canım Öğretmenim Pembe Çikolata Mini Tepsi" urunkod="P-1984" urunurl="canim-ogretmenim-pembe-cikolata-mini-tepsi" urunfiyat="1495,00" class="product EKURUNDIV">
-                                                                    <div class="ekloading">
-                                                                        
-                                                                    </div>
-                                                                    <div class="product_resimdiv">
-                                                                        <img class="resimX" src="https://cdn.ikost.com/3020/urunler/17214_500.jpg">
-                                                                    </div>
-                                                                    <div style="padding: 15px 0;text-align: left;">
-                                                                        <b>Canım Öğretmenim Pembe Çikolata Mini Tepsi </b>
-                                                                        <div style="margin-top:10px;">1495,00 TL</div>
-                                                                    </div>
-                                                                </a>
-                                                                <a hids="" pid="86925" code="D518355" pr="1991" urunad="Canım Öğretmenim Mum Çikolata Hediye Kutusu" urunkod="P-1991" urunurl="canim-ogretmenim-mum-cikolata-hediye-kutusu" urunfiyat="3195,00" class="product EKURUNDIV">
-                                                                    <div class="ekloading">
-                                                                        
-                                                                    </div>
-                                                                    <div class="product_resimdiv">
-                                                                        <img class="resimX" src="https://cdn.ikost.com/3020/urunler/17249_500.jpg">
-                                                                    </div>
-                                                                    <div style="padding: 15px 0;text-align: left;">
-                                                                        <b>Canım Öğretmenim Mum Çikolata Hediye Kutusu </b>
-                                                                        <div style="margin-top:10px;">3195,00 TL</div>
-                                                                    </div>
-                                                                </a>
-                                                                <a hids="" pid="86925" code="D518355" pr="1977" urunad="Canım Öğretmenim Kişiye Özel Polaroid Fotoğraflı Hediye Kutusu" urunkod="P-1977" urunurl="canim-ogretmenim-kisiye-ozel-polaroid-fotografli-hediye-kutusu" urunfiyat="3395,00" class="product EKURUNDIV">
-                                                                    <div class="ekloading">
-                                                                        
-                                                                    </div>
-                                                                    <div class="product_resimdiv">
-                                                                        <img class="resimX" src="https://cdn.ikost.com/3020/urunler/17198_500.jpg">
-                                                                    </div>
-                                                                    <div style="padding: 15px 0;text-align: left;">
-                                                                        <b>Canım Öğretmenim Kişiye Özel Polaroid Fotoğraflı Hediye Kutusu </b>
-                                                                        <div style="margin-top:10px;">3395,00 TL</div>
-                                                                    </div>
-                                                                </a>
-                                                                <a hids="" pid="86925" code="D518355" pr="1976" urunad="The Best Teacher Cappucino Çikolata Hediye Kutusu" urunkod="P-1976" urunurl="the-best-teacher-cappucino-cikolata-hediye-kutusu" urunfiyat="3295,00" class="product EKURUNDIV">
-                                                                    <div class="ekloading">
-                                                                        
-                                                                    </div>
-                                                                    <div class="product_resimdiv">
-                                                                        <img class="resimX" src="https://cdn.ikost.com/3020/urunler/17184_500.jpg">
-                                                                    </div>
-                                                                    <div style="padding: 15px 0;text-align: left;">
-                                                                        <b>The Best Teacher Cappucino Çikolata Hediye Kutusu </b>
-                                                                        <div style="margin-top:10px;">3295,00 TL</div>
-                                                                    </div>
-                                                                </a>
-                                                                <a hids="" pid="86925" code="D518355" pr="678" urunad="Canım Öğretmenim Turuncu Çikolata Hediye Kutusu" urunkod="P-678" urunurl="turuncu-kisiye-ozel-fotografli-canim-ogretmenim-hediye-kutusu" urunfiyat="3295,00" class="product EKURUNDIV">
-                                                                    <div class="ekloading">
-                                                                        
-                                                                    </div>
-                                                                    <div class="product_resimdiv">
-                                                                        <img class="resimX" src="https://cdn.ikost.com/3020/urunler/10373_500.jpg">
-                                                                    </div>
-                                                                    <div style="padding: 15px 0;text-align: left;">
-                                                                        <b>Canım Öğretmenim Turuncu Çikolata Hediye Kutusu </b>
-                                                                        <div style="margin-top:10px;">3295,00 TL</div>
-                                                                    </div>
-                                                                </a>
-                                                                <a hids="" pid="86925" code="D518355" pr="677" urunad="Canım Öğretmenim Pembe Hediye Kutusu" urunkod="P-677" urunurl="pembe-kisiye-ozel-fotografli-canim-ogretmenim-hediye-kutusu" urunfiyat="3295,00" class="product EKURUNDIV">
-                                                                    <div class="ekloading">
-                                                                        
-                                                                    </div>
-                                                                    <div class="product_resimdiv">
-                                                                        <img class="resimX" src="https://cdn.ikost.com/3020/urunler/10347_500.jpg">
-                                                                    </div>
-                                                                    <div style="padding: 15px 0;text-align: left;">
-                                                                        <b>Canım Öğretmenim Pembe Hediye Kutusu </b>
-                                                                        <div style="margin-top:10px;">3295,00 TL</div>
-                                                                    </div>
-                                                                </a>
+                                                                @foreach(\Botble\Ecommerce\Models\Product::where('product_type', 'additional')->get() as $product)
+                                                                    <a class="product EKURUNDIV" data-pid="{{ $cartItem->id }}-{{ $product->id }}" data-cid="{{ $cartItem->id }}" catids="{{ implode(',', $product->categories->pluck('id')->toArray()) }}">
+                                                                        <div class="ekloading"></div>
+                                                                        <div class="product_resimdiv">
+                                                                            <img class="resimX" src="{{ RvMedia::getImageUrl($product->image, 'thumb', false, RvMedia::getDefaultImage()) }}">
+                                                                        </div>
+                                                                        <div style="padding: 15px 0;text-align: left;">
+                                                                            <b>{{ $product->name }}</b>
+                                                                            <div style="margin-top:10px;">{{ format_price($product->price) }}</div>
+                                                                        </div>
+                                                                    </a>
+                                                                @endforeach
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1784,8 +1723,22 @@
                                             </tr>
                                             @endforeach
                                         </tbody>
-                                    </table>   
+                                    </table>
                                 </div>
+                                <script>
+                                    setTimeout(function () {
+                                        $('[data-pid]').each(function (){
+                                            $(this).click(function () {
+                                                if($(this).hasClass('EKURUNDIVactive')) {
+                                                    $('[data-cid=' + $(this).data('cid') + ']').removeClass('EKURUNDIVactive')
+                                                }else {
+                                                    $('[data-cid=' + $(this).data('cid') + ']').removeClass('EKURUNDIVactive')
+                                                    $(this).addClass('EKURUNDIVactive')
+                                                }
+                                            })
+                                        })
+                                    }, 1000)
+                                </script>
                                 <center>
                                     <a href="/delivery">
                                         <u>{{ __('Back to Delivery') }}</u>
@@ -1862,7 +1815,7 @@
                                                 </div>
                                                 <div class="col-6 float-end">
                                                     <p class="price-text shipping-price-text">
-                                                        {{ format_price($shippingAmount) }}</p>
+                                                        {{ format_price($shippingAmount + Cart::instance('cart')->shippingFee()) }}</p>
                                                 </div>
                                             </div>
                                         @endif
@@ -1872,6 +1825,10 @@
                                                     <strong>{{ __('Shipping fee') }}</strong>:
                                                 </p>
                                             </div>
+                                            <div class="col-6 float-end">
+                                                <p class="price-text shipping-price-text">
+                                                    {{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1880,7 +1837,7 @@
                                 <hr>
                                 <a href="/messagecard" class="btn green sonrakibuton">{{ __('Continue') }}</a>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1894,14 +1851,14 @@
         <div class="col-md-auto">
             <h3>{{ __('No products in the cart.') }}</h3>
         </div>
-        
+
     </div>
-    
+
     <div class="row row justify-content-md-center">
         <div class="col-md-auto margin-50">
             <a class="btn btn-primary" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
         </div>
     </div>
-    
+
 </div>
 @endif
