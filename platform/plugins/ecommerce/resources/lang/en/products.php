@@ -33,6 +33,7 @@ return [
             'title' => 'Product type',
         ],
         'product' => 'Product',
+        'type' => 'Type',
         'total' => 'Total',
         'sub_total' => 'Subtotal',
         'shipping_fee' => 'Shipping fee',
@@ -164,6 +165,7 @@ return [
     'types' => [
         'physical' => 'Physical',
         'digital' => 'Digital',
+        'additional' => 'Additional',
     ],
     'digital_attachments' => [
         'title' => 'Digital attachments',

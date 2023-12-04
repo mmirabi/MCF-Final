@@ -7,6 +7,8 @@ use Botble\Ecommerce\Cart\Contracts\Buyable;
 use Botble\Ecommerce\Cart\Exceptions\CartAlreadyStoredException;
 use Botble\Ecommerce\Cart\Exceptions\UnknownModelException;
 use Botble\Ecommerce\Facades\EcommerceHelper;
+use Botble\Ecommerce\Models\ShippingRule;
+use Botble\Ecommerce\Models\ShippingRuleItem;
 use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
@@ -57,7 +59,7 @@ class Cart
      * @param array $options
      * @return array|\Botble\Ecommerce\Cart\CartItem
      */
-    public function add($id, $name = null, $qty = null, $price = null, array $options = [])
+    public function add($id, $name = null, $qty = null, $price = null, $shipping_rule = null, $shipping_date = null, $shipping_time = null, array $options = [])
     {
         if ($this->isMulti($id)) {
             return array_map(function ($item) {
@@ -65,7 +67,7 @@ class Cart
             }, $id);
         }
 
-        $cartItem = $this->createCartItem($id, $name, $qty, $price, $options);
+        $cartItem = $this->createCartItem($id, $name, $qty, $price, $shipping_rule, $shipping_date, $shipping_time, $options);
 
         $content = $this->getContent();
 
@@ -109,7 +111,7 @@ class Cart
      * @param array $options
      * @return \Botble\Ecommerce\Cart\CartItem
      */
-    protected function createCartItem($id, $name, $qty, $price, array $options)
+    protected function createCartItem($id, $name, $qty, $price, $shipping_rule, $shipping_date, $shipping_time, array $options)
     {
         if (
             EcommerceHelper::isEnabledProductOptions() &&
@@ -119,6 +121,8 @@ class Cart
             $price = $this->getPriceByOptions($price, $productOptions);
         }
 
+        if ($shipping_rule_model = ShippingRuleItem::find($shipping_rule))
+            $price += $shipping_rule_model->adjustment_price;
         if ($id instanceof Buyable) {
             $cartItem = CartItem::fromBuyable($id, $qty ?: []);
             $cartItem->setQuantity($name ?: 1);
@@ -127,7 +131,7 @@ class Cart
             $cartItem = CartItem::fromArray($id);
             $cartItem->setQuantity($id['qty']);
         } else {
-            $cartItem = CartItem::fromAttributes($id, $name, $price, $options);
+            $cartItem = CartItem::fromAttributes($id, $name, $price, $shipping_rule, $shipping_date, $shipping_time, $options);
             $cartItem->setQuantity($qty);
         }
 
@@ -720,6 +724,18 @@ class Cart
         }
 
         return $this->session->get($this->instance);
+    }
+    /**
+     * Get the content of the cart.
+     *
+     * @return float
+     */
+    public function shippingFee()
+    {
+
+        return $this->content()->map(function ($item) {
+            return $item->getShippingRule()->shippingRule->price;
+        })->sum();
     }
 
     /**

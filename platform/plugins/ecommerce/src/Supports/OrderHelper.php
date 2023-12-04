@@ -491,6 +491,9 @@ class OrderHelper
             BaseHelper::clean($parentProduct->name ?: $product->name),
             $request->input('qty', 1),
             $product->front_sale_price,
+            $request->input('shipping_location'),
+            $request->input('shipping_date', now()->addDay()->format('Y-m-d')),
+            $request->input('shipping_time', 0) == 0 ? '10:00-16:00' : '14:00-20:00',
             [
                 'image' => $image,
                 'attributes' => $product->is_variation ? $product->variation_attributes : '',

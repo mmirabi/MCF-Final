@@ -1,10 +1,7 @@
 <?php
 
 return [
-    'settings' => [
-        'prefix' => 'ecommerce_shipping_',
-    ],
-    'days_title' => [
+    'days' => [
         "saturday" => "Cumartesi",
         "sunday" => "Pazar",
         "monday" => "Pazartesi",
@@ -14,3 +11,11 @@ return [
         "friday" => "Cuma",
     ]
 ];
+
+
+
+
+
+
+
+

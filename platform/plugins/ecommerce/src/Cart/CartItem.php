@@ -4,6 +4,7 @@ namespace Botble\Ecommerce\Cart;
 
 use Botble\Ecommerce\Cart\Contracts\Buyable;
 use Botble\Ecommerce\Facades\EcommerceHelper;
+use Botble\Ecommerce\Models\ShippingRuleItem;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -44,6 +45,26 @@ class CartItem implements Arrayable, Jsonable
     public $price;
 
     /**
+     * The shipping_rule_id of the cart item.
+     *
+     * @var int|string
+     */
+    public $shipping_rule_id;
+
+    /**
+     * The shipping_date_id of the cart item.
+     *
+     * @var string
+     */
+    public $shipping_date;
+
+    /**
+     * The price without TAX of the cart item.
+     *
+     * @var string
+     */
+    public $shipping_time;
+    /**
      * The options for this cart item.
      *
      * @var array|Collection
@@ -72,7 +93,7 @@ class CartItem implements Arrayable, Jsonable
      * @param float $price
      * @param array $options
      */
-    public function __construct($id, $name, $price, array $options = [])
+    public function __construct($id, $name, $price, $shipping_rule, $shipping_date, $shipping_time, array $options = [])
     {
         if (empty($id)) {
             throw new InvalidArgumentException('Please supply a valid identifier.');
@@ -87,6 +108,9 @@ class CartItem implements Arrayable, Jsonable
         $this->id = $id;
         $this->name = $name;
         $this->price = $price;
+        $this->shipping_rule_id = $shipping_rule;
+        $this->shipping_date = $shipping_date;
+        $this->shipping_time = $shipping_time;
         $this->options = new CartItemOptions($options);
         $this->rowId = $this->generateRowId($id, $options);
         $this->created_at = Carbon::now();
@@ -191,6 +215,9 @@ class CartItem implements Arrayable, Jsonable
         $this->qty = Arr::get($attributes, 'qty', $this->qty);
         $this->name = Arr::get($attributes, 'name', $this->name);
         $this->price = Arr::get($attributes, 'price', $this->price);
+        $this->shipping_rule_id = Arr::get($attributes, 'shipping_rule_id', $this->shipping_rule_id);
+        $this->shipping_date = Arr::get($attributes, 'shipping_date', $this->shipping_date);
+        $this->shipping_time = Arr::get($attributes, 'shipping_time', $this->shipping_time);
         $this->priceTax = $this->price + $this->tax;
         $this->options = new CartItemOptions(Arr::get($attributes, 'options', $this->options));
 
@@ -226,6 +253,10 @@ class CartItem implements Arrayable, Jsonable
     public function getTaxRate(): float
     {
         return $this->taxRate;
+    }
+    public function getShippingRule(): ShippingRuleItem
+    {
+        return ShippingRuleItem::find($this->shipping_rule_id);
     }
 
     /**
@@ -318,9 +349,9 @@ class CartItem implements Arrayable, Jsonable
      * @param array $options
      * @return \Botble\Ecommerce\Cart\CartItem
      */
-    public static function fromAttributes($id, $name, $price, array $options = [])
+    public static function fromAttributes($id, $name, $price, $shipping_rule, $shipping_date, $shipping_time, array $options = [])
     {
-        return new self($id, $name, $price, $options);
+        return new self($id, $name, $price, $shipping_rule, $shipping_date, $shipping_time, $options);
     }
 
     /**
@@ -348,6 +379,9 @@ class CartItem implements Arrayable, Jsonable
             'name' => $this->name,
             'qty' => $this->qty,
             'price' => $this->price,
+            'shipping_rule_id' => $this->shipping_rule_id,
+            'shipping_date' => $this->shipping_date,
+            'shipping_time' => $this->shipping_time,
             'options' => $this->options->toArray(),
             'tax' => $this->tax,
             'subtotal' => $this->subtotal,

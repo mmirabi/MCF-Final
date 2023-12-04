@@ -106,9 +106,6 @@ class ProductForm extends FormAbstract
                     'priority' => 9999,
                 ],
             ])
-            ->add('product_type', 'hidden', [
-                'value' => request()->input('product_type') ?: ProductTypeEnum::PHYSICAL,
-            ])
             ->add('status', 'customSelect', [
                 'label' => trans('core/base::tables.status'),
                 'required' => true,
@@ -126,6 +123,14 @@ class ProductForm extends FormAbstract
             ->add('brand_id', 'customSelect', [
                 'label' => trans('plugins/ecommerce::products.form.brand'),
                 'choices' => $brands,
+            ])
+            ->add('product_type', 'customSelect', [
+                'label' => trans('plugins/ecommerce::products.form.type'),
+                'choices' => [
+                    'physical' => 'Physical',
+                    'additional' => 'Additional',
+                ],
+                'value' => request()->input('product_type') ?: ProductTypeEnum::PHYSICAL,
             ])
             ->add('image', 'mediaImage', [
                 'label' => trans('plugins/ecommerce::products.form.featured_image'),

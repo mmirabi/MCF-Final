@@ -4,6 +4,7 @@ namespace Botble\Ecommerce\Forms;
 
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Forms\FormAbstract;
+use Botble\Ecommerce\Enums\ProductCategoryTypeEnum;
 use Botble\Ecommerce\Facades\ProductCategoryHelper;
 use Botble\Ecommerce\Http\Requests\ProductCategoryRequest;
 use Botble\Ecommerce\Models\ProductCategory;
@@ -20,7 +21,6 @@ class ProductCategoryForm extends FormAbstract
             ->whereIn('parent_id', [0, null])
             ->orderByDesc('order')
             ->value('order');
-
         $this
             ->setupModel(new ProductCategory())
             ->setValidatorClass(ProductCategoryRequest::class)
@@ -55,6 +55,15 @@ class ProductCategoryForm extends FormAbstract
                     'placeholder' => trans('core/base::forms.order_by_placeholder'),
                 ],
                 'default_value' => $maxOrder + 1,
+            ])
+
+            ->add('cat_type', 'customSelect', [
+                'label' => trans('plugins/ecommerce::products.form.type'),
+                'choices' => [
+                    'product' => 'Product',
+                    'additional' => 'Additional',
+                ],
+                'value' => request()->input('type') ?: ProductCategoryTypeEnum::PRODUCT,
             ])
             ->add('status', 'customSelect', [
                 'label' => trans('core/base::tables.status'),

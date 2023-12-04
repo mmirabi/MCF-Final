@@ -165,6 +165,7 @@ class ProductCategoryHelper
             ->select([
                 'ec_product_categories.id',
                 'ec_product_categories.name',
+                'ec_product_categories.cat_type',
                 'parent_id',
                 DB::raw('CONCAT(slugs.prefix, "/", slugs.key) as url'),
                 'icon',

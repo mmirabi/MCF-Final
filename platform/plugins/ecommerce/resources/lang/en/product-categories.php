@@ -7,6 +7,7 @@ return [
     'list' => 'List product categories',
     'none' => 'None',
     'menu' => 'Product categories',
+    'type' => 'Type',
     'intro' => [
         'title' => 'Manage product categories',
         'description' => 'Such as clothes, shoes, bags, jewelry ...',

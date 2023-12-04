@@ -8,14 +8,12 @@ use Botble\Ecommerce\Facades\EcommerceHelper;
 use Illuminate\Support\HtmlString;
 
 /**
- * @method static ProductTypeEnum PHYSICAL()
- * @method static ProductTypeEnum DIGITAL()
- * @method static ProductTypeEnum ADDITIONAL()
+ * @method static ProductCategoryTypeEnum PRODUCT()
+ * @method static ProductCategoryTypeEnum ADDITIONAL()
  */
-class ProductTypeEnum extends Enum
+class ProductCategoryTypeEnum extends Enum
 {
-    public const PHYSICAL = 'physical';
-    public const DIGITAL = 'digital';
+    public const PRODUCT = 'product';
     public const ADDITIONAL = 'additional';
 
     public static $langPath = 'plugins/ecommerce::products.types';
@@ -23,9 +21,7 @@ class ProductTypeEnum extends Enum
     public function toHtml(): HtmlString|string
     {
         return match ($this->value) {
-            self::PHYSICAL => Html::tag('span', self::PHYSICAL()->label(), ['class' => 'label-info status-label'])
-                ->toHtml(),
-            self::DIGITAL => Html::tag('span', self::DIGITAL()->label(), ['class' => 'label-primary status-label'])
+            self::PRODUCT => Html::tag('span', self::DIGITAL()->label(), ['class' => 'label-primary status-label'])
                 ->toHtml(),
             self::ADDITIONAL => Html::tag('span', self::DIGITAL()->label(), ['class' => 'label-warning status-label'])
                 ->toHtml(),
@@ -40,11 +36,7 @@ class ProductTypeEnum extends Enum
         }
 
         return match ($this->value) {
-            self::PHYSICAL => Html::tag('i', '', [
-                'class' => 'fa-solid fa-suitcase-rolling text-primary',
-                'title' => self::PHYSICAL()->label(),
-            ])->toHtml(),
-            self::DIGITAL => Html::tag('i', '', [
+            self::PRODUCT => Html::tag('i', '', [
                 'class' => 'fa-solid fa-microchip text-info',
                 'title' => self::DIGITAL()->label(),
             ])->toHtml(),

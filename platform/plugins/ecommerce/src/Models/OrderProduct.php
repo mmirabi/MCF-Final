@@ -4,6 +4,8 @@ namespace Botble\Ecommerce\Models;
 
 use Botble\Base\Models\BaseModel;
 use Botble\Ecommerce\Enums\ProductTypeEnum;
+use Botble\Location\Location;
+use Botble\Location\Models\City;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,6 +19,12 @@ class OrderProduct extends BaseModel
     protected $fillable = [
         'order_id',
         'product_id',
+        'additional_id',
+        'message_id',
+        'message_subject',
+        'message_text',
+        'city_id',
+        'send_at',
         'product_name',
         'product_image',
         'qty',
@@ -38,6 +46,15 @@ class OrderProduct extends BaseModel
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class)->withDefault();
+    }
+    public function additional(): BelongsTo
+    {
+        return $this->belongsTo(Product::class)->withDefault();
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class)->withDefault();
     }
 
     public function order(): BelongsTo

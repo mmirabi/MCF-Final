@@ -138,12 +138,15 @@ class GetProductService
             'brands' => $queryVar['brands'],
             'attributes' => $queryVar['attributes'],
             'order_by' => $orderBy,
+            'where' => [
+
+            ],
         ], $params);
 
         if ($keyword = $queryVar['keyword']) {
             $products->setCollection(BaseHelper::sortSearchResults($products->getCollection(), $keyword, 'name'));
         }
-
+        $products->setCollection($products->getCollection()->where('product_type', '!=', 'additional'));
         return $products;
     }
 }
