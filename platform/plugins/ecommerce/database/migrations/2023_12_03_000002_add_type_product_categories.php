@@ -8,7 +8,7 @@ return new class () extends Migration {
     public function up(): void
     {
         if (!Schema::hasColumns('ec_product_categories', ['cat_type'])) {
-            Schema::table('ec_order_product', function (Blueprint $table) {
+            Schema::table('ec_product_categories', function (Blueprint $table) {
                 $table->string('cat_type')->after('description')->nullable();
             });
         }

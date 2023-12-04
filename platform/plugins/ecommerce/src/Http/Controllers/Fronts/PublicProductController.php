@@ -299,7 +299,6 @@ class PublicProductController
         }
 
         $category = ProductCategory::query()->with(['slugable'])->where($condition)->firstOrFail();
-
         if ($category->slugable->key !== $slug->key) {
             return redirect()->to($category->url);
         }

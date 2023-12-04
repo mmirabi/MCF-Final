@@ -8,9 +8,8 @@
 
     $currentCategories = $groupedCategories->get($parentId ?? 0);
 @endphp
-
 @if($currentCategories)
-    @foreach ($currentCategories as $category)
+    @foreach ($currentCategories->where('cat_type', '!=', 'additional') as $category)
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="categories[]" value="{{ $category->id }}" @checked(in_array($category->id, $categoriesRequest)) id="category-filter-{{ $category->id }}">
             <label class="form-check-label" for="category-filter-{{ $category->id }}">
