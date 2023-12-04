@@ -95,6 +95,8 @@ class CsvProductExport implements FromCollection, WithHeadings
                 'barcode' => $product->barcode,
                 'content' => $product->content,
                 'tags' => implode(',', $product->tags->pluck('name')->all()),
+                // mehdi mirabi size feild added
+                'size' => $product->size,
             ];
 
             if ($this->enabledDigital) {
@@ -144,6 +146,7 @@ class CsvProductExport implements FromCollection, WithHeadings
                             'barcode' => $variation->product->barcode,
                             'content' => '',
                             'tags' => '',
+                            'size' => $product->size,
                         ],
                         $this->enabledDigital ? ['product_type' => ''] : [],
                         $this->isMarketplaceActive ? ['vendor' => ''] : []
@@ -206,6 +209,7 @@ class CsvProductExport implements FromCollection, WithHeadings
             'barcode' => 'Barcode',
             'content' => 'Content',
             'tags' => 'Tags',
+            'size' => 'Size',
         ];
 
         if ($this->enabledDigital) {

@@ -88,6 +88,9 @@ trait ProductActionsTrait
                 $productRelatedToVariation->wide = Arr::get($version, 'wide', $product->wide);
                 $productRelatedToVariation->height = Arr::get($version, 'height', $product->height);
                 $productRelatedToVariation->weight = Arr::get($version, 'weight', $product->weight);
+                // Mehdi Mirabi size feild added
+                $productRelatedToVariation->size = Arr::get($version, 'size', $product->size);
+
 
                 $productRelatedToVariation->sale_type = (int)Arr::get($version, 'sale_type', $product->sale_type);
 
@@ -286,6 +289,8 @@ trait ProductActionsTrait
                     $originProduct->wide = $latestVariation->product->wide;
                     $originProduct->height = $latestVariation->product->height;
                     $originProduct->weight = $latestVariation->product->weight;
+                    // mehdi mirabi size feild added
+                    $originProduct->size = $latestVariation->product->size;
                     $originProduct->sale_price = $latestVariation->product->sale_price;
                     $originProduct->sale_type = $latestVariation->product->sale_type;
                     $originProduct->start_date = $latestVariation->product->start_date;

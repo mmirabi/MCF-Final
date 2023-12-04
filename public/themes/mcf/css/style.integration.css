@@ -344,3 +344,16 @@ p:last-child {
   .mcf-logo-type {
     font-size: 22px!important;
 }
+}
+.mobile-social-icon a.facebook {
+  background-color: var(--color-grey-9)!important;
+  border: 1px solid var(--color-heading)!important;
+}
+.mobile-social-icon a.twitter {
+  background-color: var(--color-grey-9)!important;
+  border: 1px solid var(--color-heading)!important;
+}
+.mobile-social-icon a.linkedin {
+  background-color: var(--color-grey-9)!important;
+  border: 1px solid var(--color-heading)!important;
+}

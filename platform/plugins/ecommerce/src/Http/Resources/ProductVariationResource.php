@@ -37,6 +37,8 @@ class ProductVariationResource extends JsonResource
             'height' => $this->height,
             'wide' => $this->wide,
             'length' => $this->length,
+            // mehdi mirabi added size feild
+            'size' => $this->size,
             'selected_attributes' => $this->when($this->selectedAttributes, function () {
                 return $this->selectedAttributes->map(function ($item) {
                     return [

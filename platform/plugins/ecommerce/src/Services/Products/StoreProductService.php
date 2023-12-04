@@ -44,6 +44,8 @@ class StoreProductService
                 'height',
                 'weight',
                 'generate_license_code',
+                // mehdi mirabi added size feild
+                'size',
             ]);
         }
 

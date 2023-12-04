@@ -406,6 +406,8 @@ class PublicProductController
                         'ec_products.weight',
                         'ec_products.wide',
                         'ec_products.length',
+                        // mehdi mirabi added size in admin panel
+                        'ec_products.size',
                     ],
                     'take' => 1,
                 ]);
