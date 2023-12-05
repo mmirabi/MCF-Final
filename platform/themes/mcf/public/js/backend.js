@@ -385,9 +385,6 @@ var __webpack_exports__ = {};
           _self.prop('disabled', false).removeClass('button-loading').addClass('active');
           if (response.error) {
             window.showAlert('alert-danger', response.message);
-            if (response.data.next_url !== undefined) {
-              window.location.href = response.data.next_url;
-            }
             return false;
           }
           window.showAlert('alert-success', response.message);
@@ -430,9 +427,6 @@ var __webpack_exports__ = {};
           if (response.error) {
             _self.removeClass('button-loading');
             window.showAlert('alert-danger', response.message);
-            if (response.data.next_url !== undefined) {
-              window.location.href = response.data.next_url;
-            }
             return false;
           }
           window.showAlert('alert-success', response.message);
@@ -504,6 +498,9 @@ var __webpack_exports__ = {};
               $('.section--shopping-cart').html(response.additional.cart_content);
             }
           }
+            if (response.data.next_url !== undefined) {
+                window.location.href = response.data.next_url;
+            }
         },
         error: function error(response) {
           _self.closest('.table--cart').removeClass('content-loading');

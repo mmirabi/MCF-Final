@@ -449,11 +449,6 @@
 
                     if (response.error) {
                         window.showAlert('alert-danger', response.message)
-
-                        if (response.data.next_url !== undefined) {
-                            window.location.href = response.data.next_url
-                        }
-
                         return false
                     }
 
@@ -503,11 +498,6 @@
                     if (response.error) {
                         _self.removeClass('button-loading')
                         window.showAlert('alert-danger', response.message)
-
-                        if (response.data.next_url !== undefined) {
-                            window.location.href = response.data.next_url
-                        }
-
                         return false
                     }
 
@@ -584,6 +574,8 @@
                         window.showAlert('alert-danger', response.message)
                         _self.closest('.table--cart').removeClass('content-loading')
                         return false
+                    }else if (response.data.next_url !== undefined) {
+                        window.location.href = response.data.next_url;
                     }
 
                     $('.mini-cart-icon span').text(response.data.count)
@@ -594,6 +586,7 @@
                             $('.section--shopping-cart').html(response.additional.cart_content)
                         }
                     }
+
                 },
                 error: (response) => {
                     _self.closest('.table--cart').removeClass('content-loading')

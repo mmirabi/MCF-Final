@@ -205,7 +205,7 @@ class Cart
      * @param mixed $qty
      * @return \Botble\Ecommerce\Cart\CartItem|bool
      */
-    public function update($rowId, $qty)
+    public function update($rowId, $qty, $additional_id)
     {
         $cartItem = $this->get($rowId);
 
@@ -216,7 +216,6 @@ class Cart
         } else {
             $cartItem->qty = $qty;
         }
-
         $content = $this->getContent();
 
         if ($rowId !== $cartItem->rowId) {
@@ -225,6 +224,7 @@ class Cart
             if ($content->has($cartItem->rowId)) {
                 $existingCartItem = $this->get($cartItem->rowId);
                 $cartItem->setQuantity((int)$existingCartItem->qty + (int)$cartItem->qty);
+                $cartItem->setAdditionalID($additional_id);
             }
         }
 

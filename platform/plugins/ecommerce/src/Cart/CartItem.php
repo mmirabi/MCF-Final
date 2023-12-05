@@ -45,6 +45,13 @@ class CartItem implements Arrayable, Jsonable
     public $price;
 
     /**
+     * The additional_id of the cart item.
+     *
+     * @var int|string
+     */
+    public $additional_id;
+
+    /**
      * The shipping_rule_id of the cart item.
      *
      * @var int|string
@@ -64,6 +71,9 @@ class CartItem implements Arrayable, Jsonable
      * @var string
      */
     public $shipping_time;
+    public $recipient_name;
+    public $recipient_phone;
+    public $recipient_address;
     /**
      * The options for this cart item.
      *
@@ -190,6 +200,20 @@ class CartItem implements Arrayable, Jsonable
     }
 
     /**
+     * Set the AdditionalID for this cart item.
+     *
+     * @param int|float $id
+     */
+    public function setAdditionalID($id)
+    {
+        if (empty($id) || ! is_numeric($id)) {
+            throw new InvalidArgumentException('Please supply a valid AdditionalID.');
+        }
+
+        $this->additional_id = $id;
+    }
+
+    /**
      * Update the cart item from a Buyable.
      *
      * @param Buyable $item
@@ -200,6 +224,10 @@ class CartItem implements Arrayable, Jsonable
         $this->id = $item->getBuyableIdentifier($this->options);
         $this->name = $item->getBuyableDescription($this->options);
         $this->price = $item->getBuyablePrice($this->options);
+        $this->additional_id = $item->additional_id;
+        $this->recipient_name = $item->recipient_name;
+        $this->recipient_phone = $item->recipient_phone;
+        $this->recipient_address = $item->recipient_address;
         $this->priceTax = $this->price + $this->tax;
     }
 
@@ -218,6 +246,10 @@ class CartItem implements Arrayable, Jsonable
         $this->shipping_rule_id = Arr::get($attributes, 'shipping_rule_id', $this->shipping_rule_id);
         $this->shipping_date = Arr::get($attributes, 'shipping_date', $this->shipping_date);
         $this->shipping_time = Arr::get($attributes, 'shipping_time', $this->shipping_time);
+        $this->additional_id = Arr::get($attributes, 'additional_id', $this->additional_id);
+        $this->recipient_name = Arr::get($attributes, 'recipient_name', $this->recipient_name);
+        $this->recipient_phone = Arr::get($attributes, 'recipient_phone', $this->recipient_phone);
+        $this->recipient_address = Arr::get($attributes, 'recipient_address', $this->recipient_address);
         $this->priceTax = $this->price + $this->tax;
         $this->options = new CartItemOptions(Arr::get($attributes, 'options', $this->options));
 

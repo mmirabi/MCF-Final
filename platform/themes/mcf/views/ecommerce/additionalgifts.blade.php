@@ -1,12 +1,6 @@
 <html>
-    <head>        
+    <head>
         <link rel="stylesheet" href="{{ Theme::asset()->url('css/additionalgifts.css') }}">
-        <style>
-         .EKURUNDIVactive {
-                border: 4px solid #679A97;
-                background-image: url(https://www.ribbonflowers.com/ikonlar/checked.png);
-            }
-        </style>
     </head>
     @if (Cart::instance('cart')->count() > 0)
         @php
@@ -96,17 +90,17 @@
                                             <tr>
                                                 <td>
                                                     <div class="ekuruneklebtn">
-                                                        <span class="modal-title" id="modal-title3" style="font-weight:bold;">{{ __('Would You Like to Send Additional Gifts?')}}</span>
-                                                        <div style="max-height:100%;max-height: 60vh;overflow-y: auto;">
+                                                        <span class="modal-title" data-show="gifts-{{ $cartItem->id }}" style="font-weight:bold;">{{ __('Would You Like to Send Additional Gifts?')}}</span>
+                                                        <div id="gifts-{{ $cartItem->id }}" class="d-none" style="max-height:100%;max-height: 60vh;overflow-y: auto;">
                                                             <div class="ekcatdivTABLE">
-                                                                <div class="ekcatdiv ekcatdivACTIVE">Tüm</div>
+                                                                <div class="ekcatdiv ekcatdivACTIVE" data-ccid="{{ $cartItem->id }}" data-catid="0">Tüm</div>
                                                                 @foreach(\Botble\Ecommerce\Models\ProductCategory::where('cat_type', 'additional')->get() as $cate_index => $category)
-                                                                    <div class="ekcatdiv" catid="{{ $cartItem->id }}-{{ $category->id }}">{{ $category->name }}</div>
+                                                                    <div class="ekcatdiv" data-ccid="{{ $cartItem->id }}" data-catid="{{ $category->id }}">{{ $category->name }}</div>
                                                                 @endforeach
                                                             </div>
                                                             <div class="products product-list">
                                                                 @foreach(\Botble\Ecommerce\Models\Product::where('product_type', 'additional')->get() as $product)
-                                                                    <a class="product EKURUNDIV" data-pid="{{ $cartItem->id }}-{{ $product->id }}" data-cid="{{ $cartItem->id }}" catids="{{ implode(',', $product->categories->pluck('id')->toArray()) }}">
+                                                                    <a class="product EKURUNDIV{{ $cartItem->additional_id == $product->id ? " EKURUNDIVactive" : "" }}"  data-action="{{ route('public.ajax.cart.update') }}" data-row="{{ $cartItem->rowId }}" data-cpid="{{ $cartItem->id }}-{{ $product->id }}" data-pid="{{ $product->id }}" data-cid="{{ $cartItem->id }}" data-catids="{{ implode(',', $product->categories->pluck('id')->toArray()) }}">
                                                                         <div class="ekloading"></div>
                                                                         <div class="product_resimdiv">
                                                                             <img class="resimX" src="{{ RvMedia::getImageUrl($product->image, 'thumb', false, RvMedia::getDefaultImage()) }}">
@@ -128,13 +122,103 @@
                                 </div>
                                 <script>
                                     setTimeout(function () {
-                                        $('[data-pid]').each(function (){
+                                        $('[data-show]').each(function (){
+                                            $(this).click(function () {
+                                                var _self = $("#" + $(this).data('show'));
+                                                if(_self.hasClass('d-none')) {
+                                                    _self.removeClass('d-none')
+                                                }else {
+                                                    _self.addClass('d-none')
+                                                }
+                                            })
+                                        })
+                                        $('.ekcatdiv[data-catid]').each(function (){
+                                            $(this).click(function () {
+                                                var _self = $(this);
+                                                var $val = _self.data('catid')
+                                                if($(this).hasClass('ekcatdivACTIVE')) {
+                                                    $('.ekcatdiv[data-ccid=' + $(this).data('ccid') + ']').removeClass('ekcatdivACTIVE')
+                                                    $(this).addClass('ekcatdivACTIVE')
+                                                }else {
+                                                    $('.ekcatdiv[data-ccid=' + $(this).data('ccid') + ']').removeClass('ekcatdivACTIVE')
+                                                    $(this).addClass('ekcatdivACTIVE')
+                                                }
+                                                $('.product[data-cid=' + _self.data('ccid') + ']').each(function (){
+                                                    if($val == 0) {
+                                                        $(this).show()
+                                                    }else {
+                                                        if(String($(this).data('catids')).split(',').indexOf(String($val)) !== -1){
+                                                            $(this).show()
+                                                        }else {
+                                                            $(this).hide()
+
+                                                        }
+                                                    }
+                                                })
+                                            })
+                                        })
+                                        $('.product[data-cpid]').each(function (){
+                                            var _self = $(this);
                                             $(this).click(function () {
                                                 if($(this).hasClass('EKURUNDIVactive')) {
-                                                    $('[data-cid=' + $(this).data('cid') + ']').removeClass('EKURUNDIVactive')
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: _self.data('action'),
+                                                        data: {
+                                                            _token: $('meta[name=csrf-token]').prop('content'),
+                                                            _method: 'PUT',
+                                                            items: {
+                                                                [_self.data('row')]: {
+                                                                    rowId: _self.data('row'),
+                                                                    values: {
+                                                                        qty: 1,
+                                                                        additional_id: null,
+                                                                    }
+                                                                },
+                                                            }
+                                                        },
+                                                        success: (response) => {
+                                                            if (response.error) {
+                                                                window.showAlert('alert-danger', response.message)
+                                                                return false
+                                                            }
+                                                            window.showAlert('alert-success', response.message)
+                                                            $('.product[data-cid=' + $(this).data('cid') + ']').removeClass('EKURUNDIVactive')
+                                                        },
+                                                        error: (response) => {
+                                                            window.showAlert('alert-danger', response.message)
+                                                        },
+                                                    })
                                                 }else {
-                                                    $('[data-cid=' + $(this).data('cid') + ']').removeClass('EKURUNDIVactive')
-                                                    $(this).addClass('EKURUNDIVactive')
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: _self.data('action'),
+                                                        data: {
+                                                            _token: $('meta[name=csrf-token]').prop('content'),
+                                                            _method: 'PUT',
+                                                            items: {
+                                                                [_self.data('row')]: {
+                                                                    rowId: _self.data('row'),
+                                                                    values: {
+                                                                        qty: 1,
+                                                                        additional_id: _self.data('pid'),
+                                                                    }
+                                                                },
+                                                            }
+                                                        },
+                                                        success: (response) => {
+                                                            if (response.error) {
+                                                                window.showAlert('alert-danger', response.message)
+                                                                return false
+                                                            }
+                                                            window.showAlert('alert-success', response.message)
+                                                            $('.product[data-cid=' + $(this).data('cid') + ']').removeClass('EKURUNDIVactive')
+                                                            $(this).addClass('EKURUNDIVactive')
+                                                        },
+                                                        error: (response) => {
+                                                            window.showAlert('alert-danger', response.message)
+                                                        },
+                                                    })
                                                 }
                                             })
                                         })
