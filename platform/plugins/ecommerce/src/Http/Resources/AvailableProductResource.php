@@ -42,6 +42,8 @@ class AvailableProductResource extends JsonResource
             'height' => $this->height,
             'wide' => $this->wide,
             'length' => $this->length,
+            // mehdi mirabi added size feild
+            'size' => $this->size,
             'product_link' => Auth::user()->hasPermission('products.edit') ? route('products.edit', $this->original_product->id) : '',
             'image_url' => RvMedia::getImageUrl($this->image, 'thumb', false, RvMedia::getDefaultImage()),
             'is_variation' => $this->is_variation,

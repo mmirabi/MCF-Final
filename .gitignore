@@ -1,6 +1,6 @@
 /node_modules
 /public/hot
-/public/storage
+# /public/storage
 /storage/*.key
 /vendor
 .DS_Store
@@ -33,7 +33,7 @@ bun.lockb
 
 public/mix-manifest.json
 
-public/themes
+# public/themes
 public/docs
 resources/docs
 
@@ -43,8 +43,8 @@ resources/docs
 /storage/installing
 /storage/installed
 
-/lang/*
-!/lang/en
+# /lang/*
+# !/lang/en
 
 /log
 

@@ -755,6 +755,12 @@ class EcommerceHelper
                         'ec_products.barcode',
                         'ec_products.description',
                         'ec_products.is_variation',
+                        // mehdi mirabi
+                        'ec_products.wide',
+                        'ec_products.weight',
+                        'ec_products.height',
+                        'ec_products.size',
+
                     ],
                     'take' => 1,
                 ]);

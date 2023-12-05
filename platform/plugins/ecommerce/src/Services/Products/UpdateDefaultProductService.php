@@ -35,6 +35,8 @@ class UpdateDefaultProductService
             'wide',
             'height',
             'weight',
+            //mehdi mirabi addded size feild
+            'size',
         ];
 
         foreach ($data as $item) {

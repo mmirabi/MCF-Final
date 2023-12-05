@@ -48,6 +48,8 @@ class ProductRequest extends Request
             'categories.*' => 'nullable|exists:ec_product_categories,id',
             'product_collections' => 'nullable|array',
             'product_collections.*' => 'nullable|exists:ec_product_collections,id',
+            // Mehdi Mirabi added size 
+            'size' => 'nullable|string|max:100',
         ];
 
         if (EcommerceHelper::isEnabledProductOptions()) {

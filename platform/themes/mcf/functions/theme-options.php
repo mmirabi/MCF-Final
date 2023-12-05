@@ -415,7 +415,7 @@ app()->booted(function () {
         ])
         ->setField([
             'id' => 'font_logo',
-            'section_id' => 'opt-text-logo-style',
+            'section_id' => 'opt-text-subsection-style',
             'type' => 'googleFonts',
             'label' => __('Font logo'),
             'attributes' => [
