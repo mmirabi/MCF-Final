@@ -193,25 +193,19 @@ input[type=file]:focus {
 }
 
 .btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
+    width: 100%;
+}
+
+input:focus,
+textarea:focus {
+    border: 0px;
+    border-bottom: 1px solid var(--color-grey-4);
+}
+
+.form-control:focus {
+    border-color: var(--color-grey-4);
+    border: 0px;
+    border-bottom: 1px solid var(--color-grey-4);
 }
 
 .btn:active:focus,
@@ -221,10 +215,11 @@ input[type=file]:focus {
     outline-offset: -2px;
 }
 
-.btn:focus,
 .btn:hover {
-    color: #333;
-    text-decoration: none;
+    background-color: var(--color-brand-dark);
+    color: #000;
+    border: 1px solid var(--color-brand);
+
 }
 
 .btn:active {
@@ -232,7 +227,27 @@ input[type=file]:focus {
     outline: 0;
     -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    background-color: var(--color-brand);
 }
+
+.address-add.btn {
+    background-color: var(--color-brand);
+    border-radius: 5px;
+    padding: 10px;
+    color: #000;
+    border-color: #000;
+    width: auto;
+    padding: 7px 30px;
+    margin: 10px;
+}
+
+.address-add.btn:hover,
+.address-add.btn:focus,
+.address-add.btn:active {
+    color: var(--color-grey-2);
+    background-color: var(--color-brand-dark);
+}
+
 
 .btn-xs {
     padding: 1px 5px;
@@ -614,10 +629,10 @@ img {
 }
 
 .green.btn {
-    background-color: #eec4a5;
+    background-color: var(--color-brand);
     border-radius: 5px;
     padding: 10px;
-    color: #FFFFFF;
+    color: #000;
     width: 100%;
     margin-top: 20px;
     padding: 20px 0 20px 0;
@@ -626,8 +641,47 @@ img {
 .green.btn:hover,
 .green.btn:focus,
 .green.btn:active {
-    color: #FFFFFF;
-    background-color: #e7cdb2;
+    color: var(--color-grey-2);
+    background-color: var(--color-brand-dark);
+}
+
+.border-red-form {
+    border: 1px solid var(--color-danger);
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.popup-form-details {
+    padding: 10px;
+}
+
+.modal-footer>* {
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.modal-footer {
+    padding: 0rem;
+    border: 0px;
+    padding-bottom: 10px;
+    margin: 0 10px 20px 10px;
+}
+
+.popup-location-address{
+    background-color: #edf1f2;
+    color: gray;
+    padding: 10px;
+}
+
+.form-control {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #e1dcd8;
+    padding: 20px 10px;
+    margin-bottom: 5px;
+    border-radius: 0px;
+
+
 }
 
 .sepetopdiv {

@@ -247,10 +247,7 @@
                                 <div class="mb-5">
                                     <h4 style="margin-bottom:20px;">{{ __('Size') }}</h4>
                                     <img class="svgInject" style="width:30px;float: left;margin-right: 8px;margin-bottom: 30px;" src="{{ Theme::asset()->url('imgs/theme/icons/ruler.svg') }}" /><p>{{ __('Included in our')}} {{ $category->name }} {{ __('Category') }}</p>
-                                    
-                                    <i class="fas fa-quote-left fa-xs text-primary"></i>
-                                    <span>{!! BaseHelper::clean($product->name) !!}</span>
-                                    <i class="fas fa-quote-right fa-xs text-primary"></i>
+                                    <span>"{!! BaseHelper::clean($product->name) !!}"</span>
                                     <p> <em><u> {{ $product->size}} </u></em> {{ __('is a') }} {{ $category->name }} {{ __('tray') }}.</p>
                                     <span class="d-inline-block me-1 text-lowercase">{{ $product->wide}}{{ __('cm') }} {{ __('Wide') }} x {{ $product->weight}}{{ __('cm') }} {{ __('Weight') }} x {{ $product->height}}{{ __('cm') }}  {{ __('Height') }}</span>
                                 </div>
