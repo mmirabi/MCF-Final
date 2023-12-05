@@ -53,6 +53,10 @@ class CartController extends PublicCartController
             'html' => Theme::partial('cart-panel'),
             'cart_content' => view(Theme::getThemeNamespace('views.ecommerce.cart'), compact('promotionDiscountAmount', 'couponDiscountAmount', 'products', 'crossSellProducts'))->render(),
         ]);
+        
+        $response->setData([
+            'next_url' => route('public.delivery'),
+        ]);
 
         return $response;
     }

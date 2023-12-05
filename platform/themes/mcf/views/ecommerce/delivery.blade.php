@@ -100,33 +100,53 @@
                                                             <span>, {{ $cartItem->shipping_date }}</span>
                                                             <span>, {{ $cartItem->shipping_time }}</span>
                                                         </b>
-                                                        <b style="padding-right:20px;">Teslimat:</b>
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
-
-                                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="adreseklebtn2">
+                                                        @if($cartItem->recipient_name)
+                                                            <div style="padding-right:20px;">
+                                                                <span>Shipping:</span>
+                                                                <b>{{ $cartItem->recipient_name }}, </b>
+                                                                <b>{{ $cartItem->recipient_phone }}, </b>
+                                                                <b>{{ $cartItem->recipient_address }}</b>
+                                                                <i  class="fi-rs-edit-alt" data-bs-toggle="modal" data-bs-target="#shipping-modal-{{ $cartItem->rowId }}" data-bs-whatever="@mdo"></i>
+                                                            </div>
+                                                        @else
+                                                            <div class="d-flex justify-content-center">
+                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shipping-modal-{{ $cartItem->rowId }}" data-bs-whatever="@mdo">Adres Detaylarını Tamamla</button>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="modal fade shipping-modals" data-action="{{ route('public.ajax.cart.update') }}" data-row="{{ $cartItem->rowId }}" data-pid="{{ $cartItem->additional_id }}" id="shipping-modal-{{ $cartItem->rowId }}" tabindex="-1" aria-labelledby="shipping-modal-{{ $cartItem->rowId }}-label" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form>
-                                                                <div class="mb-3">
-                                                                    <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                                                    <input type="text" class="form-control" id="recipient-name">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="shipping-modal-{{ $cartItem->rowId }}-label">Alıcının Adres Detayları</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
-                                                                <div class="mb-3">
-                                                                    <label for="message-text" class="col-form-label">Message:</label>
-                                                                    <textarea class="form-control" id="message-text"></textarea>
+                                                                <div class="modal-body">
+                                                                    <form>
+                                                                        <div class="mb-3">
+                                                                            <label for="recipient-name-{{ $cartItem->rowId }}" class="col-form-label">Alıcı Adı Soyadı:</label>
+                                                                            <input type="text" class="form-control" required id="recipient-name-{{ $cartItem->rowId }}" name="recipient_name" value="{{ $cartItem->recipient_name }}">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="recipient-phone-{{ $cartItem->rowId }}" class="col-form-label">Alıcı Telefonu:</label>
+                                                                            <input type="text" class="form-control" required id="recipient-phone-{{ $cartItem->rowId }}" name="recipient_phone" value="{{ $cartItem->recipient_phone }}">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="recipient_address-{{ $cartItem->rowId }}" class="col-form-label">Adres:</label>
+                                                                            <textarea class="form-control" required style="height: 100px" id="recipient_address-{{ $cartItem->rowId }}" name="recipient_address" rows="5" placeholder="Alıcının sokak, cadde, kapı no ve diğer bilgilerini buraya giriniz.">{{ $cartItem->recipient_address }}</textarea>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
-                                                                </form>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary submitbtn">Kaydet</button>
+                                                                </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-primary">Send message</button>
-                                                            </div>
-                                                            </div>
-                                                        </div>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -135,6 +155,47 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <script>
+                                    setTimeout(function() {
+                                        $('.shipping-modals').each(function () {
+                                            var _self = $(this)
+                                            _self.find('.submitbtn').click(function () {
+                                                $.ajax({
+                                                    type: 'POST',
+                                                    url: _self.data('action'),
+                                                    data: {
+                                                        _token: $('meta[name=csrf-token]').prop('content'),
+                                                        _method: 'PUT',
+                                                        items: {
+                                                            [_self.data('row')]: {
+                                                                rowId: _self.data('row'),
+                                                                values: {
+                                                                    qty: 1,
+                                                                    additional_id: _self.data('pid')??null,
+                                                                    recipient_name: _self.find('[name=recipient_name]').val(),
+                                                                    recipient_phone: _self.find('[name=recipient_phone]').val(),
+                                                                    recipient_address: _self.find('[name=recipient_address]').val(),
+                                                                }
+                                                            },
+                                                        }
+                                                    },
+                                                    success: (response) => {
+                                                        if (response.error) {
+                                                            window.showAlert('alert-danger', response.message)
+                                                            return false
+                                                        }
+                                                        window.showAlert('alert-success', response.message)
+                                                        window.location.reload()
+                                                    },
+                                                    error: (response) => {
+                                                        window.showAlert('alert-danger', response.message)
+                                                    },
+                                                })
+                                            })
+                                        })
+
+                                    },1000)
+                                </script>
                                 <center>
                                     <a href="/products">
                                         <u>{{ __('Back to Shopping') }}</u>

@@ -504,6 +504,9 @@ var __webpack_exports__ = {};
               $('.section--shopping-cart').html(response.additional.cart_content);
             }
           }
+            if (response.data.next_url !== undefined) {
+                window.location.href = response.data.next_url;
+            }
         },
         error: function error(response) {
           _self.closest('.table--cart').removeClass('content-loading');
