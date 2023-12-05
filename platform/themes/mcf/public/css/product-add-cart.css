@@ -1,0 +1,78 @@
+select.i-dropzone {
+    border-color: rgb(221 214 208) !important;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 50px;
+}
+select.i-dropzone:focus {
+    border-color: rgb(221 214 208) !important;
+    box-shadow: 0 0 0 0.1rem rgb(221 214 208) !important;
+}
+.add-cart-dates .date-item {
+    width: calc(25% - 8px);
+    padding-left: 0;
+    flex: 0 0 auto;
+    position: relative;
+    float: left;
+    min-height: 1px;
+    padding-right: 0px;
+    cursor: pointer;
+    background-color: #f8f7f5;
+    margin-right: 8px;
+    border-radius: 5px;
+}
+.add-cart-dates .date-item .child {
+    border-radius: 0;
+    font-size: 1em;
+    text-align: center;
+    padding: 10px 2px;
+    position: relative;
+    margin: 8px;
+    border: 1px solid #ddd6d0;
+    height: 100px;
+}
+.add-cart-dates .date-item.active {
+    border: 0 !important;
+    background-color: #e7cdb2;
+    color: #000;
+    position: relative;
+    transition: all .15s !important;
+}
+.add-cart-dates .date-item.active .child {
+    border: 0 !important;
+}
+.add-cart-dates .date-item .child .i-datepicker input {
+    height: 40px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.add-cart-times .time-item {
+    cursor: pointer;
+    flex: 0 0 auto;
+    position: relative;
+    float: left;
+    min-height: 1px;
+    background-color: #f8f7f5;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.add-cart-times .time-item .child {
+    border-radius: 0;
+    font-size: 1em;
+    text-align: center;
+    padding: 5px;
+    position: relative;
+    border: 1px solid #ddd6d0;
+    height: 40px;
+}
+.add-cart-times .time-item.active {
+    border: unset;
+    background-color: #e7cdb2;
+    color: #000;
+    position: relative;
+    transition: all .15s !important;
+}
+.add-cart-times .time-item.active .child {
+    border: 0 !important;
+}
