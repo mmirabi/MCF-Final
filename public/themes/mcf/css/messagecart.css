@@ -485,7 +485,7 @@
                 cursor: pointer;
                 font-weight: 300;
                 font-size: 15px;
-                
+
                 text-rendering: optimizeLegibility;
             }
 
@@ -543,7 +543,7 @@
                 border-width: 2px;
                 border-radius: 5px;
                 color: #777;
-                
+
                 box-shadow: none;
             }
 
@@ -1159,7 +1159,6 @@
             }
 
             .locabackButton {
-                display: none;
                 padding: 15px 0;
                 cursor: pointer;
             }
@@ -1261,7 +1260,7 @@
                 cursor: pointer;
                 font-weight: 300;
                 font-size: 15px;
-                
+
                 text-rendering: optimizeLegibility;
                 width: auto;
                 margin-bottom: 10px;
@@ -1411,7 +1410,7 @@
                 padding: 10px 15px 20px 15px;
                 margin-bottom: 20px;
                 font-size: 16px;
-                
+
             }
 
             /*! CSS Used from: Embedded */
@@ -1423,7 +1422,7 @@
             }
 
             .kartbilgi2 {
-                
+
                 margin-bottom: 20px;
             }
 
@@ -1436,7 +1435,7 @@
                 padding: 20px 10px;
                 font-size: 16px;
                 border-radius: 0px;
-                
+
             }
 
             ::placeholder {
@@ -1523,7 +1522,7 @@
             }
 
             .header-style-1.header-height-2 {
-            
+
             display: none;
             }
             footer.main {

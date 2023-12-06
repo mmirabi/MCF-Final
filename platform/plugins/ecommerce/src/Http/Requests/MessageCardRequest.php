@@ -15,7 +15,7 @@ class MessageCardRequest extends Request
             'title' => 'required|string|max:250',
             'status' => Rule::in(BaseStatusEnum::values()),
             'categories' => 'nullable|array',
-            'categories.*' => 'nullable|exists:ec_product_categories,id',
+            'categories.*' => 'nullable|exists:ec_message_categories,id',
         ];
 
         return $rules;

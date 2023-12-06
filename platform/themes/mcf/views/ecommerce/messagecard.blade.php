@@ -1,5 +1,5 @@
 <html>
-    <head>        
+    <head>
         <link rel="stylesheet" href="{{ Theme::asset()->url('css/messagecart.css') }}">
     </head>
     @if (Cart::instance('cart')->count() > 0)
@@ -73,7 +73,7 @@
                                                                         @if (!empty($cartItem->options['options']))
                                                                         {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
                                                                         @endif
-                                                                    </p> 
+                                                                    </p>
                                                                 </div>
                                                                 <div class="col col-lg-2">
                                                                     <span><span class="d-inline-block">{{ format_price($cartItem->price) }}</span> @if ($product->front_sale_price != $product->price)
@@ -92,39 +92,36 @@
                                                     <div style="width:100%;">
                                                         <div>
                                                             <div>
-                                                                <div class="locabackButton44 locabackButton4486925 locabackButton">
+                                                                <div class="locabackButton" data-row="{{ $cartItem->rowId }}" style="display: none">
                                                                     <img src="https://www.ribbonflowers.com/ikonlar/leftarrow.png" style="width:24px;">
                                                                 </div>
                                                             </div>
+
                                                             <div class="modal-body kartbilgi2" id="modal-body3" style="padding:0;">
-                                                                <div id="kartnotsecdiv86925" data-id="86925" style="display:none;" aaaa="display:none;max-height:100%;max-height: 60vh;overflow-y: auto;"></div>
-                                                                <div id="kartnotformdiv86925">
+                                                                <div class="kartnotsecdiv" data-row="{{ $cartItem->rowId }}" style="display:none;max-height:100%;max-height: 60vh;overflow-y: auto;">
+                                                                    @foreach(\Botble\Ecommerce\Models\MessageCard::all() as $card)
+                                                                        <div class="mesajli" data-id="142" data-catids="{{ implode(',', $card->categories->pluck('id')->toArray()) }}" data-carid="{{ $cartItem->id }}" data-row="{{ $cartItem->rowId }}" data-msgid="{{ $card->id }}" data-msg="{{ strip_tags($card->content) }}" style="display:none;">
+                                                                            {!! $card->description?:$card->content !!}
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                                <div class="kartnotformdiv" data-row="{{ $cartItem->rowId }}">
                                                                     <div class="notunuz">{{ __('Your Note') }}</div>
                                                                     <div class="hazirbuton" data-id="86925">
                                                                         <div class="hktitle" data-id="86925">{{ __('Choose from Ready Card Notes') }}</div>
                                                                         <div class="hazirkartcatsdiv hazirkartcatsdiv86925">
-                                                                            <span class="hkcatbtn" data-cat="Anneler Günü">Anneler Günü</span>
-                                                                            <span class="hkcatbtn" data-cat="Babalar Günü">Babalar Günü</span>
-                                                                            <span class="hkcatbtn" data-cat="Doğum Günü">Doğum Günü</span>
-                                                                            <span class="hkcatbtn" data-cat="Geçmiş Olsun">Geçmiş Olsun</span>
-                                                                            <span class="hkcatbtn" data-cat="Kadınlar Günü">Kadınlar Günü</span>
-                                                                            <span class="hkcatbtn" data-cat="Öğretmenler Günü">Öğretmenler Günü</span>
-                                                                            <span class="hkcatbtn" data-cat="Sevgiliye">Sevgiliye</span>
-                                                                            <span class="hkcatbtn" data-cat="Tebrikler">Tebrikler</span>
-                                                                            <span class="hkcatbtn" data-cat="Teşekkürler">Teşekkürler</span>
-                                                                            <span class="hkcatbtn" data-cat="Yeni Bebek">Yeni Bebek</span>
-                                                                            <span class="hkcatbtn" data-cat="Yeni İş">Yeni İş</span>
-                                                                            <span class="hkcatbtn" data-cat="Yılbaşı">Yılbaşı</span>
-                                                                            <span class="hkcatbtn" data-cat="Yıldönümü">Yıldönümü</span>
+                                                                            @foreach(\Botble\Ecommerce\Models\MessageCategory::all() as $category)
+                                                                                <span class="hkcatbtn" data-catid="{{ $category->id }}" data-carid="{{ $cartItem->id }}" data-row="{{ $cartItem->rowId }}">{{ $category->name }}</span>
+                                                                            @endforeach
                                                                         </div>
                                                                     </div>
                                                                     <div>
-                                                                        <textarea name="ctl00$MainContent$sepet_sepet1$lstCart$ctl02$kartnotTextBox1" rows="3" cols="20" maxlength="500" id="kartnotTextBox1" class="kn86925" placeholder="{{ __('Your Card Note') }}" style="margin-bottom:0px;border-radius: 0;  "></textarea>
+                                                                        <textarea name="message_text" data-row="{{ $cartItem->rowId }}" rows="3" cols="20" maxlength="500" placeholder="{{ __('Your Card Note') }}" style="margin-bottom:0px;border-radius: 0;  "></textarea>
                                                                         <br>
-                                                                        <input name="ctl00$MainContent$sepet_sepet1$lstCart$ctl02$kartadTextBox1" type="text" maxlength="150" id="kartadTextBox1" class="kartad86925 kartad" placeholder="{{ __('Sender Name') }}">
+                                                                        <input name="message_sender" data-row="{{ $cartItem->rowId }}" type="text" maxlength="150" placeholder="{{ __('Sender Name') }}">
                                                                         <br>
-                                                                        <input id="kartadCheckBox86925" class="kartadCheckBox" name="kartadCheckBox86925" type="checkbox" data-id="86925">
-                                                                        <label style=" margin-top: 10px; line-height: 25px;" for="kartadCheckBox86925">{{ __('Send Anonymous') }}</label>
+                                                                        <input class="kartadCheckBox" name="is_anonymous" type="checkbox" id="kartadCheckBox{{ $cartItem->rowId }}" data-row="{{ $cartItem->rowId }}">
+                                                                        <label style=" margin-top: 10px; line-height: 25px;" for="kartadCheckBox{{ $cartItem->rowId }}">{{ __('Send Anonymous') }}</label>
                                                                         <br>
                                                                         <br>
                                                                     </div>
@@ -139,8 +136,60 @@
                                             </tr>
                                             @endforeach
                                         </tbody>
-                                    </table>   
+                                    </table>
                                 </div>
+                                <script>
+                                    setTimeout(function () {
+                                        $('.hkcatbtn').each(function () {
+                                            var _self = $(this);
+                                            var $val = _self.data('catid')
+                                            _self.click(function () {
+                                                $('.kartnotformdiv[data-row=' + _self.data('row') +']').hide();
+                                                $('.locabackButton[data-row=' + _self.data('row') +']').show();
+                                                $('.kartnotsecdiv[data-row=' + _self.data('row') +']').show();
+                                                $('.mesajli[data-row=' + _self.data('row') + ']').each(function (){
+                                                    if($val == 0) {
+                                                        $(this).show()
+                                                    }else {
+                                                        if(String($(this).data('catids')).split(',').indexOf(String($val)) !== -1){
+                                                            $(this).show()
+                                                        }else {
+                                                            $(this).hide()
+                                                        }
+                                                    }
+                                                })
+                                            })
+                                        })
+                                        $('.locabackButton').each(function () {
+                                            var _self = $(this);
+                                            _self.click(function () {
+                                                $('.kartnotformdiv[data-row=' + _self.data('row') +']').show();
+                                                $('.locabackButton[data-row=' + _self.data('row') +']').hide();
+                                                $('.kartnotsecdiv[data-row=' + _self.data('row') +']').hide();
+                                            })
+                                        })
+                                        $('.mesajli').each(function () {
+                                            var _self = $(this);
+                                            _self.click(function () {
+                                                $('.kartnotformdiv[data-row=' + _self.data('row') +']').show();
+                                                $('.locabackButton[data-row=' + _self.data('row') +']').hide();
+                                                $('.kartnotsecdiv[data-row=' + _self.data('row') +']').hide();
+                                                $('[name=message_text][data-row=' + _self.data('row') +']').val(_self.data('msg'));
+                                            })
+                                        })
+                                        $('[name=is_anonymous]').each(function () {
+                                            var _self = $(this);
+                                            _self.change(function () {
+                                                if (_self.prop('checked')) {
+                                                    $('[name=message_sender][data-row=' + _self.data('row') +']').val('');
+                                                    $('[name=message_sender][data-row=' + _self.data('row') +']').prop('disabled', true);
+                                                }else {
+                                                    $('[name=message_sender][data-row=' + _self.data('row') +']').prop('disabled', false);
+                                                }
+                                            })
+                                        })
+                                    }, 1000)
+                                </script>
                                 <center>
                                     <a href="/additionalgifts">
                                         <u>{{ __('Back to Additional Gifts') }}</u>
@@ -235,7 +284,7 @@
                                 <hr>
                                 <a href="/invoice" class="btn green sonrakibuton">{{ __('Continue') }}</a>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -249,14 +298,14 @@
         <div class="col-md-auto">
             <h3>{{ __('No products in the cart.') }}</h3>
         </div>
-        
+
     </div>
-    
+
     <div class="row row justify-content-md-center">
         <div class="col-md-auto margin-50">
             <a class="btn btn-primary" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
         </div>
     </div>
-    
+
 </div>
 @endif
