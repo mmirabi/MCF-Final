@@ -78,6 +78,13 @@
                                                                         {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
                                                                         @endif
                                                                     </p>
+
+                                                                    <p class="address-medyanossa">
+                                                                        {{ $cartItem->getShippingRule()->name_item }} ({{ format_price($cartItem->getShippingRule()->adjustment_price) }})
+                                                                        <br>
+                                                                        {{ $cartItem->shipping_date }} {{ $cartItem->shipping_time }}
+                                                                    </p>
+                                                                    <p></p>
                                                                 </div>
                                                                 <div class="col col-lg-2">
                                                                     <span><span class="d-inline-block">{{ format_price($cartItem->price) }}</span> @if ($product->front_sale_price != $product->price)
@@ -94,25 +101,15 @@
                                             <tr>
                                                 <td>
                                                     <div class="adreseklebtn2">
-                                                        <b style="padding-right:20px;">
-                                                            <span>Teslimat: </span>
-                                                            <span>{{ $cartItem->getShippingRule()->name_item }} ({{ format_price($cartItem->getShippingRule()->adjustment_price) }})</span>
-                                                            <span>, {{ $cartItem->shipping_date }}</span>
-                                                            <span>, {{ $cartItem->shipping_time }}</span>
-                                                        </b>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="adreseklebtn2">
                                                         @if($cartItem->recipient_name)
-                                                            <div style="padding-right:20px;">
-                                                                <span>Shipping:</span>
-                                                                <b>{{ $cartItem->recipient_name }}, </b>
-                                                                <b>{{ $cartItem->recipient_phone }}, </b>
-                                                                <b>{{ $cartItem->recipient_address }}</b>
-                                                                <i  class="fi-rs-edit-alt" data-bs-toggle="modal" data-bs-target="#shipping-modal-{{ $cartItem->rowId }}" data-bs-whatever="@mdo"></i>
+                                                            <div class="d-flex justify-content-between">
+                                                                <div style="padding-right:20px;">
+                                                                    <span>Teslimat:</span>
+                                                                    <b>{{ $cartItem->recipient_name }}, </b>
+                                                                    <b>{{ $cartItem->recipient_phone }}, </b>
+                                                                    <b>{{ $cartItem->recipient_address }}</b>
+                                                                </div>
+                                                                <div><i class="fi-rs-edit-alt" data-bs-toggle="modal" data-bs-target="#shipping-modal-{{ $cartItem->rowId }}" data-bs-whatever="@mdo"></i></div>
                                                             </div>
                                                         @else
                                                             <div class="d-flex justify-content-center">
@@ -120,7 +117,7 @@
                                                             </div>
                                                         @endif
                                                     </div>
-                                                    <div class="modal fade shipping-modals" data-action="{{ route('public.ajax.cart.update') }}" data-row="{{ $cartItem->rowId }}" data-pid="{{ $cartItem->additional_id }}" id="shipping-modal-{{ $cartItem->rowId }}" tabindex="-1" aria-labelledby="shipping-modal-{{ $cartItem->rowId }}-label" aria-hidden="true">
+                                                    <div class="modal fade kartbilgi2 shipping-modals" data-action="{{ route('public.ajax.cart.update') }}" data-row="{{ $cartItem->rowId }}" data-pid="{{ $cartItem->additional_id }}" id="shipping-modal-{{ $cartItem->rowId }}" tabindex="-1" aria-labelledby="shipping-modal-{{ $cartItem->rowId }}-label" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -128,23 +125,21 @@
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form>
+                                                                    <div class="adreZZ adresgereklidiv">
+
                                                                         <div class="mb-3">
-                                                                            <label for="recipient-name-{{ $cartItem->rowId }}" class="col-form-label">Alıcı Adı Soyadı:</label>
-                                                                            <input type="text" class="form-control" required id="recipient-name-{{ $cartItem->rowId }}" name="recipient_name" value="{{ $cartItem->recipient_name }}">
+                                                                            <input type="text" placeholder="Alıcı Adı Soyadı" required id="recipient-name-{{ $cartItem->rowId }}" name="recipient_name" value="{{ $cartItem->recipient_name }}">
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="recipient-phone-{{ $cartItem->rowId }}" class="col-form-label">Alıcı Telefonu:</label>
-                                                                            <input type="text" class="form-control" required id="recipient-phone-{{ $cartItem->rowId }}" name="recipient_phone" value="{{ $cartItem->recipient_phone }}">
+                                                                            <input type="text" placeholder="Alıcı Telefonu" required id="recipient-phone-{{ $cartItem->rowId }}" name="recipient_phone" value="{{ $cartItem->recipient_phone }}">
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="recipient_address-{{ $cartItem->rowId }}" class="col-form-label">Adres:</label>
-                                                                            <textarea class="form-control" required style="height: 100px" id="recipient_address-{{ $cartItem->rowId }}" name="recipient_address" rows="5" placeholder="Alıcının sokak, cadde, kapı no ve diğer bilgilerini buraya giriniz.">{{ $cartItem->recipient_address }}</textarea>
+                                                                            <textarea required style="height: 100px" id="recipient_address-{{ $cartItem->rowId }}" name="recipient_address" rows="5" placeholder="Alıcının sokak, cadde, kapı no ve diğer bilgilerini buraya giriniz.">{{ $cartItem->recipient_address }}</textarea>
                                                                         </div>
-                                                                    </form>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-primary submitbtn">Kaydet</button>
+                                                                    <button type="button" class="btn green sepeteklebtn submitbtn">Kaydet</button>
                                                                 </div>
                                                             </div>
                                                         </div>
