@@ -449,4 +449,56 @@ return [
         'flag' => 'ecommerce.invoice-template.index',
         'parent_flag' => 'plugins.ecommerce',
     ],
+
+    /**
+     * Message
+     */
+    [
+        'name' => 'Message Cards',
+        'flag' => 'messages.index',
+        'parent_flag' => 'plugins.ecommerce',
+    ],
+    [
+        'name' => 'Create',
+        'flag' => 'messages.create',
+        'parent_flag' => 'messages.index',
+    ],
+    [
+        'name' => 'Edit',
+        'flag' => 'messages.edit',
+        'parent_flag' => 'messages.index',
+    ],
+    [
+        'name' => 'Delete',
+        'flag' => 'messages.destroy',
+        'parent_flag' => 'messages.index',
+    ],
+    [
+        'name' => 'Duplicate',
+        'flag' => 'messages.duplicate',
+        'parent_flag' => 'messages.index',
+    ],
+    /**
+     * Categories
+     */
+    [
+        'name' => 'Message Categories',
+        'flag' => 'message-categories.index',
+        'parent_flag' => 'plugins.ecommerce',
+    ],
+    [
+        'name' => 'Create',
+        'flag' => 'message-categories.create',
+        'parent_flag' => 'message-categories.index',
+    ],
+    [
+        'name' => 'Edit',
+        'flag' => 'message-categories.edit',
+        'parent_flag' => 'message-categories.index',
+    ],
+    [
+        'name' => 'Delete',
+        'flag' => 'message-categories.destroy',
+        'parent_flag' => 'message-categories.index',
+    ],
 ];
