@@ -18,27 +18,27 @@
             <div class=" margin-bottom-40">
                 <div class="sepettitleicon">
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet1_aktif.png?v=1">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/delivery_active.png') }}">
                         <br>
                         <span>{{ __('Delivery') }}</span>
                     </div>
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet2_aktif.png?v=1">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/additional_gifts_active.png') }}">
                         <br>
                         <span>{{ __('Additional Gifts') }}</span>
                     </div>
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet3.png">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/message_card.png') }}">
                         <br>
                         <span>{{ __('Message Card') }}</span>
                     </div>
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet4.png">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/invoice.png') }}">
                         <br>
                         <span>{{ __('Invoice') }}</span>
                     </div>
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet5.png">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/payment.png') }}">
                         <br>
                         <span>{{ __('Payment') }}</span>
                     </div>

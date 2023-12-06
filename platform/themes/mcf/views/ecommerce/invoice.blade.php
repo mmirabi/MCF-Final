@@ -18,27 +18,27 @@
                 <div class=" margin-bottom-40">
                     <div class="sepettitleicon">
                         <div>
-                            <img src="https://www.ribbonflowers.com/ikonlar/sepet1_aktif.png?v=1">
+                            <img src="{{ Theme::asset()->url('imgs/theme/cart/delivery_active.png') }}">
                             <br>
                             <span>{{ __('Delivery') }}</span>
                         </div>
                         <div>
-                            <img src="https://www.ribbonflowers.com/ikonlar/sepet2_aktif.png?v=1">
+                            <img src="{{ Theme::asset()->url('imgs/theme/cart/additional_gifts_active.png') }}">
                             <br>
                             <span>{{ __('Additional Gifts') }}</span>
                         </div>
                         <div>
-                            <img src="https://www.ribbonflowers.com/ikonlar/sepet3_aktif.png?v=1">
+                            <img src="{{ Theme::asset()->url('imgs/theme/cart/message_card_active.png') }}">
                             <br>
                             <span>{{ __('Message Card') }}</span>
                         </div>
                         <div>
-                            <img src="https://www.ribbonflowers.com/ikonlar/sepet4_aktif.png?v=1">
+                            <img src="{{ Theme::asset()->url('imgs/theme/cart/invoice_active.png') }}">
                             <br>
                             <span>{{ __('Invoice') }}</span>
                         </div>
                         <div>
-                            <img src="https://www.ribbonflowers.com/ikonlar/sepet5.png">
+                            <img src="{{ Theme::asset()->url('imgs/theme/cart/payment.png') }}">
                             <br>
                             <span>{{ __('Payment') }}</span>
                         </div>
@@ -106,9 +106,7 @@
                                                                           </div>
                                                                         </div>
                                                                         <div>
-                                                                          <div style="
-                                                                  position: relative;
-                                                              ">
+                                                                          <div style="">
                                                                             <label>Adres <span id="MainContent_RequiredFieldValidator12" class="require" style="visibility:hidden;">Gerekli</span>
                                                                             </label>
                                                                             <textarea name="ctl00$MainContent$yeni_adres" rows="3" cols="20" maxlength="256" id="MainContent_yeni_adres" onkeyup="TextBoxMaxLength('lblMaxLength', this, '', 256)" onchange="TextBoxMaxLength('lblMaxLength', this, '', 256)" placeholder="Adres"></textarea>

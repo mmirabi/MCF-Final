@@ -878,7 +878,7 @@ a:hover {
 
 .sepettitleicon div:first-child img,
 .sepettitleicon div:last-child img {
-    width: 56%;
+    width: 100%;
 }
 
 .sepettitleicon div span {
@@ -956,6 +956,11 @@ body {
 
 .text-body {
     color: var(--color-danger)!important;
+}
+
+.text-body {
+    float: right;
+    font-size: 25px;
 }
 
 /* Responcive */

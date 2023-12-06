@@ -1150,7 +1150,6 @@
                 cursor: pointer;
                 padding: 5px;
                 margin-top: 27px;
-                background-image: url('https://www.ribbonflowers.com/ikonlar/Plus.png');
                 background-size: 16px;
                 background-repeat: no-repeat;
                 background-position: center left;
@@ -1191,7 +1190,7 @@
 
             .sepettitleicon div:first-child img,
             .sepettitleicon div:last-child img {
-                width: 56%;
+                width: 100%;
             }
 
             .sepettitleicon div span {
@@ -1215,7 +1214,6 @@
                 padding: 17px;
                 padding-left: 70px;
                 padding-right: 50px;
-                background-image: url(https://www.ribbonflowers.com/ikonlar/notlar.png);
                 background-repeat: no-repeat;
                 background-size: 40px;
                 background-position: left 13px top 22px;
@@ -1229,7 +1227,6 @@
                 padding-left: 52px;
                 padding-right: 10px;
                 padding-bottom: 8px;
-                background-image: url(https://www.ribbonflowers.com/ikonlar/notlar.png);
                 background-repeat: no-repeat;
                 background-size: 28px;
                 background-position: left 13px top 13px;
@@ -1288,7 +1285,6 @@
 
             [type=checkbox]:checked+label:before {
                 content: '';
-                background: url('https://www.ribbonflowers.com/images/checked.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -1550,6 +1546,21 @@
     color: var(--color-danger)!important;
 }
 
+.adreseklebtn2 {
+    padding: 14px;
+    color: #1D413F;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.text-body {
+    float: right;
+    font-size: 25px;
+}
 /* Responcive */
 @media (max-width: 500px){
     .SEPETSOL {
