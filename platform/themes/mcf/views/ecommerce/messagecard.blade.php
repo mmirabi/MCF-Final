@@ -116,9 +116,9 @@
                                                                         </div>
                                                                     </div>
                                                                     <div>
-                                                                        <textarea name="message_text" data-row="{{ $cartItem->rowId }}" rows="3" cols="20" maxlength="500" placeholder="{{ __('Your Card Note') }}" style="margin-bottom:0px;border-radius: 0;  "></textarea>
+                                                                        <textarea name="message_text" data-row="{{ $cartItem->rowId }}" rows="3" cols="20" maxlength="500" placeholder="{{ __('Your Card Note') }}" style="margin-bottom:0px;border-radius: 0;  ">{{ $cartItem->message_text }}</textarea>
                                                                         <br>
-                                                                        <input name="message_sender" data-row="{{ $cartItem->rowId }}" type="text" maxlength="150" placeholder="{{ __('Sender Name') }}">
+                                                                        <input name="message_sender" value="{{ $cartItem->message_sender }}" data-row="{{ $cartItem->rowId }}" type="text" maxlength="150" placeholder="{{ __('Sender Name') }}">
                                                                         <br>
                                                                         <input class="kartadCheckBox" name="is_anonymous" type="checkbox" id="kartadCheckBox{{ $cartItem->rowId }}" data-row="{{ $cartItem->rowId }}">
                                                                         <label style=" margin-top: 10px; line-height: 25px;" for="kartadCheckBox{{ $cartItem->rowId }}">{{ __('Send Anonymous') }}</label>
@@ -139,6 +139,37 @@
                                     </table>
                                 </div>
                                 <script>
+                                    function changecart(rowId) {
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '{{ route('public.ajax.cart.update') }}',
+                                            data: {
+                                                _token: $('meta[name=csrf-token]').prop('content'),
+                                                _method: 'PUT',
+                                                items: {
+                                                    [rowId]: {
+                                                        rowId: rowId,
+                                                        values: {
+                                                            qty: 1,
+                                                            message_text:$('[name=message_text][data-row=' + rowId +']').val(),
+                                                            message_sender: $('[name=message_sender][data-row=' +rowId +']').val(),
+                                                        }
+                                                    },
+                                                }
+                                            },
+                                            success: (response) => {
+                                                if (response.error) {
+                                                    window.showAlert('alert-danger', response.message)
+                                                    return false
+                                                }
+                                                window.showAlert('alert-success', response.message)
+                                                //window.location.reload()
+                                            },
+                                            error: (response) => {
+                                                window.showAlert('alert-danger', response.message)
+                                            },
+                                        })
+                                    }
                                     setTimeout(function () {
                                         $('.hkcatbtn').each(function () {
                                             var _self = $(this);
@@ -175,6 +206,7 @@
                                                 $('.locabackButton[data-row=' + _self.data('row') +']').hide();
                                                 $('.kartnotsecdiv[data-row=' + _self.data('row') +']').hide();
                                                 $('[name=message_text][data-row=' + _self.data('row') +']').val(_self.data('msg'));
+                                                changecart(_self.data('row'))
                                             })
                                         })
                                         $('[name=is_anonymous]').each(function () {
@@ -186,8 +218,16 @@
                                                 }else {
                                                     $('[name=message_sender][data-row=' + _self.data('row') +']').prop('disabled', false);
                                                 }
+                                                changecart(_self.data('row'))
                                             })
                                         })
+                                        $('[name=message_text]').each(function () {
+                                            var _self = $(this);
+                                            _self.change(function () {
+                                                changecart(_self.data('row'))
+                                            })
+                                        })
+
                                     }, 1000)
                                 </script>
                                 <center>

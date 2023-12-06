@@ -74,6 +74,8 @@ class CartItem implements Arrayable, Jsonable
     public $recipient_name;
     public $recipient_phone;
     public $recipient_address;
+    public $message_text;
+    public $message_sender;
     /**
      * The options for this cart item.
      *
@@ -228,6 +230,8 @@ class CartItem implements Arrayable, Jsonable
         $this->recipient_name = $item->recipient_name;
         $this->recipient_phone = $item->recipient_phone;
         $this->recipient_address = $item->recipient_address;
+        $this->message_text = $item->message_text;
+        $this->message_sender = $item->message_sender;
         $this->priceTax = $this->price + $this->tax;
     }
 
@@ -250,6 +254,8 @@ class CartItem implements Arrayable, Jsonable
         $this->recipient_name = Arr::get($attributes, 'recipient_name', $this->recipient_name);
         $this->recipient_phone = Arr::get($attributes, 'recipient_phone', $this->recipient_phone);
         $this->recipient_address = Arr::get($attributes, 'recipient_address', $this->recipient_address);
+        $this->message_text = Arr::get($attributes, 'message_text', $this->message_text);
+        $this->message_sender = Arr::get($attributes, 'message_sender', $this->message_sender);
         $this->priceTax = $this->price + $this->tax;
         $this->options = new CartItemOptions(Arr::get($attributes, 'options', $this->options));
 
