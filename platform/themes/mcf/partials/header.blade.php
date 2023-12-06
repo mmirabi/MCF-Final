@@ -149,7 +149,7 @@
                                     </div>
                                     {{-- mehdi mirabi add logo text with special font for mobile --}}
                                     @else
-                                    <div class="logo logo-width-1" style="margin-left: 27px;">
+                                    <div class="logo logo-width-1">
                                         <a href="{{ route('public.index') }}"><span class="mcf-logo-type">{{ theme_option('site_title') }}</span></a>
                                     </div>
                                 @endif
@@ -372,7 +372,7 @@
                 </div>
                 {{-- mehdi mirabi add logo text with special font for mobile --}}
                 @else
-                <div class="logo logo-width-1" style="margin-left: 27px;">
+                <div class="logo logo-width-1">
                     <a href="{{ route('public.index') }}"><span class="mcf-logo-type">{{ theme_option('site_title') }}</span></a>
                 </div>
             @endif

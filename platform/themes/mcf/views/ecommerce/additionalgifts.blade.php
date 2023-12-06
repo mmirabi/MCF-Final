@@ -45,7 +45,7 @@
                 </div>
                 <div>
                     <div class="clearfix">
-                        <div class="table-wrapper-responsive" style="margin-top:50px">
+                        <div class="table-wrapper-responsive">
                             <div class="SEPETSOL">
                                 <div>
                                     <table>
@@ -63,27 +63,35 @@
                                                 <td>
                                                     <div class="">
                                                         <div class="container">
-                                                            <div class="row align-items-center">
-                                                                <div class="col col-lg-2">
-                                                                    <a href="{{ $product->original_product->url }}"><img alt="{{ $product->original_product->name }}" src="{{ RvMedia::getImageUrl($cartItem->options['image'], 'thumb', false, RvMedia::getDefaultImage()) }}" style="margin-right:15px;max-width:100%;width: 100%;border-radius: 5px;"></a>
-                                                                </div>
-                                                                <div class="col-7">
-                                                                    <span class="sepeturuntitle"><a href="{{ $product->original_product->url }}">{{ $product->original_product->name }}  @if ($product->isOutOfStock()) <span class="stock-status-label">({!! $product->stock_status_html !!})</span> @endif</a></span>
-                                                                    <p class="address-medyanossa">
-                                                                        @if (!empty($cartItem->options['options']))
-                                                                        {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
-                                                                        @endif
-                                                                    </p>
-                                                                </div>
-                                                                <div class="col col-lg-2">
-                                                                    <span><span class="d-inline-block">{{ format_price($cartItem->price) }}</span> @if ($product->front_sale_price != $product->price)
-                                                                    <small><del>{{ format_price($product->price) }}</del></small>@endif</h3>
-                                                                </div>
-                                                                <div class="col col-lg-1">
-                                                                    <a href="#" class="text-body remove-cart-button" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}"><i class="fi-rs-trash"></i></a>
+                                                            <div class="container">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col col-lg-3">
+                                                                        <a href="{{ $product->original_product->rl }}"><img alt="{{ $product->original_product->name }}" src="{{ RvMedia::getImageUrl($cartItem->options['image'], 'thumb', false, RvMedia::getDefaultImage()) }}" class="product-image-delivery"></a>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <span class="sepeturuntitle"><a href="{{ $product->original_product->url }}">{{ $product->original_product->name }}  @if ($product->isOutOfStock()) <span class="stock-status-label">({!! $product->stock_status_html !!})</span> @endif</a></span>
+                                                                        <p class="address-medyanossa">
+                                                                            @if (!empty($cartItem->options['options']))
+                                                                            {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
+                                                                            @endif
+                                                                            <div class="adreseklebtn2">
+                                                                                <b style="padding-right:20px;">
+                                                                                    <span>{{ $cartItem->getShippingRule()->name_item }}</span><br>
+                                                                                    <span>, {{ $cartItem->shipping_date }}</span>
+                                                                                    <span>, {{ $cartItem->shipping_time }}</span>
+                                                                                </b>
+                                                                            </div>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col col-lg-2">
+                                                                        <span class="d-inline-block price-delivery">{{ format_price($cartItem->price) }}</span> @if ($product->front_sale_price != $product->price)
+                                                                        <small><del>{{ format_price($product->price) }}</del></small>@endif</h3>
+                                                                    </div>
+                                                                    <div class="col col-lg-1">
+                                                                        <a href="#" class="text-body remove-cart-button" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}"><i class="fi-rs-trash"></i></a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -299,7 +307,7 @@
                                                     <p>{{ __('Shipping fee') }}:</p>
                                                 </div>
                                                 <div class="col-6 float-end">
-                                                    <p class="price-text shipping-price-text">
+                                                    <p class="price-text sub-total-text text-end">
                                                         {{ format_price($shippingAmount + Cart::instance('cart')->shippingFee()) }}</p>
                                                 </div>
                                             </div>
@@ -311,7 +319,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-6 float-end">
-                                                <p class="price-text shipping-price-text">
+                                                <p class="price-text sub-total-text text-end">
                                                     {{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
                                             </div>
                                         </div>

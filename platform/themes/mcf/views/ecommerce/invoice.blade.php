@@ -45,7 +45,7 @@
                     </div>
                     <div>
                         <div class="clearfix">
-                            <div class="table-wrapper-responsive" style="margin-top:50px">
+                            <div class="table-wrapper-responsive">
                                 <div class="SEPETSOL">
                                     <div>
                                         <table>
@@ -230,8 +230,8 @@
                                                         <p>{{ __('Shipping fee') }}:</p>
                                                     </div>
                                                     <div class="col-6 float-end">
-                                                        <p class="price-text shipping-price-text">
-                                                            {{ format_price($shippingAmount) }}</p>
+                                                        <p class="price-text sub-total-text text-end">
+                                                            {{ format_price($shippingAmount + Cart::instance('cart')->shippingFee()) }}</p>
                                                     </div>
                                                 </div>
                                             @endif
@@ -240,6 +240,10 @@
                                                     <p>
                                                         <strong>{{ __('Shipping fee') }}</strong>:
                                                     </p>
+                                                </div>
+                                                <div class="col-6 float-end">
+                                                    <p class="price-text sub-total-text text-end">
+                                                        {{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
                                                 </div>
                                             </div>
                                         </div>
