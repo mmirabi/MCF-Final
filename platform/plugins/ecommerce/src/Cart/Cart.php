@@ -369,7 +369,7 @@ class Cart
         $content = $this->getContent();
 
         return $content->reduce(function ($subTotal, CartItem $cartItem) {
-            return $subTotal + ($cartItem->qty * $cartItem->price);
+            return $subTotal + ($cartItem->qty * $cartItem->price) + $cartItem->getAdditionalPrice();;
         }, 0);
     }
 
@@ -379,7 +379,7 @@ class Cart
     public function rawSubTotalByItems($content)
     {
         return $content->reduce(function ($subTotal, CartItem $cartItem) {
-            return $subTotal + ($cartItem->qty * $cartItem->price);
+            return $subTotal + ($cartItem->qty * $cartItem->price) + $cartItem->getAdditionalPrice();
         }, 0);
     }
 
@@ -730,7 +730,7 @@ class Cart
     {
 
         return $this->content()->map(function ($item) {
-            return $item->getShippingRule()->shippingRule->price;
+            return $item->getShippingRule()->adjustment_price;
         })->sum();
     }
 

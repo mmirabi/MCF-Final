@@ -4,6 +4,7 @@ namespace Botble\Ecommerce\Cart;
 
 use Botble\Ecommerce\Cart\Contracts\Buyable;
 use Botble\Ecommerce\Facades\EcommerceHelper;
+use Botble\Ecommerce\Models\Product;
 use Botble\Ecommerce\Models\ShippingRuleItem;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
@@ -295,6 +296,16 @@ class CartItem implements Arrayable, Jsonable
     public function getShippingRule(): ShippingRuleItem
     {
         return ShippingRuleItem::find($this->shipping_rule_id);
+    }
+    public function getAdditionals()
+    {
+        return $this->additional_ids ? Product::whereIn('id', $this->additional_ids?:[])->get() : collect();
+    }
+    public function getAdditionalPrice(): float
+    {
+        return $this->getAdditionals() ? $this->getAdditionals()->map(function ($item) {
+            return $item->sale_price?:$item->price;
+        })->sum() : 0;
     }
 
     /**
