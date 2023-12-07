@@ -259,7 +259,7 @@
             </td>
             <td>{{ item.qty }}</td>
             <td class="right">{{ item.price|price_format }}</td>
-            <td class="bold">{{ item.sub_total|price_format }}</td>
+            <td class="bold">{{ item.total_format }}</td>
         </tr>
     {% endfor %}
 

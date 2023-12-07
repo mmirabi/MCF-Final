@@ -56,9 +56,14 @@ class OrderProduct extends BaseModel
     {
         return $this->belongsTo(Product::class)->withDefault();
     }
-    public function additional(): BelongsTo
+
+    public function shippingRule(): BelongsTo
     {
-        return $this->belongsTo(Product::class)->withDefault();
+        return $this->belongsTo(ShippingRuleItem::class, 'shipping_rule_id')->withDefault();
+    }
+    public function additionalProducts()
+    {
+        return $this->additional_ids ? Product::whereIn('id', $this->additional_ids)->get() : collect();
     }
 
     public function city(): BelongsTo
@@ -78,7 +83,7 @@ class OrderProduct extends BaseModel
 
     public function getTotalFormatAttribute(): string
     {
-        return format_price($this->price * $this->qty);
+        return format_price($this->price * $this->qty + $this->additional_price);
     }
 
     public function productFiles(): HasMany

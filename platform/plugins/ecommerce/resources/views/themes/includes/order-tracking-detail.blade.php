@@ -90,9 +90,11 @@
                                     'ec_products.created_at',
                                 ],
                             ]);
+                            $iteration = $loop->iteration;
                         @endphp
+
                         <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
+                            <td class="text-center">{{ $iteration }}</td>
                             <td class="text-center">
                                 <img
                                     src="{{ RvMedia::getImageUrl($orderProduct->product_image, 'thumb', false, RvMedia::getDefaultImage()) }}"
@@ -141,15 +143,42 @@
                                         </small>
                                     </p>
                                 @endif
+                                <div class="mb-0 pb-0 mt-1">{{ __('Shipping Information') }}: </div>
+                                <p>{{ $orderProduct->shippingRule ? $orderProduct->shippingRule->name_item : '' }}</p>
+                                <p>{{ $orderProduct->shipping_date }} {{ $orderProduct->shipping_time }}</p>
+                                <p>{{ $orderProduct->recipient_name }}, {{ $orderProduct->recipient_phone }}</p>
+                                <p>{{ $orderProduct->recipient_address }}</p>
+
                             </td>
                             <td class="text-center">{{ $orderProduct->amount_format }}</td>
-                            <td class="text-center">{{ $orderProduct->qty }}</td>
-                            <td class="money text-end">
+                            <td class="text-center" rowspan="{{ $orderProduct->additionalProducts()->count() + 1 }}">{{ $orderProduct->qty }}</td>
+                            <td class="money text-end" rowspan="{{ $orderProduct->additionalProducts()->count() + 1 }}">
                                 <strong>
                                     {{ $orderProduct->total_format }}
                                 </strong>
                             </td>
                         </tr>
+                        @foreach($orderProduct->additionalProducts() as $index => $additionalProduct)
+                            <tr>
+                                <td class="text-center">{{ $iteration }}.{{ $index+1 }}</td>
+                                <td class="text-center">
+                                    <img
+                                        src="{{ RvMedia::getImageUrl($additionalProduct->image, 'thumb', false, RvMedia::getDefaultImage()) }}"
+                                        alt="{{ $additionalProduct->name }}"
+                                        width="50"
+                                    >
+                                </td>
+                                <td>
+                                    @if($product && $product->original_product?->url)
+                                        <a href="{{ $product->original_product->url }}">{!! BaseHelper::clean($additionalProduct->name) !!}</a>
+                                    @else
+                                        {!! BaseHelper::clean($additionalProduct->name) !!}
+                                    @endif
+
+                                </td>
+                                <td class="text-center">{{ format_price($additionalProduct->price) }}</td>
+                            </tr>
+                        @endforeach
                     @endforeach
                     </tbody>
                 </table>
@@ -186,7 +215,7 @@
             </p>
         </div>
 
-        @if ($order->shipment->id)
+        {{--@if ($order->shipment->id)
             <br>
             <h5 class="mb-3">{{ __('Shipping Information') }}: </h5>
             <p>
@@ -234,7 +263,7 @@
                     <strong class="d-inline-block">{{ $order->shipment->date_shipped }}</strong>
                 </p>
             @endif
-        @endif
+        @endif--}}
     </div>
 @elseif (request()->input('order_id') || request()->input('email'))
     <p class="text-center text-danger">{{ __('Order not found!') }}</p>
