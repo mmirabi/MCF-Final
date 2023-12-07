@@ -38,7 +38,7 @@
                     @endforeach
                 </div>
             </div>
-            
+
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="detail-info pr-30 pl-30">
@@ -95,6 +95,12 @@
                         </div>
                     @endif --}}
                     @php
+                            Theme::asset()
+                                ->usePath()->add('select2.css', 'plugins/select2/css/select2.min.css');
+
+                            Theme::asset()
+                                ->container('footer')
+                                ->scriptUsingPath('select2.js', 'plugins/select2/js/select2.min.js');
                         Theme::asset()
                             ->usePath()->add('air-datepicker.css', 'plugins/air-datepicker/css/datepicker.css');
                         Theme::asset()
@@ -122,7 +128,7 @@
                                     <option value="">{{ __('Select location...') }}</option>
                                     @foreach(\Botble\Ecommerce\Models\ShippingRule::all() as $shippingRule)
                                         @foreach($shippingRule->items as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name_item }} ({{ format_price($item->adjustment_price) }})</option>
+                                            <option value="{{ $item->id }}">{{ $item->name_item }}</option>
                                         @endforeach
                                     @endforeach
                                 </select>
@@ -158,7 +164,7 @@
                             <div class="product-option-item-values">
                                 <div class="add-cart-times d-flex text-center font-weight-bold">
                                     <input type="hidden" name="shipping_time" required>
-                                    @foreach(['10:00-16:00', '14:00-20:00'] as $index => $time)
+                                    @foreach(now()->hour > 16 ? ['14:00-20:00'] : ['10:00-16:00', '14:00-20:00'] as $index => $time)
                                         <div class="time-item cursor-pointer mr-5" data-index="{{ $index }}" data-time-value="{{ $time }}">
                                             <div class="child">
                                                 <div class="h5">
@@ -213,10 +219,10 @@
                       <div class="col">
                         <h4 style="margin-bottom:20px;">{{ __('Other') }}</h4>
                         <div class="font-xs">
-                            <ul class="mr-50 float-start">        
+                            <ul class="mr-50 float-start">
                                 <li class="mb-5 @if (! $product->sku) d-none @endif" id="product-sku">
                                     <span class="d-inline-block me-1">{{ __('SKU') }}:</span> <span class="sku-text">{{ $product->sku }}</span>
-                                </li>       
+                                </li>
                                 @if ($product->categories->isNotEmpty())
                                     <li class="mb-5">
                                         <span class="d-inline-block me-1">{{ __('Categories') }}:</span>
@@ -232,7 +238,7 @@
                                             <a href="{{ $tag->url }}" rel="tag" title="{{ $tag->name }}">{{ $tag->name }}</a>@if (!$loop->last),@endif
                                         @endforeach
                                     </li>
-                                @endif       
+                                @endif
                                 @if ($product->brand->id)
                                     <li class="mb-5">
                                         <span class="d-inline-block me-1">{{ __('Brands') }}:</span>
@@ -247,7 +253,7 @@
                                 <div class="mb-5">
                                     <h4 style="margin-bottom:20px;">{{ __('Size') }}</h4>
                                     <img class="svgInject" style="width:30px;float: left;margin-right: 8px;margin-bottom: 30px;" src="{{ Theme::asset()->url('imgs/theme/icons/ruler.svg') }}" /><p>{{ __('Included in our')}} {{ $category->name }} {{ __('Category') }}</p>
-                                    
+
                                     <i class="fas fa-quote-left fa-xs text-primary"></i>
                                     <span>{!! BaseHelper::clean($product->name) !!}</span>
                                     <i class="fas fa-quote-right fa-xs text-primary"></i>

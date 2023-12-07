@@ -72,4 +72,7 @@ $(document).ready(function () {
             $('#add-cart-times').hide();
         }
     })
+    $('[data-using-select2=true]').each(function () {
+        $(this).select2()
+    })
 })
