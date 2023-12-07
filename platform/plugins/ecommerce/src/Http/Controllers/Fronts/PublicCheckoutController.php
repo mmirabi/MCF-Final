@@ -485,10 +485,12 @@ class PublicCheckoutController
                 }
 
                 $data = [
-                    'additional_id' => $cartItem->additional_id,
+                    'additional_ids' => $cartItem->additional_ids,
                     'shipping_rule_id' => $cartItem->shipping_rule_id,
                     'shipping_date' => $cartItem->shipping_date,
                     'shipping_time' => $cartItem->shipping_time,
+                    'shipping_price' => $cartItem->getShippingRulePrice(),
+                    'additional_price' => $cartItem->getAdditionalPrice(),
                     'message_text' => $cartItem->message_text,
                     'message_sender' => $cartItem->message_sender,
                     'product_name' => $cartItem->name,
@@ -684,7 +686,7 @@ class PublicCheckoutController
                 ]);
             }
 
-            $shippingAmount = Arr::get($shippingMethod, 'price', 0);
+            $shippingAmount = Cart::instance('cart')->shippingFee();
 
             if (get_shipping_setting('free_ship', $shippingMethodInput)) {
                 $shippingAmount = 0;
@@ -771,8 +773,14 @@ class PublicCheckoutController
             }
 
             $data = [
-                'order_id' => $order->getKey(),
-                'product_id' => $cartItem->id,
+                'additional_ids' => $cartItem->additional_ids,
+                'shipping_rule_id' => $cartItem->shipping_rule_id,
+                'shipping_date' => $cartItem->shipping_date,
+                'shipping_time' => $cartItem->shipping_time,
+                'shipping_price' => $cartItem->getShippingRulePrice(),
+                'additional_price' => $cartItem->getAdditionalPrice(),
+                'message_text' => $cartItem->message_text,
+                'message_sender' => $cartItem->message_sender,
                 'product_name' => $cartItem->name,
                 'product_image' => $product->original_product->image,
                 'qty' => $cartItem->qty,
@@ -787,7 +795,9 @@ class PublicCheckoutController
                 $data['product_options'] = $cartItem->options['options'];
             }
 
-            OrderProduct::query()->create($data);
+            OrderProduct::query()->updateOrCreate([
+                'order_id' => $sessionData['created_order_id'],
+                'product_id' => $cartItem->id,], $data);
         }
 
         $request->merge([
@@ -812,7 +822,6 @@ class PublicCheckoutController
         ];
 
         $paymentData = apply_filters(FILTER_ECOMMERCE_PROCESS_PAYMENT, $paymentData, $request);
-
         if ($checkoutUrl = Arr::get($paymentData, 'checkoutUrl')) {
             return $response
                 ->setError($paymentData['error'])

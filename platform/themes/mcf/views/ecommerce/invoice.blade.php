@@ -321,8 +321,8 @@
                 $('#sonrakibuton').click(function () {
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('public.checkout.save-information', session('tracked_start_checkout')) }}',
-                        //url: '{{ route('public.checkout.process', session('tracked_start_checkout')) }}',
+                        //url: '{{ route('public.checkout.save-information', session('tracked_start_checkout')) }}',
+                        url: '{{ route('public.checkout.process', session('tracked_start_checkout')) }}',
                         data: {
                             _token: $('meta[name=csrf-token]').prop('content'),
                             address: {
@@ -335,7 +335,9 @@
                                 company_name: $('#address_company_name').val(),
                                 company_tax: $('#address_company_tax').val(),
                                 company_tax_id: $('#address_company_tax_id').val(),
-                            }
+                            },
+                            payment_method: 'cod',
+                            shipping_method: 'default',
                         },
                         success: (response) => {
                             if (response.error) {
@@ -343,7 +345,7 @@
                                 return false
                             }
                             window.showAlert('alert-success', response.message??'Successfully done')
-                            //window.location.reload()
+                            window.location.href = "{{ route('public.checkout.success', session('tracked_start_checkout')) }}"
                         },
                         error: (response) => {
                             window.showAlert('alert-danger', response.responseJSON.message)

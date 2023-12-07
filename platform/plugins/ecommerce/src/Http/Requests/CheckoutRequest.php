@@ -15,7 +15,7 @@ class CheckoutRequest extends Request
     public function rules(): array
     {
         $rules = [
-            'amount' => 'required|min:0',
+            'amount' => 'nullable|min:0',
         ];
 
         if (is_plugin_active('payment') && Cart::instance('cart')->rawTotal()) {
@@ -30,7 +30,7 @@ class CheckoutRequest extends Request
 
         $products = Cart::instance('cart')->products();
         if (EcommerceHelper::isAvailableShipping($products)) {
-            $rules['shipping_method'] = 'required|' . Rule::in(ShippingMethodEnum::values());
+            $rules['shipping_method'] = 'nullable|' . Rule::in(ShippingMethodEnum::values());
             if (auth('customer')->check()) {
                 $rules['address.address_id'] = 'required_without:address.name';
                 if (! $this->has('address.address_id') || $addressId === 'new') {

@@ -33,7 +33,7 @@ class OrderProduct extends BaseModel
         'restock_quantity',
         'product_type',
         'license_code',
-        'additional_id',
+        'additional_ids',
         'shipping_rule_id',
         'shipping_date',
         'shipping_time',
@@ -42,11 +42,14 @@ class OrderProduct extends BaseModel
         'recipient_address',
         'message_text',
         'message_sender',
+        'shipping_price',
+        'additional_price',
     ];
 
     protected $casts = [
         'options' => 'json',
         'product_options' => 'json',
+        'additional_ids' => 'array',
     ];
 
     public function product(): BelongsTo

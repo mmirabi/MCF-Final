@@ -297,6 +297,10 @@ class CartItem implements Arrayable, Jsonable
     {
         return ShippingRuleItem::find($this->shipping_rule_id);
     }
+    public function getShippingRulePrice(): float
+    {
+        return $this->getShippingRule() ? $this->getShippingRule()->adjustment_price: 0;
+    }
     public function getAdditionals()
     {
         return $this->additional_ids ? Product::whereIn('id', $this->additional_ids?:[])->get() : collect();

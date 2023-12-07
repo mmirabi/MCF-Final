@@ -320,10 +320,10 @@ class Cart
             }
 
             if (! EcommerceHelper::isTaxEnabled()) {
-                return $total + $cartItem->qty * $cartItem->price;
+                return $total + $cartItem->qty * $cartItem->price+ $cartItem->getAdditionalPrice();
             }
 
-            return $total + ($cartItem->qty * ($cartItem->priceTax == 0 ? $cartItem->price : $cartItem->priceTax));
+            return $total + ($cartItem->qty * ($cartItem->priceTax == 0 ? $cartItem->price : $cartItem->priceTax))+ $cartItem->getAdditionalPrice();
         }, 0);
     }
 
@@ -338,10 +338,10 @@ class Cart
             }
 
             if (! EcommerceHelper::isTaxEnabled()) {
-                return $total + $cartItem->qty * $cartItem->price;
+                return $total + $cartItem->qty * $cartItem->price+ $cartItem->getAdditionalPrice();
             }
 
-            return $total + ($cartItem->qty * ($cartItem->priceTax == 0 ? $cartItem->price : $cartItem->priceTax));
+            return $total + ($cartItem->qty * ($cartItem->priceTax == 0 ? $cartItem->price : $cartItem->priceTax))+ $cartItem->getAdditionalPrice();
         }, 0);
     }
 
@@ -369,7 +369,7 @@ class Cart
         $content = $this->getContent();
 
         return $content->reduce(function ($subTotal, CartItem $cartItem) {
-            return $subTotal + ($cartItem->qty * $cartItem->price) + $cartItem->getAdditionalPrice();;
+            return $subTotal + ($cartItem->qty * $cartItem->price) + $cartItem->getAdditionalPrice();
         }, 0);
     }
 
