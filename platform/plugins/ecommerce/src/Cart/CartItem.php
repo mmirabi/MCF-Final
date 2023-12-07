@@ -45,11 +45,11 @@ class CartItem implements Arrayable, Jsonable
     public $price;
 
     /**
-     * The additional_id of the cart item.
+     * The additional_ids of the cart item.
      *
-     * @var int|string
+     * @var array
      */
-    public $additional_id;
+    public $additional_ids;
 
     /**
      * The shipping_rule_id of the cart item.
@@ -212,7 +212,7 @@ class CartItem implements Arrayable, Jsonable
             throw new InvalidArgumentException('Please supply a valid AdditionalID.');
         }
 
-        $this->additional_id = $id;
+        $this->additional_ids = $id;
     }
 
     /**
@@ -226,7 +226,7 @@ class CartItem implements Arrayable, Jsonable
         $this->id = $item->getBuyableIdentifier($this->options);
         $this->name = $item->getBuyableDescription($this->options);
         $this->price = $item->getBuyablePrice($this->options);
-        $this->additional_id = $item->additional_id;
+        $this->additional_ids = $item->additional_ids;
         $this->recipient_name = $item->recipient_name;
         $this->recipient_phone = $item->recipient_phone;
         $this->recipient_address = $item->recipient_address;
@@ -250,7 +250,7 @@ class CartItem implements Arrayable, Jsonable
         $this->shipping_rule_id = Arr::get($attributes, 'shipping_rule_id', $this->shipping_rule_id);
         $this->shipping_date = Arr::get($attributes, 'shipping_date', $this->shipping_date);
         $this->shipping_time = Arr::get($attributes, 'shipping_time', $this->shipping_time);
-        $this->additional_id = Arr::get($attributes, 'additional_id', $this->additional_id);
+        $this->additional_ids = Arr::get($attributes, 'additional_ids', $this->additional_ids);
         $this->recipient_name = Arr::get($attributes, 'recipient_name', $this->recipient_name);
         $this->recipient_phone = Arr::get($attributes, 'recipient_phone', $this->recipient_phone);
         $this->recipient_address = Arr::get($attributes, 'recipient_address', $this->recipient_address);

@@ -117,7 +117,7 @@
                                                             </div>
                                                         @endif
                                                     </div>
-                                                    <div class="modal fade kartbilgi2 shipping-modals" data-action="{{ route('public.ajax.cart.update') }}" data-row="{{ $cartItem->rowId }}" data-pid="{{ $cartItem->additional_id }}" id="shipping-modal-{{ $cartItem->rowId }}" tabindex="-1" aria-labelledby="shipping-modal-{{ $cartItem->rowId }}-label" aria-hidden="true">
+                                                    <div class="modal fade kartbilgi2 shipping-modals" data-action="{{ route('public.ajax.cart.update') }}" data-row="{{ $cartItem->rowId }}" id="shipping-modal-{{ $cartItem->rowId }}" tabindex="-1" aria-labelledby="shipping-modal-{{ $cartItem->rowId }}-label" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -166,7 +166,6 @@
                                                                 rowId: _self.data('row'),
                                                                 values: {
                                                                     qty: 1,
-                                                                    additional_id: _self.data('pid')??null,
                                                                     recipient_name: _self.find('[name=recipient_name]').val(),
                                                                     recipient_phone: _self.find('[name=recipient_phone]').val(),
                                                                     recipient_address: _self.find('[name=recipient_address]').val(),

@@ -100,7 +100,7 @@
                                                             </div>
                                                             <div class="products product-list">
                                                                 @foreach(\Botble\Ecommerce\Models\Product::where('product_type', 'additional')->get() as $product)
-                                                                    <a class="product EKURUNDIV{{ $cartItem->additional_id == $product->id ? " EKURUNDIVactive" : "" }}"  data-action="{{ route('public.ajax.cart.update') }}" data-row="{{ $cartItem->rowId }}" data-cpid="{{ $cartItem->id }}-{{ $product->id }}" data-pid="{{ $product->id }}" data-cid="{{ $cartItem->id }}" data-catids="{{ implode(',', $product->categories->pluck('id')->toArray()) }}">
+                                                                    <a class="product EKURUNDIV{{ in_array($product->id, $cartItem->additional_ids?:[]) ? " EKURUNDIVactive" : "" }}"  data-action="{{ route('public.ajax.cart.update') }}" data-row="{{ $cartItem->rowId }}" data-cpid="{{ $cartItem->id }}-{{ $product->id }}" data-pid="{{ $product->id }}" data-cid="{{ $cartItem->id }}" data-catids="{{ implode(',', $product->categories->pluck('id')->toArray()) }}">
                                                                         <div class="ekloading"></div>
                                                                         <div class="product_resimdiv">
                                                                             <img class="resimX" src="{{ RvMedia::getImageUrl($product->image, 'thumb', false, RvMedia::getDefaultImage()) }}">
@@ -160,66 +160,38 @@
                                         $('.product[data-cpid]').each(function (){
                                             var _self = $(this);
                                             $(this).click(function () {
-                                                if($(this).hasClass('EKURUNDIVactive')) {
-                                                    $.ajax({
-                                                        type: 'POST',
-                                                        url: _self.data('action'),
-                                                        data: {
-                                                            _token: $('meta[name=csrf-token]').prop('content'),
-                                                            _method: 'PUT',
-                                                            items: {
-                                                                [_self.data('row')]: {
-                                                                    rowId: _self.data('row'),
-                                                                    values: {
-                                                                        qty: 1,
-                                                                        additional_id: null,
-                                                                    }
-                                                                },
-                                                            }
-                                                        },
-                                                        success: (response) => {
-                                                            if (response.error) {
-                                                                window.showAlert('alert-danger', response.message)
-                                                                return false
-                                                            }
-                                                            window.showAlert('alert-success', response.message)
-                                                            $('.product[data-cid=' + $(this).data('cid') + ']').removeClass('EKURUNDIVactive')
-                                                        },
-                                                        error: (response) => {
+                                                $(this).addClass('EKURUNDIVactive')
+                                                var additionals = [];
+                                                $('.product.EKURUNDIVactive[data-cid=' + $(this).data('cid') + ']').each(function () {
+                                                    additionals.push($(this).data('pid'))
+                                                })
+                                                $.ajax({
+                                                    type: 'POST',
+                                                    url: _self.data('action'),
+                                                    data: {
+                                                        _token: $('meta[name=csrf-token]').prop('content'),
+                                                        _method: 'PUT',
+                                                        items: {
+                                                            [_self.data('row')]: {
+                                                                rowId: _self.data('row'),
+                                                                values: {
+                                                                    qty: 1,
+                                                                    additional_ids: additionals,
+                                                                }
+                                                            },
+                                                        }
+                                                    },
+                                                    success: (response) => {
+                                                        if (response.error) {
                                                             window.showAlert('alert-danger', response.message)
-                                                        },
-                                                    })
-                                                }else {
-                                                    $.ajax({
-                                                        type: 'POST',
-                                                        url: _self.data('action'),
-                                                        data: {
-                                                            _token: $('meta[name=csrf-token]').prop('content'),
-                                                            _method: 'PUT',
-                                                            items: {
-                                                                [_self.data('row')]: {
-                                                                    rowId: _self.data('row'),
-                                                                    values: {
-                                                                        qty: 1,
-                                                                        additional_id: _self.data('pid'),
-                                                                    }
-                                                                },
-                                                            }
-                                                        },
-                                                        success: (response) => {
-                                                            if (response.error) {
-                                                                window.showAlert('alert-danger', response.message)
-                                                                return false
-                                                            }
-                                                            window.showAlert('alert-success', response.message)
-                                                            $('.product[data-cid=' + $(this).data('cid') + ']').removeClass('EKURUNDIVactive')
-                                                            $(this).addClass('EKURUNDIVactive')
-                                                        },
-                                                        error: (response) => {
-                                                            window.showAlert('alert-danger', response.message)
-                                                        },
-                                                    })
-                                                }
+                                                            return false
+                                                        }
+                                                        window.showAlert('alert-success', response.message)
+                                                    },
+                                                    error: (response) => {
+                                                        window.showAlert('alert-danger', response.message)
+                                                    },
+                                                })
                                             })
                                         })
                                     }, 1000)
