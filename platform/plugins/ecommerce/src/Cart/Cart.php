@@ -120,9 +120,6 @@ class Cart
         ) {
             $price = $this->getPriceByOptions($price, $productOptions);
         }
-
-        if ($shipping_rule_model = ShippingRuleItem::find($shipping_rule))
-            $price += $shipping_rule_model->adjustment_price;
         if ($id instanceof Buyable) {
             $cartItem = CartItem::fromBuyable($id, $qty ?: []);
             $cartItem->setQuantity($name ?: 1);
