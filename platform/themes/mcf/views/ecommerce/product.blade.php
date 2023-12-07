@@ -111,7 +111,7 @@
                             ->scriptUsingPath('air-datepicker.js', 'plugins/air-datepicker/js/datepicker.js');
                         Theme::asset()
                             ->container('footer')
-                            ->scriptUsingPath('datepicker.tr.js', 'plugins/air-datepicker/js/i18n/datepicker.tr.js');
+                            ->scriptUsingPath('datepicker.'.Language::getCurrentLocaleFlag().'.js', 'plugins/air-datepicker/js/i18n/datepicker.'.Language::getCurrentLocaleFlag().'.js');
                         Theme::asset()
                             ->container('footer')
                             ->scriptUsingPath('product-add-cart.js', 'js/product-add-cart.js?v='.time());
@@ -141,10 +141,10 @@
                                         <div class="date-item cursor-pointer" data-date-value="{{ now()->addDays($i)->format('Y-m-d') }}">
                                             <div class="child">
                                                 <div class="h5">
-                                                    {{ now()->addDays($i)->format('d') }} {{ now()->addDays($i)->locale('tr')->translatedFormat('F') }}
+                                                    {{ now()->addDays($i)->format('d') }} {{ now()->addDays($i)->locale(Language::getCurrentLocaleFlag())->translatedFormat('F') }}
                                                 </div>
                                                 <div class="h3">
-                                                    {{ now()->addDays($i)->locale('tr')->translatedFormat('l') }}
+                                                    {{ now()->addDays($i)->locale(Language::getCurrentLocaleFlag())->translatedFormat('l') }}
                                                 </div>
                                             </div>
                                         </div>
@@ -153,7 +153,7 @@
                                             <div class="child d-flex justify-content-center align-items-center">
                                                 <div class="i-datepicker">
                                                     <span class="input-group-addon"><i class="h2 fi-rs-calendar"></i></span>
-                                                    <input type="text" required name="shipping_date" id="shipping_date" class="form-control p-1" readonly>
+                                                    <input type="text" required name="shipping_date" id="shipping_date" data-local="{{ Language::getCurrentLocaleFlag() }}" class="form-control p-1" readonly>
                                                 </div>
                                             </div>
                                         </div>
