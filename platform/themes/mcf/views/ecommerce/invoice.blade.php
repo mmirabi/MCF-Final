@@ -322,6 +322,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '{{ route('public.checkout.save-information', session('tracked_start_checkout')) }}',
+                        //url: '{{ route('public.checkout.process', session('tracked_start_checkout')) }}',
                         data: {
                             _token: $('meta[name=csrf-token]').prop('content'),
                             address: {

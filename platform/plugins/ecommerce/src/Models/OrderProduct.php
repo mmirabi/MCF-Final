@@ -19,10 +19,7 @@ class OrderProduct extends BaseModel
     protected $fillable = [
         'order_id',
         'product_id',
-        'additional_id',
         'message_id',
-        'message_subject',
-        'message_text',
         'city_id',
         'send_at',
         'product_name',
@@ -36,6 +33,15 @@ class OrderProduct extends BaseModel
         'restock_quantity',
         'product_type',
         'license_code',
+        'additional_id',
+        'shipping_rule_id',
+        'shipping_date',
+        'shipping_time',
+        'recipient_name',
+        'recipient_phone',
+        'recipient_address',
+        'message_text',
+        'message_sender',
     ];
 
     protected $casts = [

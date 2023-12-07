@@ -422,7 +422,7 @@ class PublicCheckoutController
             return $sessionData;
         }
 
-        if (! isset($sessionData['created_order'])) {
+        //if (! isset($sessionData['created_order'])) {
             $currentUserId = 0;
             if (auth('customer')->check()) {
                 $currentUserId = auth('customer')->id();
@@ -449,7 +449,7 @@ class PublicCheckoutController
 
             $sessionData['created_order'] = true;
             $sessionData['created_order_id'] = $order->getKey();
-        }
+        //}
 
         if (! empty($address)) {
             $addressData['order_id'] = $sessionData['created_order_id'];
@@ -464,7 +464,7 @@ class PublicCheckoutController
 
         $sessionData = OrderHelper::checkAndCreateOrderAddress($addressData, $sessionData);
 
-        if (! isset($sessionData['created_order_product'])) {
+        //if (! isset($sessionData['created_order_product'])) {
             $weight = 0;
             foreach (Cart::instance('cart')->content() as $cartItem) {
                 $product = Product::query()->find($cartItem->id);
@@ -475,7 +475,7 @@ class PublicCheckoutController
 
             $weight = EcommerceHelper::validateOrderWeight($weight);
 
-            OrderProduct::query()->where(['order_id' => $sessionData['created_order_id']])->delete();
+           // OrderProduct::query()->where(['order_id' => $sessionData['created_order_id']])->delete();
 
             foreach (Cart::instance('cart')->content() as $cartItem) {
                 $product = Product::query()->find($cartItem->id);
@@ -485,8 +485,12 @@ class PublicCheckoutController
                 }
 
                 $data = [
-                    'order_id' => $sessionData['created_order_id'],
-                    'product_id' => $cartItem->id,
+                    'additional_id' => $cartItem->additional_id,
+                    'shipping_rule_id' => $cartItem->shipping_rule_id,
+                    'shipping_date' => $cartItem->shipping_date,
+                    'shipping_time' => $cartItem->shipping_time,
+                    'message_text' => $cartItem->message_text,
+                    'message_sender' => $cartItem->message_sender,
                     'product_name' => $cartItem->name,
                     'product_image' => $product->original_product->image,
                     'qty' => $cartItem->qty,
@@ -501,11 +505,13 @@ class PublicCheckoutController
                     $data['product_options'] = $cartItem->options['options'];
                 }
 
-                OrderProduct::query()->create($data);
+                OrderProduct::query()->updateOrCreate([
+                    'order_id' => $sessionData['created_order_id'],
+                    'product_id' => $cartItem->id,], $data);
             }
 
             $sessionData['created_order_product'] = Cart::instance('cart')->getLastUpdatedAt();
-        }
+       // }
 
         OrderHelper::setOrderSessionData($token, $sessionData);
 
