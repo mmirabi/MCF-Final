@@ -9,7 +9,6 @@ return new class () extends Migration {
     {
         Schema::create('ec_message_cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->index();
             $table->string('title', 120);
             $table->text('description');
             $table->longText('content');
