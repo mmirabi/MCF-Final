@@ -74,6 +74,13 @@
                                                                         {!! render_product_options_info($cartItem->options['options'], $product, true) !!}
                                                                         @endif
                                                                     </p>
+
+                                                                    <p class="address-medyanossa">
+                                                                        {{ $cartItem->getShippingRule()->name_item }}
+                                                                        <br>
+                                                                        {{ $cartItem->shipping_date }} {{ $cartItem->shipping_time }}
+                                                                    </p>
+                                                                    <p></p>
                                                                 </div>
                                                                 <div class="col col-lg-2">
                                                                     <span><span class="d-inline-block">{{ format_price($cartItem->price) }}</span> @if ($product->front_sale_price != $product->price)
@@ -299,24 +306,29 @@
                                                         {{ format_price($promotionDiscountAmount) }} </p>
                                                 </div>
                                             </div>
-                                        @endif @if (!empty($shipping) && Arr::get($sessionCheckoutData, 'is_available_shipping', true))
+                                        @endif
+                                        @if (!empty($shipping) && Arr::get($sessionCheckoutData, 'is_available_shipping', true))
                                             <div class="row">
                                                 <div class="col-6">
                                                     <p>{{ __('Shipping fee') }}:</p>
                                                 </div>
                                                 <div class="col-6 float-end">
                                                     <p class="price-text shipping-price-text">
-                                                        {{ format_price($shippingAmount) }}</p>
+                                                        {{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <p>
+                                                        <strong>{{ __('Shipping fee') }}</strong>:
+                                                    </p>
+                                                </div>
+                                                <div class="col-6 float-end">
+                                                    <p class="price-text shipping-price-text">{{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
                                                 </div>
                                             </div>
                                         @endif
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <p>
-                                                    <strong>{{ __('Shipping fee') }}</strong>:
-                                                </p>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <hr>
