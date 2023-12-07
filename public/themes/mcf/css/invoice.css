@@ -858,7 +858,6 @@ img {
     margin: auto;
 }
 
-/*! CSS Used from: https://www.ribbonflowers.com/assets/stylenewe.css?v=2936 */
 .sepetozetsecond {
     vertical-align: top;
     padding-bottom: 8px;
@@ -1132,7 +1131,6 @@ a.indirimpuonlink {
     cursor: pointer;
     padding: 5px;
     margin-top: 27px;
-    background-image: url('https://www.ribbonflowers.com/ikonlar/Plus.png');
     background-size: 16px;
     background-repeat: no-repeat;
     background-position: center left;
@@ -1173,7 +1171,7 @@ a.indirimpuonlink {
 
 .sepettitleicon div:first-child img,
 .sepettitleicon div:last-child img {
-    width: 56%;
+    width: 100%;
 }
 
 .sepettitleicon div span {
@@ -1197,7 +1195,6 @@ a.indirimpuonlink {
     padding: 17px;
     padding-left: 70px;
     padding-right: 50px;
-    background-image: url(https://www.ribbonflowers.com/ikonlar/notlar.png);
     background-repeat: no-repeat;
     background-size: 40px;
     background-position: left 13px top 22px;
@@ -1211,7 +1208,6 @@ a.indirimpuonlink {
     padding-left: 52px;
     padding-right: 10px;
     padding-bottom: 8px;
-    background-image: url(https://www.ribbonflowers.com/ikonlar/notlar.png);
     background-repeat: no-repeat;
     background-size: 28px;
     background-position: left 13px top 13px;
@@ -1270,7 +1266,6 @@ a.indirimpuonlink {
 
 [type=checkbox]:checked+label:before {
     content: '';
-    background: url('https://www.ribbonflowers.com/images/checked.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -1568,4 +1563,130 @@ footer.main {
 }
 body {
 background-color: #f8f7f5;
+}
+
+
+.d-inline-block {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.product-image-delivery {
+    margin-right:15px;
+    max-width:90%;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.text-body {
+    color: var(--color-danger)!important;
+}
+
+.adreseklebtn2 {
+    padding: 14px;
+    color: #1D413F;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.text-body {
+    float: right;
+    font-size: 25px;
+}
+/* Responcive */
+@media (max-width: 500px){
+    .SEPETSOL {
+        padding: 0px 10px 15px 10px;
+        background-color: white;
+        color: black;
+        width: calc(100% - 10px);
+        margin: 5px;
+        float: left;
+        border-radius: 5px;
+    }
+}
+
+@media (max-width: 500px){
+    .sepettitleicon div span {
+        font-size: 11px;
+
+    }
+}
+
+@media (max-width: 500px){
+    .text-body {
+        float: right;
+        font-size: 25px;
+    }
+}
+@media (max-width: 500px){
+    .product-image-delivery {
+        margin-right: 15px;
+        max-width: 100%;
+        width: 64px;
+        border-radius: 5px;
+    }
+    
+}
+
+
+@media only screen and (max-width: 500px){
+    .header-bottom {
+        padding: 10px;
+    }
+}
+
+/* @media only screen and (max-width: 500px){
+    .header-style-1.header-height-2 {
+        display: contents;
+    }
+} */
+
+@media only screen and (max-width: 500px){
+    .d-inline-block {
+        font-size: 15px;
+        font-weight: bold;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .adreseklebtn2 {
+        padding: 1px;
+        color: #1D413F;
+        width: 100%;
+        cursor: pointer;
+        text-align: left;
+        position: relative;
+        font-size: 12px;
+        font-weight: normal;
+    }
+}
+
+@media (max-width: 480px) {
+.green.btn.sonrakibuton {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    border: 2px solid white;
+    border-radius: 0;
+    height: 70PX;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: .8px;
+}
+}
+
+.table-wrapper-responsive {
+    margin-top: 50px;
+}
+
+@media (max-width: 480px) {
+    .table-wrapper-responsive {
+        margin-top: 5px;
+    }
 }

@@ -18,34 +18,34 @@
             <div class=" margin-bottom-40">
                 <div class="sepettitleicon">
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet1_aktif.png?v=1">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/delivery_active.png') }}">
                         <br>
                         <span>{{ __('Delivery') }}</span>
                     </div>
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet2_aktif.png?v=1">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/additional_gifts_active.png') }}">
                         <br>
                         <span>{{ __('Additional Gifts') }}</span>
                     </div>
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet3.png">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/message_card.png') }}">
                         <br>
                         <span>{{ __('Message Card') }}</span>
                     </div>
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet4.png">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/invoice.png') }}">
                         <br>
                         <span>{{ __('Invoice') }}</span>
                     </div>
                     <div>
-                        <img src="https://www.ribbonflowers.com/ikonlar/sepet5.png">
+                        <img src="{{ Theme::asset()->url('imgs/theme/cart/payment.png') }}">
                         <br>
                         <span>{{ __('Payment') }}</span>
                     </div>
                 </div>
                 <div>
                     <div class="clearfix">
-                        <div class="table-wrapper-responsive" style="margin-top:50px">
+                        <div class="table-wrapper-responsive">
                             <div class="SEPETSOL">
                                 <div>
                                     <table>
@@ -89,7 +89,6 @@
                                                                     <a href="#" class="text-body remove-cart-button" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}"><i class="fi-rs-trash"></i></a>
                                                                 </div>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -278,7 +277,7 @@
                                                     <p>{{ __('Shipping fee') }}:</p>
                                                 </div>
                                                 <div class="col-6 float-end">
-                                                    <p class="price-text shipping-price-text">
+                                                    <p class="price-text sub-total-text text-end">
                                                         {{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
                                                 </div>
                                             </div>
@@ -290,7 +289,8 @@
                                                 </p>
                                             </div>
                                             <div class="col-6 float-end">
-                                                <p class="price-text shipping-price-text">{{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
+                                                <p class="price-text sub-total-text text-end">
+                                                    {{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
                                             </div>
                                         </div>
                                         @endif

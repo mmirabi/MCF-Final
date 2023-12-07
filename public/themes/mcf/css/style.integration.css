@@ -357,3 +357,12 @@ p:last-child {
   background-color: var(--color-grey-9)!important;
   border: 1px solid var(--color-heading)!important;
 }
+
+.logo-width-1{
+  margin-left: 30px!important;
+}
+@media only screen and (max-width: 992px) {
+.logo.logo-width-1 {
+    left: 130px;
+}
+}
