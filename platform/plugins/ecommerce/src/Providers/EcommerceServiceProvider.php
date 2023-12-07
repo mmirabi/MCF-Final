@@ -371,6 +371,7 @@ class EcommerceServiceProvider extends ServiceProvider
                 'compare',
                 'invoice',
                 'invoice-template',
+                'messages',
             ])
             ->loadAndPublishConfigurations([
                 'general',
@@ -808,6 +809,24 @@ class EcommerceServiceProvider extends ServiceProvider
                     'icon' => 'fa fa-users',
                     'url' => route('customers.index'),
                     'permissions' => ['customers.index'],
+                ])
+                ->registerItem([
+                    'id' => 'cms-plugins-ecommerce.message',
+                    'priority' => 996,
+                    'parent_id' => 'cms-plugins-ecommerce',
+                    'name' => 'plugins/ecommerce::message_cards.name',
+                    'icon' => 'fa fa-message',
+                    'url' => route('message_cards.index'),
+                    'permissions' => ['message_cards.index'],
+                ])
+                ->registerItem([
+                    'id' => 'cms-plugins-message-categories',
+                    'priority' => 997,
+                    'parent_id' => 'cms-plugins-ecommerce',
+                    'name' => 'plugins/ecommerce::message-categories.name',
+                    'icon' => 'fa fa-archive',
+                    'url' => route('message-categories.index'),
+                    'permissions' => ['message-categories.index'],
                 ])
                 ->registerItem([
                     'id' => 'cms-plugins-ecommerce.basic-settings',

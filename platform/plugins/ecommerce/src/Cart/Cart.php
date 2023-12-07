@@ -120,9 +120,6 @@ class Cart
         ) {
             $price = $this->getPriceByOptions($price, $productOptions);
         }
-
-        if ($shipping_rule_model = ShippingRuleItem::find($shipping_rule))
-            $price += $shipping_rule_model->adjustment_price;
         if ($id instanceof Buyable) {
             $cartItem = CartItem::fromBuyable($id, $qty ?: []);
             $cartItem->setQuantity($name ?: 1);
@@ -205,7 +202,7 @@ class Cart
      * @param mixed $qty
      * @return \Botble\Ecommerce\Cart\CartItem|bool
      */
-    public function update($rowId, $qty, $additional_id)
+    public function update($rowId, $qty)
     {
         $cartItem = $this->get($rowId);
 
@@ -224,7 +221,6 @@ class Cart
             if ($content->has($cartItem->rowId)) {
                 $existingCartItem = $this->get($cartItem->rowId);
                 $cartItem->setQuantity((int)$existingCartItem->qty + (int)$cartItem->qty);
-                $cartItem->setAdditionalID($additional_id);
             }
         }
 
@@ -324,10 +320,10 @@ class Cart
             }
 
             if (! EcommerceHelper::isTaxEnabled()) {
-                return $total + $cartItem->qty * $cartItem->price;
+                return $total + $cartItem->qty * $cartItem->price+ $cartItem->getAdditionalPrice();
             }
 
-            return $total + ($cartItem->qty * ($cartItem->priceTax == 0 ? $cartItem->price : $cartItem->priceTax));
+            return $total + ($cartItem->qty * ($cartItem->priceTax == 0 ? $cartItem->price : $cartItem->priceTax))+ $cartItem->getAdditionalPrice();
         }, 0);
     }
 
@@ -342,10 +338,10 @@ class Cart
             }
 
             if (! EcommerceHelper::isTaxEnabled()) {
-                return $total + $cartItem->qty * $cartItem->price;
+                return $total + $cartItem->qty * $cartItem->price+ $cartItem->getAdditionalPrice();
             }
 
-            return $total + ($cartItem->qty * ($cartItem->priceTax == 0 ? $cartItem->price : $cartItem->priceTax));
+            return $total + ($cartItem->qty * ($cartItem->priceTax == 0 ? $cartItem->price : $cartItem->priceTax))+ $cartItem->getAdditionalPrice();
         }, 0);
     }
 
@@ -373,7 +369,7 @@ class Cart
         $content = $this->getContent();
 
         return $content->reduce(function ($subTotal, CartItem $cartItem) {
-            return $subTotal + ($cartItem->qty * $cartItem->price);
+            return $subTotal + ($cartItem->qty * $cartItem->price) + $cartItem->getAdditionalPrice();
         }, 0);
     }
 
@@ -383,7 +379,7 @@ class Cart
     public function rawSubTotalByItems($content)
     {
         return $content->reduce(function ($subTotal, CartItem $cartItem) {
-            return $subTotal + ($cartItem->qty * $cartItem->price);
+            return $subTotal + ($cartItem->qty * $cartItem->price) + $cartItem->getAdditionalPrice();
         }, 0);
     }
 
@@ -734,7 +730,7 @@ class Cart
     {
 
         return $this->content()->map(function ($item) {
-            return $item->getShippingRule()->shippingRule->price;
+            return $item->getShippingRule()->adjustment_price;
         })->sum();
     }
 

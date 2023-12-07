@@ -274,7 +274,7 @@ class PublicCartController extends Controller
                 if ($product->isOutOfStock()) {
                     $outOfQuantity = true;
                 } else {
-                    Cart::instance('cart')->update($item['rowId'], Arr::get($item, 'values'), Arr::get($item, 'additional_id'));
+                    Cart::instance('cart')->update($item['rowId'], Arr::get($item, 'values'));
                 }
 
                 $product->quantity = $originalQuantity;

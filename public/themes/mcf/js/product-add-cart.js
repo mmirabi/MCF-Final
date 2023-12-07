@@ -3,7 +3,7 @@ $(document).ready(function () {
         var $icon = $(this).find('.fi-rs-calendar');
         var $input = $(this).find('input');
         $input.datepicker({
-            language: 'tr',
+            language: $input.data('local'),
             dateFormat: 'yyyy/mm/dd',
             startDate: new Date(),
             minDate: new Date(),
@@ -71,5 +71,8 @@ $(document).ready(function () {
         }else {
             $('#add-cart-times').hide();
         }
+    })
+    $('[data-using-select2=true]').each(function () {
+        $(this).select2()
     })
 })

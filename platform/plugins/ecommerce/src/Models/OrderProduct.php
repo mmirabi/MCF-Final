@@ -19,10 +19,7 @@ class OrderProduct extends BaseModel
     protected $fillable = [
         'order_id',
         'product_id',
-        'additional_id',
         'message_id',
-        'message_subject',
-        'message_text',
         'city_id',
         'send_at',
         'product_name',
@@ -36,20 +33,37 @@ class OrderProduct extends BaseModel
         'restock_quantity',
         'product_type',
         'license_code',
+        'additional_ids',
+        'shipping_rule_id',
+        'shipping_date',
+        'shipping_time',
+        'recipient_name',
+        'recipient_phone',
+        'recipient_address',
+        'message_text',
+        'message_sender',
+        'shipping_price',
+        'additional_price',
     ];
 
     protected $casts = [
         'options' => 'json',
         'product_options' => 'json',
+        'additional_ids' => 'array',
     ];
 
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class)->withDefault();
     }
-    public function additional(): BelongsTo
+
+    public function shippingRule(): BelongsTo
     {
-        return $this->belongsTo(Product::class)->withDefault();
+        return $this->belongsTo(ShippingRuleItem::class, 'shipping_rule_id')->withDefault();
+    }
+    public function additionalProducts()
+    {
+        return $this->additional_ids ? Product::whereIn('id', $this->additional_ids)->get() : collect();
     }
 
     public function city(): BelongsTo
@@ -69,7 +83,7 @@ class OrderProduct extends BaseModel
 
     public function getTotalFormatAttribute(): string
     {
-        return format_price($this->price * $this->qty);
+        return format_price($this->price * $this->qty + $this->additional_price);
     }
 
     public function productFiles(): HasMany

@@ -261,6 +261,15 @@
             <td class="right">{{ item.price|price_format }}</td>
             <td class="bold">{{ item.sub_total|price_format }}</td>
         </tr>
+        {% for additional in item.additionals %}
+        <tr>
+            <td>{{ additional.name }}</td>
+            <td></td>
+            <td></td>
+            <td class="right">{{ additional.price|price_format }}</td>
+            <td class="bold"></td>
+        </tr>
+        {% endfor %}
     {% endfor %}
 
     <tr>
