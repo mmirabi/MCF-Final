@@ -341,7 +341,7 @@
                                 window.showAlert('alert-danger', response.message)
                                 return false
                             }
-                            //window.showAlert('alert-success', response.message?:'')
+                            window.showAlert('alert-success', response.message??'Successfully done')
                             //window.location.reload()
                         },
                         error: (response) => {
