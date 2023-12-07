@@ -79,19 +79,12 @@
                                                                         @endif
                                                                         <div class="adreseklebtn2">
                                                                             <b style="padding-right:20px;">
-                                                                                <span>{{ $cartItem->getShippingRule()->name_item }}</span><br>
-                                                                                <span>, {{ $cartItem->shipping_date }}</span>
-                                                                                <span>, {{ $cartItem->shipping_time }}</span>
+                                                                                {{ $cartItem->getShippingRule()->name_item }}
+                                                                                <br>
+                                                                                {{ $cartItem->shipping_date }} {{ $cartItem->shipping_time }}
                                                                             </b>
                                                                         </div>
                                                                     </p>
-
-                                                                    <p class="address-medyanossa">
-                                                                        {{ $cartItem->getShippingRule()->name_item }}
-                                                                        <br>
-                                                                        {{ $cartItem->shipping_date }} {{ $cartItem->shipping_time }}
-                                                                    </p>
-                                                                    <p></p>
                                                                 </div>
                                                                 <div class="col col-lg-2">
                                                                     <span class="d-inline-block price-delivery">{{ format_price($cartItem->price) }}</span> @if ($product->front_sale_price != $product->price)
@@ -149,7 +142,7 @@
                                                                     <button type="button" class="btn green sepeteklebtn submitbtn">{{ __('Submit') }}</button>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -279,7 +272,7 @@
                                                         {{ format_price(Cart::instance('cart')->shippingFee()) }}</p>
                                                 </div>
                                             </div>
-                                        @endif
+                                        @else
                                         <div class="row">
                                             <div class="col-6">
                                                 <p>
