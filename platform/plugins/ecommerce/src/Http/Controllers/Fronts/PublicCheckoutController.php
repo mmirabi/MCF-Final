@@ -394,6 +394,10 @@ class PublicCheckoutController
                 'address' => $address->address,
                 'zip_code' => $address->zip_code,
                 'address_id' => $address->id,
+                'is_company' => $address->is_company,
+                'company_name' => $address->company_name,
+                'company_tax' => $address->company_tax,
+                'company_tax_id' => $address->company_tax_id,
             ];
         } elseif ($addressFromInput = (array)$request->input('address', [])) {
             $addressData = $addressFromInput;
@@ -533,7 +537,6 @@ class PublicCheckoutController
 
         if (is_plugin_active('marketplace')) {
             $sessionData = array_merge(OrderHelper::getOrderSessionData($token), $request->input('address'));
-
             $sessionData = apply_filters(
                 PROCESS_POST_SAVE_INFORMATION_CHECKOUT_ECOMMERCE,
                 $sessionData,
