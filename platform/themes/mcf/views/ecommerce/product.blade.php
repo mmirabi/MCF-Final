@@ -134,7 +134,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div id="add-cart-dates" class="product-option-item-wrapper mt-4">
+                        <div id="add-cart-dates"  data-now="{{ now()->format('Y-m-d') }}" data-rf-time-now="{{ now()->hour > 16 }}" class="product-option-item-wrapper mt-4">
                             <div class="product-option-item-values">
                                 <div class="add-cart-dates d-flex justify-content-between text-center font-weight-bold">
                                     @for($i = 0;$i < 3;$i++)
@@ -164,7 +164,7 @@
                             <div class="product-option-item-values">
                                 <div class="add-cart-times d-flex text-center font-weight-bold">
                                     <input type="hidden" name="shipping_time" required>
-                                    @foreach(now()->hour > 16 ? ['14:00-20:00'] : ['10:00-16:00', '14:00-20:00'] as $index => $time)
+                                    @foreach(['10:00-16:00', '14:00-20:00'] as $index => $time)
                                         <div class="time-item cursor-pointer mr-5" data-index="{{ $index }}" data-time-value="{{ $time }}">
                                             <div class="child">
                                                 <div class="h5">

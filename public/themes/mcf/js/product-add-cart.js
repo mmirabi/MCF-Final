@@ -12,6 +12,7 @@ $(document).ready(function () {
                 $('[data-date-value=' + fd.replaceAll('/', '-') + ']').addClass('active')
                 $("#shipping_date").val(fd.replaceAll('/', '-'))
                 $('#add-cart-times').show();
+                checktime();
             },
             onShow: function () {
                 $icon.data('show', 1);
@@ -35,6 +36,7 @@ $(document).ready(function () {
             $('[data-date-value=' + val + ']').addClass('active')
             $("#shipping_date").val(val)
             $('#add-cart-times').show();
+            checktime();
         }
     })
     $("[name=shipping_date]").on('change', function () {
@@ -64,6 +66,7 @@ $(document).ready(function () {
             $('#add-cart-dates').hide();
             $('#add-cart-times').hide();
         }
+        checktime();
     })
     $('#shipping_date').change(function () {
         if ($('#shipping_date').val()) {
@@ -71,7 +74,15 @@ $(document).ready(function () {
         }else {
             $('#add-cart-times').hide();
         }
+        checktime();
     })
+    function checktime() {
+        if ($("#shipping_date").val() == $('#add-cart-dates').data('now') && $('#add-cart-dates').data('rf-time-now') ) {
+            $('.time-item[data-index=0]').hide();
+        }else {
+            $('.time-item[data-index=0]').show();
+        }
+    }
     $('[data-using-select2=true]').each(function () {
         $(this).select2()
     })

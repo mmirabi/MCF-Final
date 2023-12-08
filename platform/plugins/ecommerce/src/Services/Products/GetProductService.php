@@ -146,7 +146,7 @@ class GetProductService
         if ($keyword = $queryVar['keyword']) {
             $products->setCollection(BaseHelper::sortSearchResults($products->getCollection(), $keyword, 'name'));
         }
-        $products->setCollection($products->getCollection()->where('product_type', '!=', 'additional'));
+        //$products->setCollection($products->getCollection()->where('product_type', '!=', 'additional'));
         return $products;
     }
 }
