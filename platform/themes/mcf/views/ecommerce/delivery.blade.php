@@ -146,16 +146,18 @@
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <div class="adreZZ adresgereklidiv">
+                                                                    <div id="adresformdiv">
+                                                                        <div id="adresgereklidiv" class="adreZZ adresgereklidiv">
 
-                                                                        <div class="mb-3">
-                                                                            <input type="text" placeholder="Alıcı Adı Soyadı" required id="recipient-name-{{ $cartItem->rowId }}" name="recipient_name" value="{{ $cartItem->recipient_name }}">
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <input type="text" placeholder="Alıcı Telefonu" required id="recipient-phone-{{ $cartItem->rowId }}" name="recipient_phone" value="{{ $cartItem->recipient_phone }}">
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <textarea required style="height: 100px" id="recipient_address-{{ $cartItem->rowId }}" name="recipient_address" rows="5" placeholder="Alıcının sokak, cadde, kapı no ve diğer bilgilerini buraya giriniz.">{{ $cartItem->recipient_address }}</textarea>
+                                                                            <div class="mb-3">
+                                                                                <input type="text" placeholder="Alıcı Adı Soyadı" required id="recipient-name-{{ $cartItem->rowId }}" name="recipient_name" value="{{ $cartItem->recipient_name }}">
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <input type="text" placeholder="Alıcı Telefonu" required id="recipient-phone-{{ $cartItem->rowId }}" name="recipient_phone" value="{{ $cartItem->recipient_phone }}">
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <textarea required style="height: 100px" id="recipient_address-{{ $cartItem->rowId }}" name="recipient_address" rows="5" placeholder="Alıcının sokak, cadde, kapı no ve diğer bilgilerini buraya giriniz.">{{ $cartItem->recipient_address }}</textarea>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
