@@ -1,6 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="{{ Theme::asset()->url('css/messagecart.css') }}">
+        <link rel="stylesheet" href="{{ Theme::asset()->url('css/checkout.css') }}">
     </head>
     @if (Cart::instance('cart')->count() > 0)
         @php
@@ -87,7 +88,27 @@
                                                                     <small><del>{{ format_price($product->price) }}</del></small>@endif</h3>
                                                                 </div>
                                                                 <div class="col col-lg-1">
-                                                                    <a href="#" class="text-body remove-cart-button" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}"><i class="fi-rs-trash"></i></a>
+                                                                    <a href="#" class="text-body"  data-bs-toggle="modal" data-bs-target="#remove-modal-{{ $cartItem->rowId }}"><i class="fi-rs-trash"></i></a>
+                                                                </div>
+                                                                <div class="modal fade remove-modals" data-row="{{ $cartItem->rowId }}" id="remove-modal-{{ $cartItem->rowId }}" tabindex="-1" aria-labelledby="remove-modal-{{ $cartItem->rowId }}-label" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                    </div>
+                                                                    <div class="modal-dialog22">
+                                                                        <div class="modal-content22">
+                                                                            <div class="modal-content22-ic">
+                                                                                <div class="modal-header22">
+                                                                                    Emin misiniz?
+                                                                                </div>
+                                                                                <div class="modal-body22">
+                                                                                    Ürünü sepetinizden kaldırmak istediğinizden emin misiniz?
+                                                                                </div>
+                                                                                <div class="modal-footer22">
+                                                                                    <a class="modalbtnlink22" data-bs-dismiss="modal">Vazgeç</a>
+                                                                                    <a id="MainContent_sepet_sepet1_lstCart_Linkbutton1_0" class="modalbtnlink22 remove-cart-button" productid="88626" href="javascript:void(0)" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}">Sil</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

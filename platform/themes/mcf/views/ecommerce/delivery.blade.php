@@ -1,5 +1,6 @@
 <head>
 <link rel="stylesheet" href="{{ Theme::asset()->url('css/delivery.css') }}">
+<link rel="stylesheet" href="{{ Theme::asset()->url('css/checkout.css') }}">
 </head>
     @if (Cart::instance('cart')->count() > 0)
         @php
@@ -91,7 +92,27 @@
                                                                     <small><del>{{ format_price($product->price) }}</del></small>@endif</h3>
                                                                 </div>
                                                                 <div class="col col-lg-1">
-                                                                    <a href="#" class="text-body remove-cart-button" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}"><i class="fi-rs-trash"></i></a>
+                                                                    <a href="#" class="text-body"  data-bs-toggle="modal" data-bs-target="#remove-modal-{{ $cartItem->rowId }}"><i class="fi-rs-trash"></i></a>
+                                                                </div>
+                                                                <div class="modal fade remove-modals" data-row="{{ $cartItem->rowId }}" id="remove-modal-{{ $cartItem->rowId }}" tabindex="-1" aria-labelledby="remove-modal-{{ $cartItem->rowId }}-label" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                    </div>
+                                                                    <div class="modal-dialog22">
+                                                                        <div class="modal-content22">
+                                                                            <div class="modal-content22-ic">
+                                                                                <div class="modal-header22">
+                                                                                    Emin misiniz?
+                                                                                </div>
+                                                                                <div class="modal-body22">
+                                                                                    Ürünü sepetinizden kaldırmak istediğinizden emin misiniz?
+                                                                                </div>
+                                                                                <div class="modal-footer22">
+                                                                                    <a class="modalbtnlink22" data-bs-dismiss="modal">Vazgeç</a>
+                                                                                    <a id="MainContent_sepet_sepet1_lstCart_Linkbutton1_0" class="modalbtnlink22 remove-cart-button" productid="88626" href="javascript:void(0)" data-url="{{ route('public.ajax.cart.destroy', $cartItem->rowId) }}">Sil</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -109,11 +130,11 @@
                                                                     <b>{{ $cartItem->recipient_phone }}, </b>
                                                                     <b>{{ $cartItem->recipient_address }}</b>
                                                                 </div>
-                                                                <div><i class="fi-rs-edit-alt" data-bs-toggle="modal" data-bs-target="#shipping-modal-{{ $cartItem->rowId }}" data-bs-whatever="@mdo"></i></div>
+                                                                <div><i class="fi-rs-edit-alt" data-bs-toggle="modal" data-bs-target="#shipping-modal-{{ $cartItem->rowId }}"></i></div>
                                                             </div>
                                                         @else
                                                             <div class="d-flex justify-content-center">
-                                                                <button type="button" class="btn btn-primary address-add" data-bs-toggle="modal" data-bs-target="#shipping-modal-{{ $cartItem->rowId }}" data-bs-whatever="@mdo"><i class="fi-rs-plus" style="margin-right: 10px;"></i>{{ __('Complete Address Details') }}</button>
+                                                                <button type="button" class="btn btn-primary address-add" data-bs-toggle="modal" data-bs-target="#shipping-modal-{{ $cartItem->rowId }}"><i class="fi-rs-plus" style="margin-right: 10px;"></i>{{ __('Complete Address Details') }}</button>
                                                             </div>
                                                         @endif
                                                     </div>
@@ -140,12 +161,11 @@
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn green sepeteklebtn submitbtn">{{ __('Submit') }}</button>
-                                                                    </div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -187,6 +207,39 @@
                                                         window.showAlert('alert-danger', response.message)
                                                     },
                                                 })
+                                            })
+                                        })
+                                        $('[data-remove]').each(function () {
+                                            $.ajax({
+                                                url: _self.data('url'),
+                                                method: 'POST',
+                                                data: {
+                                                    _method: 'DELETE',
+                                                },
+                                                success: (response) => {
+
+                                                    if (response.error) {
+                                                        window.showAlert('alert-danger', response.message)
+                                                        _self.closest('.table--cart').removeClass('content-loading')
+                                                        return false
+                                                    }else if (response.data.next_url !== undefined) {
+                                                        window.location.href = response.data.next_url;
+                                                    }
+
+                                                    $('.mini-cart-icon span').text(response.data.count)
+
+                                                    if (response.additional) {
+                                                        $('.cart-dropdown-panel').html(response.additional.html)
+                                                        if (response.additional.cart_content) {
+                                                            $('.section--shopping-cart').html(response.additional.cart_content)
+                                                        }
+                                                    }
+
+                                                },
+                                                error: (response) => {
+                                                    _self.closest('.table--cart').removeClass('content-loading')
+                                                    window.showAlert('alert-danger', response.message)
+                                                },
                                             })
                                         })
 
