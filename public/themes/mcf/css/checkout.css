@@ -48,3 +48,6 @@
     width: calc(50% - 2px);
     border-left: 1px solid #9f8d7b;
 }
+input,textarea {
+    border-radius:0 !important;
+}

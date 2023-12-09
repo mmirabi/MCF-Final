@@ -184,13 +184,21 @@
                                             })
                                         })
                                         $('.product[data-cpid]').each(function (){
-                                            var _self = $(this);
                                             $(this).click(function () {
-                                                $(this).addClass('EKURUNDIVactive')
+                                                var _self = $(this);
                                                 var additionals = [];
+                                                var remove = false;
                                                 $('.product.EKURUNDIVactive[data-cid=' + $(this).data('cid') + ']').each(function () {
-                                                    additionals.push($(this).data('pid'))
+                                                    if(_self.data('pid') == $(this).data('pid'))
+                                                        remove = true;
+                                                    else additionals.push($(this).data('pid'))
                                                 })
+                                                if(remove) {
+                                                    _self.removeClass('EKURUNDIVactive')
+                                                }else {
+                                                    _self.addClass('EKURUNDIVactive')
+                                                    additionals.push(_self.data('pid'))
+                                                }
                                                 $.ajax({
                                                     type: 'POST',
                                                     url: _self.data('action'),
@@ -213,6 +221,7 @@
                                                             return false
                                                         }
                                                         window.showAlert('alert-success', response.message)
+                                                        $('#subtotal').text(response.data.total_price)
                                                     },
                                                     error: (response) => {
                                                         window.showAlert('alert-danger', response.message)
@@ -244,7 +253,7 @@
                                                     <p>{{ __('Subtotal') }}:</p>
                                                 </div>
                                                 <div class="col-6">
-                                                    <p class="price-text sub-total-text text-end">
+                                                    <p class="price-text sub-total-text text-end" id="subtotal">
                                                         {{ format_price(Cart::instance('cart')->rawSubTotal()) }}
                                                     </p>
                                                 </div>
