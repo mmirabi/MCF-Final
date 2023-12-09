@@ -144,13 +144,8 @@
                         <div class="container">
                             <div class="header-wrap header-space-between position-relative">
                                 @if (theme_option('logo'))
-                                    <div class="logo logo-width-1 d-block d-lg-none">
-                                        <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
-                                    </div>
-                                    {{-- mehdi mirabi add logo text with special font for mobile --}}
-                                    @else
                                     <div class="logo logo-width-1">
-                                        <a href="{{ route('public.index') }}"><span class="mcf-logo-type">{{ theme_option('site_title') }}</span></a>
+                                        <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
                                     </div>
                                 @endif
                                 <div class="header-nav d-none d-lg-flex">
@@ -363,11 +358,11 @@
     </div>
 </div>
 </header>
-<div class="header-bottom @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
+<div class="header-bottom header-bottom-bg-color @if (theme_option('enabled_sticky_header', 'yes') == 'yes') sticky-bar @endif">
     <div class="container">
         <div class="header-wrap header-space-between position-relative medyanossa-d-none">
             @if (theme_option('logo'))
-                <div class="logo logo-width-1 d-block d-lg-none">
+                <div class="logo logo-width-1">
                     <a href="{{ route('public.index') }}"><img src="{{ RvMedia::getImageUrl(theme_option('logo')) }}" alt="{{ theme_option('site_title') }}"></a>
                 </div>
                 {{-- mehdi mirabi add logo text with special font for mobile --}}

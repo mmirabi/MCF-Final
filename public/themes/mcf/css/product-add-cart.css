@@ -76,3 +76,18 @@ select.i-dropzone:focus {
 .add-cart-times .time-item.active .child {
     border: 0 !important;
 }
+
+/* Mehdi mirabi added style  */
+@media (max-width: 500px){
+    .add-cart-dates.d-flex.justify-content-between.text-center.font-weight-bold {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .add-cart-dates .date-item {
+        width: calc(33% - 8px);
+    }
+
+    .h3, h3 {
+        font-size: calc(1rem + .6vw);
+    }
+}

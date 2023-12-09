@@ -363,6 +363,12 @@ p:last-child {
 }
 @media only screen and (max-width: 992px) {
 .logo.logo-width-1 {
-    left: 130px;
+    left: 65px;
 }
+}
+@media only screen and (max-width: 768px){
+  .logo.logo-width-1 a img {
+      max-width: 222px;
+      max-height: 82px;
+  }
 }
