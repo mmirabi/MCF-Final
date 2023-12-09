@@ -111,11 +111,11 @@
                                                             <strong>{{ $sku }}</strong>)
                                                         @endif
 
-                                                        @if ($attributes = Arr::get($orderProduct->options, 'attributes'))
+                                                        {{-- @if ($attributes = Arr::get($orderProduct->options, 'attributes'))
                                                             <p class="mb-0">
                                                                 <small>{{ $attributes }}</small>
                                                             </p>
-                                                        @endif
+                                                        @endif --}}
 
                                                         @if (!empty($orderProduct->product_options) && is_array($orderProduct->product_options))
                                                             {!! render_product_options_html($orderProduct->product_options, $orderProduct->price) !!}
