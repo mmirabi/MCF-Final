@@ -165,7 +165,7 @@
                                 <div class="add-cart-times d-flex text-center font-weight-bold">
                                     <input type="hidden" name="shipping_time" required>
                                     @foreach(['10:00-16:00', '14:00-20:00'] as $index => $time)
-                                        <div class="time-item cursor-pointer mr-5" data-index="{{ $index }}" data-time-value="{{ $time }}">
+                                        <div class="time-item cursor-pointer mr-5" data-index="{{ $index+1 }}" data-time-value="{{ $time }}">
                                             <div class="child">
                                                 <div class="h5">
                                                     {{ $time }}

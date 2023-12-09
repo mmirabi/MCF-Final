@@ -117,7 +117,7 @@
                                                 <td>
                                                     <div class="ekuruneklebtn">
                                                         <span class="modal-title" data-show="gifts-{{ $cartItem->id }}" style="font-weight:bold;">{{ __('Would You Like to Send Additional Gifts?')}}</span>
-                                                        <div id="gifts-{{ $cartItem->id }}" class="d-none" style="max-height:100%;max-height: 60vh;overflow-y: auto;">
+                                                        <div id="gifts-{{ $cartItem->id }}" style="max-height:100%;max-height: 60vh;overflow-y: auto;">
                                                             <div class="ekcatdivTABLE">
                                                                 <div class="ekcatdiv ekcatdivACTIVE" data-ccid="{{ $cartItem->id }}" data-catid="0">Tüm</div>
                                                                 @foreach(\Botble\Ecommerce\Models\ProductCategory::where('cat_type', 'additional')->get() as $cate_index => $category)

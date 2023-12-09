@@ -100,7 +100,7 @@ class PublicCartController extends Controller
                 ->setError()
                 ->setMessage(__('Shipping date is not selected.'));
         }
-        if(!in_array($request->shipping_time, [0,1])) {
+        if(!in_array($request->shipping_time, [1,2])) {
             return $response
                 ->setError()
                 ->setMessage(__('Shipping time is not selected.'));
