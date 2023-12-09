@@ -78,9 +78,9 @@ $(document).ready(function () {
     })
     function checktime() {
         if ($("#shipping_date").val() == $('#add-cart-dates').data('now') && $('#add-cart-dates').data('rf-time-now') ) {
-            $('.time-item[data-index=0]').hide();
+            $('.time-item[data-index=1]').hide();
         }else {
-            $('.time-item[data-index=0]').show();
+            $('.time-item[data-index=1]').show();
         }
     }
     $('[data-using-select2=true]').each(function () {
