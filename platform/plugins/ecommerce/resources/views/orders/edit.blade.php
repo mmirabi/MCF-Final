@@ -167,22 +167,26 @@
                                                             </ul>
                                                         @endif
 
-                                                        <div class="mb-0 pb-0 mt-1">{{ __('Shipping Information') }}: </div>
+                                                        <div class="mb-0 pb-0 mt-1 fw-bold">{{ __('Shipping Information') }}: </div>
                                                         <p>{{ $orderProduct->shippingRule ? $orderProduct->shippingRule->name_item : '' }}</p>
                                                         <p>{{ $orderProduct->shipping_date }} {{ $orderProduct->shipping_time }}</p>
                                                         <p>{{ $orderProduct->recipient_name }}, {{ $orderProduct->recipient_phone }}</p>
                                                         <p>{{ $orderProduct->recipient_address }}</p>
+                                                        
+                                                        <p class="fw-bold">{{ __('Message') }}:</p>
+                                                        <p style="max-width:40%;">{{ $orderProduct->message_text }}</p>
+
                                                     </td>
-                                                    <td class="pl5 p-r5 text-end">
+                                                    <td class="pl5 p-r5 text-end align-top">
                                                         <div class="inline_block">
                                                             <span>{{ format_price($orderProduct->price) }}</span>
                                                         </div>
                                                     </td>
-                                                    <td class="pl5 p-r5 text-center">x</td>
-                                                    <td class="pl5 p-r5" rowspan="{{ $orderProduct->additionalProducts()->count() + 1 }}">
+                                                    <td class="pl5 p-r5 text-center align-top">x</td>
+                                                    <td class="pl5 p-r5 align-top" rowspan="{{ $orderProduct->additionalProducts()->count() + 1 }}">
                                                         <span>{{ $orderProduct->qty }}</span>
                                                     </td>
-                                                    <td class="pl5 text-end" rowspan="{{ $orderProduct->additionalProducts()->count() + 1 }}">{{ ($orderProduct->total_format) }}</td>
+                                                    <td class="pl5 text-end align-top" rowspan="{{ $orderProduct->additionalProducts()->count() + 1 }}">{{ ($orderProduct->total_format) }}</td>
                                                 </tr>
                                                 @foreach($orderProduct->additionalProducts() as $index => $additionalProduct)
                                                     <tr>
@@ -195,7 +199,7 @@
                                                                 >
                                                             </div>
                                                         </td>
-                                                        <td class="pl5 p-r5 min-width-200-px">
+                                                        <td class="pl5 p-r5 min-width-200-px align-top">
                                                             <a
                                                                 class="text-underline hover-underline pre-line"
                                                                 href="{{ $additionalProduct && $additionalProduct->id && Auth::user()->hasPermission('products.edit') ? route('products.edit', $additionalProduct->id) : '#' }}"
@@ -207,12 +211,12 @@
                                                             &nbsp;
 
                                                         </td>
-                                                        <td class="pl5 p-r5 text-end">
+                                                        <td class="pl5 p-r5 text-end align-top">
                                                             <div class="inline_block">
                                                                 <span>{{ format_price($additionalProduct->price) }}</span>
                                                             </div>
                                                         </td>
-                                                        <td class="pl5 p-r5 text-center">x</td>
+                                                        <td class="pl5 p-r5 text-center align-top">x</td>
                                                     </tr>
                                                 @endforeach
                                             @endforeach
