@@ -51,3 +51,12 @@
 input,textarea {
     border-radius:0 !important;
 }
+
+.readonly{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    background-color: #e1dfdf !important;
+}

@@ -244,7 +244,28 @@
                                                 },
                                             })
                                         })
-
+                                        $('[data-next]').each(function () {
+                                            $(this).click(function (e) {
+                                                e.preventDefault();
+                                                var disabledbtn = false;
+                                                $('.shipping-modals').each(function () {
+                                                    var _self_modal = $(this);
+                                                    [
+                                                        _self_modal.find('[name=recipient_name]').val(),
+                                                        _self_modal.find('[name=recipient_phone]').val(),
+                                                        _self_modal.find('[name=recipient_address]').val()
+                                                    ].forEach(function (v) {
+                                                        if (!String(v).length) {
+                                                            disabledbtn = true;
+                                                        }
+                                                    })
+                                                });
+                                                if(disabledbtn)
+                                                    window.showAlert('alert-danger', 'Please complete the address details.')
+                                                else
+                                                    window.location.href = $(this).data('next')
+                                            })
+                                        })
                                     },1000)
                                 </script>
                                 <center>
@@ -344,7 +365,7 @@
                                 <hr>
                                 <div class="mt-3 mb-5"> @include('plugins/ecommerce::themes.discounts.partials.form') </div>
                                 <hr>
-                                <a href="/additionalgifts" class="btn green sonrakibuton">{{ __('Continue') }}</a>
+                                <a href="#" data-next="{{ asset('additionalgifts') }}" id="nextpage" class="btn green sonrakibuton">{{ __('Continue') }}</a>
                             </div>
                         </div>
                     </div>
