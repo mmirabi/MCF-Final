@@ -147,10 +147,10 @@
                                                                     <div>
                                                                         <textarea name="message_text" data-row="{{ $cartItem->rowId }}" rows="3" cols="20" maxlength="500" placeholder="{{ __('Your Card Note') }}" style="margin-bottom:0px;border-radius: 0;  ">{{ $cartItem->message_text }}</textarea>
                                                                         <br>
-                                                                        <input name="message_sender" value="{{ $cartItem->message_sender }}" data-row="{{ $cartItem->rowId }}" type="text" maxlength="150" placeholder="{{ __('Sender Name') }}">
+                                                                        <input name="message_sender" value="{{ $cartItem->message_sender }}" data-row="{{ $cartItem->rowId }}" type="text" maxlength="150" placeholder="{{ __('Sender Name') }}" id="senderNameInput" required>
                                                                         <br>
-                                                                        <input class="kartadCheckBox" name="is_anonymous" type="checkbox" id="kartadCheckBox{{ $cartItem->rowId }}" data-row="{{ $cartItem->rowId }}">
-                                                                        <label style=" margin-top: 10px; line-height: 25px;" for="kartadCheckBox{{ $cartItem->rowId }}">{{ __('Send Anonymous') }}</label>
+                                                                        <input class="kartadCheckBox" name="is_anonymous" type="checkbox" id="kartadCheckBox{{ $cartItem->rowId }}" data-row="{{ $cartItem->rowId }}" onchange="toggleSenderName()">
+                                                                        <label style="margin-top: 10px; line-height: 25px;" for="kartadCheckBox{{ $cartItem->rowId }}">{{ __('Send Anonymous') }}</label>
                                                                         <br>
                                                                         <br>
                                                                     </div>
@@ -168,6 +168,18 @@
                                     </table>
                                 </div>
                                 <script>
+                                    // mehdi mirabi function to toggle sender name field based on the 'Send Anonymous' checkbox
+                                    function toggleSenderName() {
+                                        var senderNameInput = document.getElementById('senderNameInput');
+                                        if (document.getElementById('kartadCheckBox{{ $cartItem->rowId }}').checked) {
+                                            senderNameInput.disabled = true;
+                                            senderNameInput.removeAttribute('required');
+                                        } else {
+                                            senderNameInput.disabled = false;
+                                            senderNameInput.setAttribute('required', 'required');
+                                        }
+                                    }  
+                                    // finish 
                                     function changecart(rowId) {
                                         $.ajax({
                                             type: 'POST',

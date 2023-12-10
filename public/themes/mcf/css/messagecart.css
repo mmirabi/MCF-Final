@@ -1284,6 +1284,7 @@
 
             [type=checkbox]:checked+label:before {
                 content: '';
+                background: url(../imgs/theme/checked.png);
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;

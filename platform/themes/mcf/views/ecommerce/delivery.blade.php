@@ -125,7 +125,7 @@
                                                         @if($cartItem->recipient_name)
                                                             <div class="d-flex justify-content-between">
                                                                 <div style="padding-right:20px;">
-                                                                    <span>Teslimat:</span>
+                                                                    <span>{{ __('Delivery') }}:</span>
                                                                     <b>{{ $cartItem->recipient_name }}, </b>
                                                                     <b>{{ $cartItem->recipient_phone }}, </b>
                                                                     <b>{{ $cartItem->recipient_address }}</b>
