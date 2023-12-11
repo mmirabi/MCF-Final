@@ -324,38 +324,64 @@
             var url = '{{ route('public.checkout.save-information', session('tracked_start_checkout')) }}';
             setTimeout(function () {
                 $('#sonrakibuton').click(function () {
-                    $.ajax({
-                        type: 'POST',
-                        //url: '{{ route('public.checkout.save-information', session('tracked_start_checkout')) }}',
-                        url: '{{ route('public.checkout.process', session('tracked_start_checkout')) }}',
-                        data: {
-                            _token: $('meta[name=csrf-token]').prop('content'),
-                            address: {
-                                name: $('#address_name').val(),
-                                phone: $('#address_phone').val(),
-                                email: $('#address_email').val(),
-                                address: $('#address_address').val(),
-                                city: $('#address_city').val(),
-                                is_company: $('#adreskaydetCheckBox1div').data('visible'),
-                                company_name: $('#address_company_name').val(),
-                                company_tax: $('#address_company_tax').val(),
-                                company_tax_id: $('#address_company_tax_id').val(),
-                            },
-                            payment_method: 'cod',
-                            shipping_method: 'default',
-                        },
-                        success: (response) => {
-                            if (response.error) {
-                                window.showAlert('alert-danger', response.message)
-                                return false
-                            }
-                            window.showAlert('alert-success', response.message??'Successfully done')
-                            window.location.href = "{{ route('public.checkout.success', session('tracked_start_checkout')) }}"
-                        },
-                        error: (response) => {
-                            window.showAlert('alert-danger', response.responseJSON.message)
-                        },
+                    var disabledbtn = false;
+                    [
+                        $('#address_name').val(),
+                        $('#address_phone').val(),
+                        $('#address_email').val(),
+                        $('#address_city').val()
+                    ].forEach(function (v) {
+                        if (!String(v).length) {
+                            disabledbtn = true;
+                        }
                     })
+                    if(!disabledbtn && $('#adreskaydetCheckBox1div').data('visible')) {
+                        [
+                            $('#address_company_name').val(),
+                            $('#address_company_tax').val(),
+                            $('#address_company_tax_id').val(),
+                        ].forEach(function (v) {
+                            if (!String(v).length) {
+                                disabledbtn = true;
+                            }
+                        })
+                    }
+                    if(disabledbtn)
+                        window.showAlert('alert-danger', 'Please complete the details.')
+                    else {
+                        $.ajax({
+                            type: 'POST',
+                            //url: '{{ route('public.checkout.save-information', session('tracked_start_checkout')) }}',
+                            url: '{{ route('public.checkout.process', session('tracked_start_checkout')) }}',
+                            data: {
+                                _token: $('meta[name=csrf-token]').prop('content'),
+                                address: {
+                                    name: $('#address_name').val(),
+                                    phone: $('#address_phone').val(),
+                                    email: $('#address_email').val(),
+                                    address: $('#address_address').val(),
+                                    city: $('#address_city').val(),
+                                    is_company: $('#adreskaydetCheckBox1div').data('visible'),
+                                    company_name: $('#address_company_name').val(),
+                                    company_tax: $('#address_company_tax').val(),
+                                    company_tax_id: $('#address_company_tax_id').val(),
+                                },
+                                payment_method: 'cod',
+                                shipping_method: 'default',
+                            },
+                            success: (response) => {
+                                if (response.error) {
+                                    window.showAlert('alert-danger', response.message)
+                                    return false
+                                }
+                                window.showAlert('alert-success', response.message??'Successfully done')
+                                window.location.href = "{{ route('public.checkout.success', session('tracked_start_checkout')) }}"
+                            },
+                            error: (response) => {
+                                window.showAlert('alert-danger', response.responseJSON.message)
+                            },
+                        })
+                    }
                 })
             }, 1000)
         </script>
@@ -372,8 +398,8 @@
                     <h5>{{ __('Add something to make me happy') }}</h5><br>
                     <a class="btn btn-primary" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
                 </div>
-            </div>                 
-        </div>  
-    </div>  
+            </div>
+        </div>
+    </div>
 </div>
 @endif

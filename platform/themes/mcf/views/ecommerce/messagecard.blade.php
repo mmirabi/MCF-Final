@@ -178,8 +178,8 @@
                                             senderNameInput.disabled = false;
                                             senderNameInput.setAttribute('required', 'required');
                                         }
-                                    }  
-                                    // finish 
+                                    }
+                                    // finish
                                     function changecart(rowId) {
                                         $.ajax({
                                             type: 'POST',
@@ -268,7 +268,31 @@
                                                 changecart(_self.data('row'))
                                             })
                                         })
-
+                                        $('[data-next]').each(function () {
+                                            $(this).click(function (e) {
+                                                e.preventDefault();
+                                                var disabledbtn = false;
+                                                $('.kartnotformdiv[data-row]').each(function () {
+                                                    var _self_modal = $(this);
+                                                    [
+                                                        _self_modal.find('[name=message_text]').val(),
+                                                    ].forEach(function (v) {
+                                                        if (!String(v).length) {
+                                                            disabledbtn = true;
+                                                        }
+                                                    })
+                                                    if (!_self_modal.find('[name=message_sender]').prop('disabled')) {
+                                                        if (!String(_self_modal.find('[name=message_sender]').val()).length) {
+                                                            disabledbtn = true;
+                                                        }
+                                                    }
+                                                });
+                                                if(disabledbtn)
+                                                    window.showAlert('alert-danger', 'Please complete the details.')
+                                                else
+                                                    window.location.href = $(this).data('next')
+                                            })
+                                        })
                                     }, 1000)
                                 </script>
                                 <center>
@@ -368,7 +392,7 @@
                                 <hr>
                                 <div class="mt-3 mb-5"> @include('plugins/ecommerce::themes.discounts.partials.form') </div>
                                 <hr>
-                                <a href="/invoice" class="btn green sonrakibuton">{{ __('Continue') }}</a>
+                                <a href="#" data-next="{{ asset('invoice') }}" id="nextpage" class="btn green sonrakibuton">{{ __('Continue') }}</a>
                             </div>
                         </div>
                     </div>
@@ -389,8 +413,8 @@
                     <h5>{{ __('Add something to make me happy') }}</h5><br>
                     <a class="btn btn-primary btnmcf" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
                 </div>
-            </div>                 
-        </div>  
-    </div>  
+            </div>
+        </div>
+    </div>
 </div>
 @endif
