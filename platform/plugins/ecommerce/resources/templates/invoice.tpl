@@ -101,7 +101,7 @@
             opacity: .5;
             position: fixed;
             text-transform: uppercase;
-            top: 40%;
+            top: 30%;
             transform: rotate(-14deg)
         }
 
@@ -222,7 +222,7 @@
             <td>
                 {% if item.options %}
                     {% if item.image %}
-                    <img src="{{invoice.additional_info.product_image}}" width="90" />
+                    <img src="{{invoice.additional_info.product_image}}" width="92" />
                     {% endif %}
                     {% if item.options.product_options %}
                         <div><small>{{ 'plugins/ecommerce::invoice.detail.product_options'|trans }}: {{ item.options.product_options }}</small></div>

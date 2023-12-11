@@ -43,6 +43,7 @@
                             <span>{{ __('Payment') }}</span>
                         </div>
                     </div>
+                    @if (auth('customer')->check())
                     <div>
                         <div class="clearfix">
                             <div class="table-wrapper-responsive">
@@ -317,6 +318,85 @@
                             </div>
                         </div>
                     </div>
+                     @else 
+                     <div>
+                        <div style="width:100%;max-width:480px;margin:auto;padding:20px; background:white; margin-top:30px;">
+                            <div>
+                                <div style="background-color:#f8f6f5;border-radius:6px; padding:5px;margin-bottom:20px;">
+                                    <a class="mevcutuyebtn">{{ __('Current Member') }}</a>
+                                    <a class="mevcutuyebtn2" rel="nofollow noindex noopener" href="">{{ __('Sign Up')}}</a>
+                                </div>
+                                <h1 style="font-size:24px;margin-bottom:10px;color:black;    font-family: 'Playfair Display', sans-serif;font-weight:bold;">{{ __('Login') }}</h1>
+                                <div id="MainContent_LoginUser_girispanel">
+                                    <span class="failureNotification"></span>
+                                    <div style="max-width:400px;margin:auto;">
+                                        <form method="POST" action="{{ route('customer.login.post') }}">
+                                            @csrf
+                                            @if (isset($errors) && $errors->has('confirmation'))
+                                                <div class="alert alert-danger">
+                                                    <span>{!! $errors->first('confirmation') !!}</span>
+                                                </div>
+                                                <br>
+                                            @endif
+                                            <div class="form-group">
+                                                <input name="email" required id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Email') }}*">
+                                                @if ($errors->has('email'))
+                                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" required name="password" id="txt-password" placeholder="{{ __('Your password') }}*">
+                                                @if ($errors->has('password'))
+                                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="login_footer form-group mb-50">
+                                                <div class="chek-form">
+                                                    <div class="custome-checkbox">
+                                                        <input class="form-check-input" type="checkbox" name="remember" id="remember-checkbox" value="" />
+                                                        <label class="form-check-label" for="remember-checkbox"><span>{{ __('Remember me') }}</span></label>
+                                                    </div>
+                                                </div>
+                                                <a class="text-muted" href="{{ route('customer.password.reset') }}">{{ __('Forgot password?') }}</a>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-heading btn-block hover-up" style="width:100%;max-width:100%;padding: 20px 0;margin-top:20px;">{{ __('Login') }}</button>
+                                            </div>
+                                        </form>
+                                        <div style="padding-top:6px;">
+                                            <center>
+                                                
+                                                <br>
+                                                <br>
+                                                <span style="font-size:12px;">{{ __('Or') }}</span>
+                                                <br>
+                                                <a href="siparis_uyeol.aspx?a=4&amp;ReturnUrl=siparis_misafir.aspx&amp;lang=TR" "="">
+                                                 <p class=" ebultenindirimtext">
+                                                    <b>{{ __('Newsletter Exclusive for Approved Member Registration ')}},<br>{{ __('10% Discount on Your First Order!') }}</b>
+                                                </p>
+                                                </a>
+                                                <span style="font-size:12px;">{{ __('Or') }}</span>
+                                                <a class="btn green sonrakibuton membershipbtn" href="#">{{ __('Continue Without Membership') }}</a>
+                                                <div class="sosyalmedyaline">
+                                                    <span>{{ __('Login with social account') }}</span>
+                                                </div>
+                                                {!! apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, \Botble\Ecommerce\Models\Customer::class) !!}
+                                                <br>
+                                                <br>
+                                                <a href="/terms-conditions">{{ __('Terms & Conditions') }}</a>
+                                            </center>
+                                        </div>
+                                        <div>
+                                            <br>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     
+                     @endif
                 </div>
             </div>
         </div>

@@ -372,3 +372,10 @@ p:last-child {
       max-height: 82px;
   }
 }
+
+.card-login {
+  padding: 0px;
+  border-radius: none;
+  border: none;
+  margin-left: 0px;
+}

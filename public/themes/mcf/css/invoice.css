@@ -50,7 +50,6 @@ button {
 button,
 html input[type=button],
 input[type=submit] {
-    -webkit-appearance: button;
     cursor: pointer;
 }
 
@@ -393,7 +392,6 @@ textarea:focus {
 }
 
 button.close {
-    -webkit-appearance: none;
     padding: 0;
     cursor: pointer;
     background: 0 0;
@@ -811,10 +809,9 @@ img {
 }
 
 .green.btn {
-    background-color: #eec4a5;
     border-radius: 5px;
     padding: 10px;
-    color: #FFFFFF;
+    color: black;
     width: 100%;
     margin-top: 20px;
     padding: 20px 0 20px 0;
@@ -890,19 +887,6 @@ a:hover {
     color: black;
 }
 
-.sepetsil {
-    display: inline-block;
-    position: absolute;
-    top: 38px;
-    right: 14px;
-    background-size: cover;
-    width: 16px;
-    height: 19px;
-    background-image: URL('../ikonlar/trash.png');
-    background-repeat: no-repeat;
-    cursor: pointer;
-}
-
 .indirimpuonlink,
 a.indirimpuonlink {
     font-weight: bold;
@@ -915,7 +899,6 @@ a.indirimpuonlink {
     padding: 24px;
     border-top: 1px solid #ddd;
     margin-bottom: 15px;
-    background-image: URL('../ikonlar/hediye.png');
     background-size: 24px;
     background-repeat: no-repeat;
     background-position: top 20px right 10px;
@@ -1689,4 +1672,66 @@ background-color: #f8f7f5;
     .table-wrapper-responsive {
         margin-top: 5px;
     }
+}
+
+.sosyalmedyaline {
+    position: relative;
+    height: 30px;
+    margin: 15px 0;
+}
+
+.sosyalmedyaline:after {
+    content: "";
+    position: absolute;
+    z-index: 8;
+    left: 0;
+    width: 100%;
+    top: 50%;
+    border-top: 2px solid #E8ECEB;
+    transform: translateY(50%);
+}
+
+.sosyalmedyaline span {
+    display: block;
+    color: #707070;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: white;
+    padding: 8px 10px;
+    position: absolute;
+    z-index: 9;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    white-space: nowrap;
+}
+.membershipbtn {
+    width:100%;
+    max-width:100%;
+    padding: 20px 0;
+    margin-top:20px;
+    background-color: white;
+    border: 1px solid #1D413F;
+    color: #1D413F;
+    font-weight: normal;
+}
+
+.mevcutuyebtn2 {
+    width: calc(50% - 5px);
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.mevcutuyebtn {
+    width: calc(50% - 5px);
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    background: white;
+    font-size: 12px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 20%), 0 3px 9px 0 rgb(0 0 0 / 5%) !important;
+    border-radius: 6px;
 }
