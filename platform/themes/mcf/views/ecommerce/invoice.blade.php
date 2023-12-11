@@ -69,47 +69,47 @@
                                                             <div
                                                                 style="padding-top:20px;max-width: 400px;margin: auto;">
                                                                 <div>
-                                                                    <label>Ad Soyad <span
+                                                                    <label>{{ __('Name and Surname') }}<span
                                                                             id="MainContent_RequiredFieldValidator2"
-                                                                            class="require" style="visibility:hidden;">Gerekli</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Required') }}</span>
                                                                         <span
                                                                             id="MainContent_RegularExpressionValidator1"
-                                                                            class="require" style="visibility:hidden;">Hatalı</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Wrong') }}</span>
                                                                     </label>
                                                                     <input name="address[name]"
                                                                            value="{{ old('address.name', Arr::get($sessionCheckoutData, 'name')) ?:(auth('customer')->check() ? auth('customer')->user()->name : '') }}"
                                                                            type="text" maxlength="50"
                                                                            id="address_name"
-                                                                           placeholder="Adınız Soyadınız">
+                                                                           placeholder="{{ __('Name and Surname') }}">
                                                                 </div>
                                                                 <div>
-                                                                    <label>E-posta Adresi <span
+                                                                    <label>{{ __('Mail Address') }}<span
                                                                             id="MainContent_RequiredFieldValidator1"
-                                                                            class="require" style="visibility:hidden;">Gerekli</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Required') }}</span>
                                                                         <span
                                                                             id="MainContent_RegularExpressionValidator2"
-                                                                            title="Hatalı Email Girildi. "
-                                                                            class="require" style="visibility:hidden;">Hatalı</span>
+                                                                            title="{{ __('Incorrect Email Entered.') }}"
+                                                                            class="require" style="visibility:hidden;">{{ __('Wrong') }}</span>
                                                                     </label>
                                                                     <input name="address[email]"
                                                                            value="{{ old('address.email', Arr::get($sessionCheckoutData, 'email')) ?:(auth('customer')->check() ? auth('customer')->user()->email : '') }}"
                                                                            maxlength="50" id="address_email"
-                                                                           type="email" placeholder="E-posta">
+                                                                           type="email" placeholder="{{ __('Email') }}">
                                                                 </div>
                                                                 <div>
-                                                                    <label>Telefon <span
+                                                                    <label>{{ __('Phone') }}<span
                                                                             id="MainContent_RequiredFieldValidator3"
-                                                                            class="require" style="visibility:hidden;">Gerekli</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Required') }}</span>
                                                                     </label>
                                                                     <input name="address[phone]"
                                                                            value="{{ old('address.phone', Arr::get($sessionCheckoutData, 'phone')) ?:(auth('customer')->check() ? auth('customer')->user()->phone : '') }}"
                                                                            maxlength="20" id="address_phone"
-                                                                           type="tel" placeholder="Telefon">
+                                                                           type="tel" placeholder="{{ __('Phone') }}">
                                                                 </div>
                                                                 <div class="mb-2">
-                                                                    <label>Şehir <span
+                                                                    <label>{{ __('City') }}<span
                                                                             id="MainContent_RequiredFieldValidator3"
-                                                                            class="require" style="visibility:hidden;">Gerekli</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Required') }}</span>
                                                                     </label>
                                                                     @php
                                                                         $cityc = old('address.city', Arr::get($sessionCheckoutData, 'city')) ?:(auth('customer')->check() ? auth('customer')->user()->city : '');
@@ -127,19 +127,19 @@
                                                                             <div id="MainContent_yeniadrestable">
                                                                                 <div>
                                                                                     <div style="position: relative;">
-                                                                                        <label>Adres <span
-                                                                                                id="MainContent_RequiredFieldValidator12"
-                                                                                                class="require"
-                                                                                                style="visibility:hidden;">Gerekli</span>
+                                                                                        <label>{{ __('Adddress') }}<span
+                                                                                            id="MainContent_RequiredFieldValidator12"
+                                                                                            class="require"
+                                                                                            style="visibility:hidden;">{{ __('Required') }}</span>
                                                                                         </label>
                                                                                         <textarea name="address[address]"
-                                                                                                   rows="3"
-                                                                                                  cols="20"
-                                                                                                  maxlength="256"
-                                                                                                  id="address_address"
-                                                                                                  onkeyup="TextBoxMaxLength('lblMaxLength', this, '', 256)"
-                                                                                                  onchange="TextBoxMaxLength('lblMaxLength', this, '', 256)"
-                                                                                                  placeholder="Adres">{{ old('address.address', Arr::get($sessionCheckoutData, 'address')) ?:(auth('customer')->check() ? auth('customer')->user()->address : '') }}</textarea>
+                                                                                            rows="3"
+                                                                                            cols="20"
+                                                                                            maxlength="256"
+                                                                                            id="address_address"
+                                                                                            onkeyup="TextBoxMaxLength('lblMaxLength', this, '', 256)"
+                                                                                            onchange="TextBoxMaxLength('lblMaxLength', this, '', 256)"
+                                                                                            placeholder="{{ __('Adddress') }}">{{ old('address.address', Arr::get($sessionCheckoutData, 'address')) ?:(auth('customer')->check() ? auth('customer')->user()->address : '') }}</textarea>
                                                                                         <br>
                                                                                     </div>
                                                                                     <script>
@@ -152,7 +152,8 @@
                                                                                     <div id="adreskaydetCheckBox1div"
                                                                                          data-visible="{{ Arr::get($sessionCheckoutData, 'is_company')?:0 }}"
                                                                                          onclick="kurumsalformcheck()">
-                                                                                        Şirket Adına <span
+                                                                                         {{ __('On behalf of the company') }}
+                                                                                         <span
                                                                                             class="switch1">
                                                                                     <span class="slider1 round {{ Arr::get($sessionCheckoutData, 'is_company')? "checked1": "" }}"></span>
                                                                             </span>
@@ -166,7 +167,7 @@
                                                                                                     type="text"
                                                                                                     maxlength="255"
                                                                                                     id="address_company_name"
-                                                                                                    placeholder="Firma Adı"
+                                                                                                    placeholder="{{ __('Company Name') }}"
                                                                                                     value="{{ old('address.company_name', Arr::get($sessionCheckoutData, 'company_name')) ?:(auth('customer')->check() ? auth('customer')->user()->company_name : '') }}"
                                                                                                     style="margin-bottom:0">
                                                                                             </div>
@@ -179,7 +180,7 @@
                                                                                                     id="address_company_tax"
                                                                                                     type="text"
                                                                                                     maxlength="50"
-                                                                                                    placeholder="Vergi Dairesi"
+                                                                                                    placeholder="{{ __('Tax Administration') }}"
                                                                                                     value="{{ old('address.company_tax', Arr::get($sessionCheckoutData, 'company_tax')) ?:(auth('customer')->check() ? auth('customer')->user()->company_tax : '') }}"
                                                                                                     style="margin-bottom:0">
                                                                                             </div>
@@ -191,12 +192,12 @@
                                                                                                     maxlength="11"
                                                                                                     id="address_company_tax_id"
                                                                                                     type="number"
-                                                                                                    placeholder="Vergi Kimlik No"
+                                                                                                    placeholder="{{ __('Tax identification number') }}"
                                                                                                     value="{{ old('address.company_tax_id', Arr::get($sessionCheckoutData, 'company_tax_id')) ?:(auth('customer')->check() ? auth('customer')->user()->company_tax_id : '') }}"
                                                                                                     style="margin-bottom:0">
                                                                                                 <span
                                                                                                     id="MainContent_RegExp1"
-                                                                                                    style="color:Red;visibility:hidden;">Vergi numarası ise 10 karakter, şahıs şirketiyseniz TCNO 11 karakter ve sadece sayı olmalıdır.</span>
+                                                                                                    style="color:Red;visibility:hidden;">{{ __('The tax number must be 10 characters, if you are a sole proprietorship, the TR ID number must be 11 characters and only numbers.') }}</span>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
