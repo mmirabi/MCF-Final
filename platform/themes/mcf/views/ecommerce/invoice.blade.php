@@ -43,8 +43,7 @@
                             <span>{{ __('Payment') }}</span>
                         </div>
                     </div>
-                    @if (auth('customer')->check())
-                    <div>
+                    <div class="invoice-form {{ EcommerceHelper::isEnabledGuestCheckout() && !auth('customer')->check() ? 'd-none' : ''}}">
                         <div class="clearfix">
                             <div class="table-wrapper-responsive">
                                 <div class="SEPETSOL">
@@ -317,15 +316,14 @@
                             </div>
                         </div>
                     </div>
-                     @elseif (EcommerceHelper::isEnabledGuestCheckout() && !auth('customer')->check()) 
                     <div>
-                        <div class="login-singup-invoice">
+                        <div class="login-singup-invoice {{ EcommerceHelper::isEnabledGuestCheckout() && !auth('customer')->check() ? '' : 'd-none'}}">
                             <div class="login-mcf-tab">
                                 <nav class="nav nav-pills flex-column flex-sm-row">
                                     <a href="#pills-login" class="mevcutuyebtn active"  data-bs-toggle="pill" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Login') }}</a>
                                     <a href="#pills-register" class="mevcutuyebtn" data-bs-toggle="pill"  type="button" role="tab" aria-controls="pills-register" aria-selected="false">{{ __('Register')}}</a>
                                 </nav>
-                            </div>  
+                            </div>
                               <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
                                     <h1 class="invoice-login-tab">{{ __('Login') }}</h1>
@@ -403,7 +401,7 @@
                                                     <span class="text-danger">{{ $errors->first('password') }}</span>
                                                 @endif
                                             </div>
-    
+
                                             <div class="form-group">
                                                 <input class="form-control" type="password" name="password_confirmation" id="txt-password-confirmation" placeholder="{{ __('Password confirmation') }}">
                                                 @if ($errors->has('password_confirmation'))
@@ -416,7 +414,7 @@
                                                         {!! Captcha::display() !!}
                                                     </div>
                                                 @endif
-    
+
                                                 @if (get_ecommerce_setting('enable_math_captcha_in_register_page', 0))
                                                     <div class="form-group">
                                                         <label class="form-label" for="math-group">{{ app('math-captcha')->label() }}</label>
@@ -424,7 +422,7 @@
                                                     </div>
                                                 @endif
                                             @endif
-    
+
                                             <div class="login_footer form-group">
                                                 <div class="chek-form">
                                                     <div class="custome-checkbox">
@@ -434,7 +432,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-    
+
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-heading btn-block hover-up btn-mn">{{ __('Register') }}</button>
                                             </div>
@@ -454,7 +452,6 @@
                               </div>
                         </div>
                     </div>
-                     @endif
                 </div>
             </div>
         </div>
@@ -520,6 +517,10 @@
                             },
                         })
                     }
+                })
+                $('.membershipbtn').click(function () {
+                    $('.login-singup-invoice').addClass('d-none')
+                    $('.invoice-form').removeClass('d-none')
                 })
             }, 1000)
         </script>
