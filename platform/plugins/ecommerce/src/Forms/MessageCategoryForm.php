@@ -41,46 +41,46 @@ class MessageCategoryForm extends FormAbstract
                 ],
                 'choices' => $categories,
             ])*/
-            ->add('description', 'editor', [
-                'label' => trans('core/base::forms.description'),
-                'attr' => [
-                    'rows' => 4,
-                    'placeholder' => trans('core/base::forms.description_placeholder'),
-                    'data-counter' => 500,
-                ],
-            ])
+            // ->add('description', 'editor', [
+            //     'label' => trans('core/base::forms.description'),
+            //     'attr' => [
+            //         'rows' => 4,
+            //         'placeholder' => trans('core/base::forms.description_placeholder'),
+            //         'data-counter' => 500,
+            //     ],
+            // ])
             ->add('status', 'customSelect', [
                 'label' => trans('core/base::tables.status'),
                 'required' => true,
                 'choices' => BaseStatusEnum::labels(),
             ])
-            ->add(
-                'icon',
-                $this->getFormHelper()->hasCustomField('themeIcon') ? 'themeIcon' : 'text',
-                [
-                    'label' => __('Font Icon'),
-                    'label_attr' => [
-                        'class' => 'control-label',
-                    ],
-                    'attr' => [
-                        'placeholder' => 'ex: fa fa-home',
-                    ],
-                    'empty_value' => __('-- None --'),
-                ]
-            )
-            ->add('icon_image', 'mediaImage', [
-                'label' => __('Icon image'),
-                'help_block' => [
-                    'text' => __('It will replace Icon Font if it is present.'),
-                ],
-                'wrapper' => [
-                    'style' => 'display: block;',
-                ],
-            ])
-            ->add('is_featured', 'onOff', [
-                'label' => trans('core/base::forms.is_featured'),
-                'default_value' => false,
-            ])
+            // ->add(
+            //     'icon',
+            //     $this->getFormHelper()->hasCustomField('themeIcon') ? 'themeIcon' : 'text',
+            //     [
+            //         'label' => __('Font Icon'),
+            //         'label_attr' => [
+            //             'class' => 'control-label',
+            //         ],
+            //         'attr' => [
+            //             'placeholder' => 'ex: fa fa-home',
+            //         ],
+            //         'empty_value' => __('-- None --'),
+            //     ]
+            // )
+            // ->add('icon_image', 'mediaImage', [
+            //     'label' => __('Icon image'),
+            //     'help_block' => [
+            //         'text' => __('It will replace Icon Font if it is present.'),
+            //     ],
+            //     'wrapper' => [
+            //         'style' => 'display: block;',
+            //     ],
+            // ])
+            // ->add('is_featured', 'onOff', [
+            //     'label' => trans('core/base::forms.is_featured'),
+            //     'default_value' => false,
+            // ])
             ->setBreakFieldPoint('status');
     }
 }

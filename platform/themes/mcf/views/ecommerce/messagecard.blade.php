@@ -147,10 +147,10 @@
                                                                     <div>
                                                                         <textarea name="message_text" data-row="{{ $cartItem->rowId }}" rows="3" cols="20" maxlength="500" placeholder="{{ __('Your Card Note') }}" style="margin-bottom:0px;border-radius: 0;  ">{{ $cartItem->message_text }}</textarea>
                                                                         <br>
-                                                                        <input name="message_sender" value="{{ $cartItem->message_sender }}" data-row="{{ $cartItem->rowId }}" type="text" maxlength="150" placeholder="{{ __('Sender Name') }}">
+                                                                        <input name="message_sender" value="{{ $cartItem->message_sender }}" data-row="{{ $cartItem->rowId }}" type="text" maxlength="150" placeholder="{{ __('Sender Name') }}" id="senderNameInput" required>
                                                                         <br>
-                                                                        <input class="kartadCheckBox" name="is_anonymous" type="checkbox" id="kartadCheckBox{{ $cartItem->rowId }}" data-row="{{ $cartItem->rowId }}">
-                                                                        <label style=" margin-top: 10px; line-height: 25px;" for="kartadCheckBox{{ $cartItem->rowId }}">{{ __('Send Anonymous') }}</label>
+                                                                        <input class="kartadCheckBox" name="is_anonymous" type="checkbox" id="kartadCheckBox{{ $cartItem->rowId }}" data-row="{{ $cartItem->rowId }}" onchange="toggleSenderName()">
+                                                                        <label style="margin-top: 10px; line-height: 25px;" for="kartadCheckBox{{ $cartItem->rowId }}">{{ __('Send Anonymous') }}</label>
                                                                         <br>
                                                                         <br>
                                                                     </div>
@@ -168,6 +168,18 @@
                                     </table>
                                 </div>
                                 <script>
+                                    // mehdi mirabi function to toggle sender name field based on the 'Send Anonymous' checkbox
+                                    function toggleSenderName() {
+                                        var senderNameInput = document.getElementById('senderNameInput');
+                                        if (document.getElementById('kartadCheckBox{{ $cartItem->rowId }}').checked) {
+                                            senderNameInput.disabled = true;
+                                            senderNameInput.removeAttribute('required');
+                                        } else {
+                                            senderNameInput.disabled = false;
+                                            senderNameInput.setAttribute('required', 'required');
+                                        }
+                                    }  
+                                    // finish 
                                     function changecart(rowId) {
                                         $.ajax({
                                             type: 'POST',
@@ -367,19 +379,18 @@
 </body>
 @endif
 @else
-<div class="container" style="height: 350px;">
-    <div class="row row justify-content-md-center">
-        <div class="col-md-auto">
-            <h3>{{ __('No products in the cart.') }}</h3>
-        </div>
-
-    </div>
-
-    <div class="row row justify-content-md-center">
-        <div class="col-md-auto margin-50">
-            <a class="btn btn-primary" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
-        </div>
-    </div>
-
+<div class="container-fluid ">
+    <div class="row">
+       <div class="col-md-12">
+            <div class="card-body cart">
+                <div class="col-sm-12 empty-cart-cls text-center">
+                    <img src="{{ Theme::asset()->url('imgs/theme/empty-cart-mcf.webp') }}" width="500" height="500" class="img-fluid mb-4 mr-3">
+                    <h3><strong>{{ __('No products in the cart.') }}</strong></h3>
+                    <h5>{{ __('Add something to make me happy') }}</h5><br>
+                    <a class="btn btn-primary btnmcf" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
+                </div>
+            </div>                 
+        </div>  
+    </div>  
 </div>
 @endif

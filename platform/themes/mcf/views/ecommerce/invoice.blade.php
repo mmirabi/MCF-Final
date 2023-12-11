@@ -361,20 +361,18 @@
         </body>
     @endif
 @else
-    <div class="container" style="height: 350px;">
-        <div class="row row justify-content-md-center">
-            <div class="col-md-auto">
-                <h3>{{ __('No products in the cart.') }}</h3>
-            </div>
-
-        </div>
-
-        <div class="row row justify-content-md-center">
-            <div class="col-md-auto margin-50">
-                <a class="btn btn-primary" style="padding: 20px;" href="{{ route('public.products') }}"
-                   role="button">{{ __('Start shopping') }}</a>
-            </div>
-        </div>
-
-    </div>
+<div class="container-fluid ">
+    <div class="row">
+       <div class="col-md-12">
+            <div class="card-body cart">
+                <div class="col-sm-12 empty-cart-cls text-center">
+                    <img src="{{ Theme::asset()->url('imgs/theme/empty-cart-mcf.webp') }}" width="500" height="500" class="img-fluid mb-4 mr-3">
+                    <h3><strong>{{ __('No products in the cart.') }}</strong></h3>
+                    <h5>{{ __('Add something to make me happy') }}</h5><br>
+                    <a class="btn btn-primary" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
+                </div>
+            </div>                 
+        </div>  
+    </div>  
+</div>
 @endif

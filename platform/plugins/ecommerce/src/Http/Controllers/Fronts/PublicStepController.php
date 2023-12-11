@@ -157,9 +157,9 @@ class PublicStepController extends Controller
 
                 SeoHelper::setTitle(__('Invoice'));
                 return Theme::scope(
-                    'ecommerce.Invoice',
+                    'ecommerce.invoice',
                     compact('promotionDiscountAmount', 'couponDiscountAmount', 'products', 'crossSellProducts'),
-                    'plugins/ecommerce::themes.Invoice'
+                    'plugins/ecommerce::themes.invoice'
                 )->render();
             }
         }
