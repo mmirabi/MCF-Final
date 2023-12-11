@@ -175,6 +175,7 @@ return [
     'orders' => 'order(s)',
     'shipping_address' => 'Shipping Address',
     'shipping_info' => 'Shipping information',
+    'messages_text' => 'Message Text',
     'billing_address' => 'Billing Address',
     'see_on_maps' => 'See on maps',
     'name' => 'Name',

@@ -43,6 +43,7 @@
                             <span>{{ __('Payment') }}</span>
                         </div>
                     </div>
+                    @if (auth('customer')->check())
                     <div>
                         <div class="clearfix">
                             <div class="table-wrapper-responsive">
@@ -52,8 +53,7 @@
                                             <tbody>
                                             <tr>
                                                 <th class="delivery-address" scope="col">
-                                                    <span class="sepettitle"
-                                                          style="text-align:center;">{{ __('Invoice information') }}</span>
+                                                    <span class="sepettitle" style="text-align:center;">{{ __('Invoice information') }}</span>
                                                 </th>
                                             </tr>
                                             @php
@@ -69,47 +69,47 @@
                                                             <div
                                                                 style="padding-top:20px;max-width: 400px;margin: auto;">
                                                                 <div>
-                                                                    <label>Ad Soyad <span
+                                                                    <label>{{ __('Name and Surname') }}<span
                                                                             id="MainContent_RequiredFieldValidator2"
-                                                                            class="require" style="visibility:hidden;">Gerekli</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Required') }}</span>
                                                                         <span
                                                                             id="MainContent_RegularExpressionValidator1"
-                                                                            class="require" style="visibility:hidden;">Hatalı</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Wrong') }}</span>
                                                                     </label>
                                                                     <input name="address[name]"
                                                                            value="{{ old('address.name', Arr::get($sessionCheckoutData, 'name')) ?:(auth('customer')->check() ? auth('customer')->user()->name : '') }}"
                                                                            type="text" maxlength="50"
                                                                            id="address_name"
-                                                                           placeholder="Adınız Soyadınız">
+                                                                           placeholder="{{ __('Name and Surname') }}">
                                                                 </div>
                                                                 <div>
-                                                                    <label>E-posta Adresi <span
+                                                                    <label>{{ __('Mail Address') }}<span
                                                                             id="MainContent_RequiredFieldValidator1"
-                                                                            class="require" style="visibility:hidden;">Gerekli</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Required') }}</span>
                                                                         <span
                                                                             id="MainContent_RegularExpressionValidator2"
-                                                                            title="Hatalı Email Girildi. "
-                                                                            class="require" style="visibility:hidden;">Hatalı</span>
+                                                                            title="{{ __('Incorrect Email Entered.') }}"
+                                                                            class="require" style="visibility:hidden;">{{ __('Wrong') }}</span>
                                                                     </label>
                                                                     <input name="address[email]"
                                                                            value="{{ old('address.email', Arr::get($sessionCheckoutData, 'email')) ?:(auth('customer')->check() ? auth('customer')->user()->email : '') }}"
                                                                            maxlength="50" id="address_email"
-                                                                           type="email" placeholder="E-posta">
+                                                                           type="email" placeholder="{{ __('Email') }}">
                                                                 </div>
                                                                 <div>
-                                                                    <label>Telefon <span
+                                                                    <label>{{ __('Phone') }}<span
                                                                             id="MainContent_RequiredFieldValidator3"
-                                                                            class="require" style="visibility:hidden;">Gerekli</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Required') }}</span>
                                                                     </label>
                                                                     <input name="address[phone]"
                                                                            value="{{ old('address.phone', Arr::get($sessionCheckoutData, 'phone')) ?:(auth('customer')->check() ? auth('customer')->user()->phone : '') }}"
                                                                            maxlength="20" id="address_phone"
-                                                                           type="tel" placeholder="Telefon">
+                                                                           type="tel" placeholder="{{ __('Phone') }}">
                                                                 </div>
                                                                 <div class="mb-2">
-                                                                    <label>Şehir <span
+                                                                    <label>{{ __('City') }}<span
                                                                             id="MainContent_RequiredFieldValidator3"
-                                                                            class="require" style="visibility:hidden;">Gerekli</span>
+                                                                            class="require" style="visibility:hidden;">{{ __('Required') }}</span>
                                                                     </label>
                                                                     @php
                                                                         $cityc = old('address.city', Arr::get($sessionCheckoutData, 'city')) ?:(auth('customer')->check() ? auth('customer')->user()->city : '');
@@ -127,19 +127,19 @@
                                                                             <div id="MainContent_yeniadrestable">
                                                                                 <div>
                                                                                     <div style="position: relative;">
-                                                                                        <label>Adres <span
-                                                                                                id="MainContent_RequiredFieldValidator12"
-                                                                                                class="require"
-                                                                                                style="visibility:hidden;">Gerekli</span>
+                                                                                        <label>{{ __('Adddress') }}<span
+                                                                                            id="MainContent_RequiredFieldValidator12"
+                                                                                            class="require"
+                                                                                            style="visibility:hidden;">{{ __('Required') }}</span>
                                                                                         </label>
                                                                                         <textarea name="address[address]"
-                                                                                                   rows="3"
-                                                                                                  cols="20"
-                                                                                                  maxlength="256"
-                                                                                                  id="address_address"
-                                                                                                  onkeyup="TextBoxMaxLength('lblMaxLength', this, '', 256)"
-                                                                                                  onchange="TextBoxMaxLength('lblMaxLength', this, '', 256)"
-                                                                                                  placeholder="Adres">{{ old('address.address', Arr::get($sessionCheckoutData, 'address')) ?:(auth('customer')->check() ? auth('customer')->user()->address : '') }}</textarea>
+                                                                                            rows="3"
+                                                                                            cols="20"
+                                                                                            maxlength="256"
+                                                                                            id="address_address"
+                                                                                            onkeyup="TextBoxMaxLength('lblMaxLength', this, '', 256)"
+                                                                                            onchange="TextBoxMaxLength('lblMaxLength', this, '', 256)"
+                                                                                            placeholder="{{ __('Adddress') }}">{{ old('address.address', Arr::get($sessionCheckoutData, 'address')) ?:(auth('customer')->check() ? auth('customer')->user()->address : '') }}</textarea>
                                                                                         <br>
                                                                                     </div>
                                                                                     <script>
@@ -152,7 +152,8 @@
                                                                                     <div id="adreskaydetCheckBox1div"
                                                                                          data-visible="{{ Arr::get($sessionCheckoutData, 'is_company')?:0 }}"
                                                                                          onclick="kurumsalformcheck()">
-                                                                                        Şirket Adına <span
+                                                                                         {{ __('On behalf of the company') }}
+                                                                                         <span
                                                                                             class="switch1">
                                                                                     <span class="slider1 round {{ Arr::get($sessionCheckoutData, 'is_company')? "checked1": "" }}"></span>
                                                                             </span>
@@ -166,7 +167,7 @@
                                                                                                     type="text"
                                                                                                     maxlength="255"
                                                                                                     id="address_company_name"
-                                                                                                    placeholder="Firma Adı"
+                                                                                                    placeholder="{{ __('Company Name') }}"
                                                                                                     value="{{ old('address.company_name', Arr::get($sessionCheckoutData, 'company_name')) ?:(auth('customer')->check() ? auth('customer')->user()->company_name : '') }}"
                                                                                                     style="margin-bottom:0">
                                                                                             </div>
@@ -179,7 +180,7 @@
                                                                                                     id="address_company_tax"
                                                                                                     type="text"
                                                                                                     maxlength="50"
-                                                                                                    placeholder="Vergi Dairesi"
+                                                                                                    placeholder="{{ __('Tax Administration') }}"
                                                                                                     value="{{ old('address.company_tax', Arr::get($sessionCheckoutData, 'company_tax')) ?:(auth('customer')->check() ? auth('customer')->user()->company_tax : '') }}"
                                                                                                     style="margin-bottom:0">
                                                                                             </div>
@@ -191,12 +192,12 @@
                                                                                                     maxlength="11"
                                                                                                     id="address_company_tax_id"
                                                                                                     type="number"
-                                                                                                    placeholder="Vergi Kimlik No"
+                                                                                                    placeholder="{{ __('Tax identification number') }}"
                                                                                                     value="{{ old('address.company_tax_id', Arr::get($sessionCheckoutData, 'company_tax_id')) ?:(auth('customer')->check() ? auth('customer')->user()->company_tax_id : '') }}"
                                                                                                     style="margin-bottom:0">
                                                                                                 <span
                                                                                                     id="MainContent_RegExp1"
-                                                                                                    style="color:Red;visibility:hidden;">Vergi numarası ise 10 karakter, şahıs şirketiyseniz TCNO 11 karakter ve sadece sayı olmalıdır.</span>
+                                                                                                    style="color:Red;visibility:hidden;">{{ __('The tax number must be 10 characters, if you are a sole proprietorship, the TR ID number must be 11 characters and only numbers.') }}</span>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -316,6 +317,144 @@
                             </div>
                         </div>
                     </div>
+                     @elseif (EcommerceHelper::isEnabledGuestCheckout() && !auth('customer')->check()) 
+                    <div>
+                        <div class="login-singup-invoice">
+                            <div class="login-mcf-tab">
+                                <nav class="nav nav-pills flex-column flex-sm-row">
+                                    <a href="#pills-login" class="mevcutuyebtn active"  data-bs-toggle="pill" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Login') }}</a>
+                                    <a href="#pills-register" class="mevcutuyebtn" data-bs-toggle="pill"  type="button" role="tab" aria-controls="pills-register" aria-selected="false">{{ __('Register')}}</a>
+                                </nav>
+                            </div>  
+                              <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+                                    <h1 class="invoice-login-tab">{{ __('Login') }}</h1>
+                                    <div id="Customer_Login">
+                                        <span class="failureNotification"></span>
+                                        <div style="max-width:400px;margin:auto;">
+                                            <form method="POST" action="{{ route('customer.login.post') }}">
+                                                @csrf
+                                                @if (isset($errors) && $errors->has('confirmation'))
+                                                    <div class="alert alert-danger">
+                                                        <span>{!! $errors->first('confirmation') !!}</span>
+                                                    </div>
+                                                    <br>
+                                                @endif
+                                                <div class="form-group">
+                                                    <input name="email" required id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Email') }}*">
+                                                    @if ($errors->has('email'))
+                                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="password" required name="password" id="txt-password" placeholder="{{ __('Your password') }}*">
+                                                    @if ($errors->has('password'))
+                                                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="login_footer form-group mb-10">
+                                                    <div class="chek-form">
+                                                        <div class="custome-checkbox">
+                                                            <input class="form-check-input" type="checkbox" name="remember" id="remember-checkbox" value="" />
+                                                            <label class="form-check-label" for="remember-checkbox"><span>{{ __('Remember me') }}</span></label>
+                                                        </div>
+                                                    </div>
+                                                    <a class="text-muted" href="{{ route('customer.password.reset') }}">{{ __('Forgot password?') }}</a>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-heading btn-block hover-up btn-mn">{{ __('Login') }}</button>
+                                                </div>
+                                            </form>
+                                            <div style="padding-top:6px;">
+                                                <a class="btn green membershipbtn" href="#">{{ __('Continue Without Membership') }}</a>
+                                                <div class="sosyalmedyaline">
+                                                    <span>{{ __('Login with social account') }}</span>
+                                                </div>
+                                                {!! apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, \Botble\Ecommerce\Models\Customer::class) !!}
+                                                <br>
+                                                <br>
+                                                <a href="/terms-conditions">{{ __('Terms & Conditions') }}</a>
+                                            </div>
+                                            <br>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+                                    <h1 class="invoice-login-tab">{{ __('Register') }}</h1>
+                                    <form method="POST" action="{{ route('customer.register.post') }}">
+                                        @csrf
+                                        <div class="form__content">
+                                            <div class="form-group">
+                                                <input class="form-control" name="name" id="txt-name" type="text" value="{{ old('name') }}" placeholder="{{ __('Your name') }}">
+                                                @if ($errors->has('name'))
+                                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control" name="email" id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Your email address') }}">
+                                                @if ($errors->has('email'))
+                                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control" type="password" name="password" id="txt-password" placeholder="{{ __('Your password') }}">
+                                                @if ($errors->has('password'))
+                                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                                @endif
+                                            </div>
+    
+                                            <div class="form-group">
+                                                <input class="form-control" type="password" name="password_confirmation" id="txt-password-confirmation" placeholder="{{ __('Password confirmation') }}">
+                                                @if ($errors->has('password_confirmation'))
+                                                    <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                                                @endif
+                                            </div>
+                                            @if (is_plugin_active('captcha'))
+                                                @if(Captcha::isEnabled() && get_ecommerce_setting('enable_recaptcha_in_register_page', 0))
+                                                    <div class="form-group">
+                                                        {!! Captcha::display() !!}
+                                                    </div>
+                                                @endif
+    
+                                                @if (get_ecommerce_setting('enable_math_captcha_in_register_page', 0))
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="math-group">{{ app('math-captcha')->label() }}</label>
+                                                        {!! app('math-captcha')->input(['class' => 'form-control', 'id' => 'math-group', 'placeholder' => app('math-captcha')->getMathLabelOnly()]) !!}
+                                                    </div>
+                                                @endif
+                                            @endif
+    
+                                            <div class="login_footer form-group">
+                                                <div class="chek-form">
+                                                    <div class="custome-checkbox">
+                                                        <input type="hidden" name="agree_terms_and_policy" value="0">
+                                                        <input class="form-check-input" type="checkbox" name="agree_terms_and_policy" id="agree-terms-and-policy" value="1" @if (old('agree_terms_and_policy') == 1) checked @endif>
+                                                        <label class="form-check-label" for="agree-terms-and-policy"><span>{!! BaseHelper::clean(__('I agree to terms & Policy.')) !!}</span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-heading btn-block hover-up btn-mn">{{ __('Register') }}</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div style="padding-top:6px;">
+                                        <a class="btn green membershipbtn" href="#">{{ __('Continue Without Membership') }}</a>
+                                        <div class="sosyalmedyaline">
+                                            <span>{{ __('Login with social account') }}</span>
+                                        </div>
+                                        {!! apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, \Botble\Ecommerce\Models\Customer::class) !!}
+                                        <br>
+                                        <br>
+                                        <a href="/terms-conditions">{{ __('Terms & Conditions') }}</a>
+                                    </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                     @endif
                 </div>
             </div>
         </div>

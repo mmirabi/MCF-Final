@@ -12,6 +12,7 @@ use Botble\Ecommerce\Facades\EcommerceHelper as EcommerceHelperFacade;
 use Botble\Ecommerce\Models\Invoice;
 use Botble\Ecommerce\Models\InvoiceItem;
 use Botble\Ecommerce\Models\Order;
+use Botble\Ecommerce\Models\OrderProduct;
 use Botble\Ecommerce\Models\Product;
 use Botble\Media\Facades\RvMedia;
 use Botble\Payment\Enums\PaymentMethodEnum;
@@ -274,6 +275,45 @@ class InvoiceHelper
             'ecommerce_invoice_footer' => apply_filters('ecommerce_invoice_footer', null, $invoice),
             'invoice_payment_info_filter' => apply_filters('invoice_payment_info_filter', null, $invoice),
         ];
+
+
+        $orderProduct = OrderProduct::query()->where([
+            'order_id' => $data['invoice']['reference_id']
+            ])->first();
+
+            if($orderProduct->message_text){
+                $data['invoice']['additional_info']['message_text'] = $orderProduct->message_text;
+            }else{
+                $data['invoice']['additional_info']['message_text'] = '';
+            }
+
+            if($orderProduct->product_image){
+                $data['invoice']['additional_info']['product_image'] = RvMedia::getRealPath($orderProduct->product_image);
+            }else{
+                $data['invoice']['additional_info']['product_image'] = '';
+            }
+
+            if($orderProduct->recipient_name){
+                $data['invoice']['additional_info']['recipient_name'] = $orderProduct->recipient_name;
+            }else{
+                $data['invoice']['additional_info']['recipient_name'] = '';
+            }
+
+            if($orderProduct->recipient_phone){
+                $data['invoice']['additional_info']['recipient_phone'] = $orderProduct->recipient_phone;
+            }else{
+                $data['invoice']['additional_info']['recipient_phone'] = '';
+            }
+
+            if($orderProduct->recipient_address){
+                $data['invoice']['additional_info']['recipient_address'] = $orderProduct->recipient_address;
+            }else{
+                $data['invoice']['additional_info']['recipient_address'] = '';
+            }
+            
+            //dd($data['invoice']['additional_info']['product_image']);
+
+        //dd($orderProduct->message_text);
 
         $order = $invoice->reference;
 

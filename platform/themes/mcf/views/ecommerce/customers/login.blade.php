@@ -58,9 +58,10 @@
                     <div class="col-lg-5 col-md-8">
                         <div class="text-left">
                             <div class="heading_s1">
-                                <h3 class="mb-55">{{ __('Login with social networks') }}</h3>
+                                <h3 class="mb-55">{{ __('Login with social account') }}</h3>
                             </div>
                             {!! apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, \Botble\Ecommerce\Models\Customer::class) !!}
+
                         </div>
                     </div>
                 </div>

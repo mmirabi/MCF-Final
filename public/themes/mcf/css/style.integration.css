@@ -200,7 +200,7 @@ border: 0px!important;
 }
 
 .header-action-2 .header-action-icon-2>a img {
-    max-width: 32px!important;
+    max-width: 28px!important;
     width: 32px!important;
 }
 
@@ -363,12 +363,23 @@ p:last-child {
 }
 @media only screen and (max-width: 992px) {
 .logo.logo-width-1 {
-    left: 65px;
+    left: 90px;
 }
 }
 @media only screen and (max-width: 768px){
   .logo.logo-width-1 a img {
-      max-width: 222px;
+      max-width: 150px;
       max-height: 82px;
   }
+}
+
+.card-login {
+  padding: 0px;
+  border-radius: none;
+  border: none;
+  margin-left: 0px;
+}
+
+.custom-checkbox span, .custom-radio span {
+  border: 1px solid #7f7f7f !important;
 }

@@ -296,13 +296,6 @@
                 border-radius: 3px;
             }
 
-            /*.fade {
-                opacity: 0;
-                -webkit-transition: opacity .15s linear;
-                -o-transition: opacity .15s linear;
-                transition: opacity .15s linear;
-            }*/
-
             .fade.in {
                 opacity: 1;
             }
@@ -1494,7 +1487,6 @@
                 display: inline-block;
             }
 
-            /*! CSS Used from: https://fonts.googleapis.com/icon?family=Material+Icons */
             .material-icons {
                 font-family: 'Material Icons';
                 font-weight: normal;
@@ -1604,11 +1596,11 @@
     }
 }
 
-/* @media only screen and (max-width: 500px){
+@media only screen and (max-width: 500px){
     .header-style-1.header-height-2 {
         display: contents;
     }
-} */
+}
 
 @media only screen and (max-width: 500px){
     .d-inline-block {
