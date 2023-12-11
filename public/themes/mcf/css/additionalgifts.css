@@ -1663,11 +1663,11 @@ body {
     }
 }
 
-/* @media only screen and (max-width: 500px){
+@media only screen and (max-width: 500px){
     .header-style-1.header-height-2 {
         display: contents;
     }
-} */
+}
 
 @media only screen and (max-width: 500px){
     .d-inline-block {
@@ -1711,5 +1711,10 @@ body {
 @media (max-width: 480px) {
     .table-wrapper-responsive {
         margin-top: 5px;
+    }
+}
+@media only screen and (max-width: 500px){
+    .sepettitleicon  {
+        margin: 5px 5px 5px 5px;
     }
 }

@@ -1620,11 +1620,11 @@ background-color: #f8f7f5;
     }
 }
 
-/* @media only screen and (max-width: 500px){
+@media only screen and (max-width: 500px){
     .header-style-1.header-height-2 {
         display: contents;
     }
-} */
+}
 
 @media only screen and (max-width: 500px){
     .d-inline-block {
