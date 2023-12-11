@@ -53,8 +53,7 @@
                                             <tbody>
                                             <tr>
                                                 <th class="delivery-address" scope="col">
-                                                    <span class="sepettitle"
-                                                          style="text-align:center;">{{ __('Invoice information') }}</span>
+                                                    <span class="sepettitle" style="text-align:center;">{{ __('Invoice information') }}</span>
                                                 </th>
                                             </tr>
                                             @php
@@ -318,65 +317,56 @@
                             </div>
                         </div>
                     </div>
-                     @else 
-                     <div>
-                        <div style="width:100%;max-width:480px;margin:auto;padding:20px; background:white; margin-top:30px;">
-                            <div>
-                                <div style="background-color:#f8f6f5;border-radius:6px; padding:5px;margin-bottom:20px;">
-                                    <a class="mevcutuyebtn">{{ __('Current Member') }}</a>
-                                    <a class="mevcutuyebtn2" rel="nofollow noindex noopener" href="">{{ __('Sign Up')}}</a>
-                                </div>
-                                <h1 style="font-size:24px;margin-bottom:10px;color:black;    font-family: 'Playfair Display', sans-serif;font-weight:bold;">{{ __('Login') }}</h1>
-                                <div id="MainContent_LoginUser_girispanel">
-                                    <span class="failureNotification"></span>
-                                    <div style="max-width:400px;margin:auto;">
-                                        <form method="POST" action="{{ route('customer.login.post') }}">
-                                            @csrf
-                                            @if (isset($errors) && $errors->has('confirmation'))
-                                                <div class="alert alert-danger">
-                                                    <span>{!! $errors->first('confirmation') !!}</span>
-                                                </div>
-                                                <br>
-                                            @endif
-                                            <div class="form-group">
-                                                <input name="email" required id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Email') }}*">
-                                                @if ($errors->has('email'))
-                                                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                                                @endif
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" required name="password" id="txt-password" placeholder="{{ __('Your password') }}*">
-                                                @if ($errors->has('password'))
-                                                    <span class="text-danger">{{ $errors->first('password') }}</span>
-                                                @endif
-                                            </div>
-                                            <div class="login_footer form-group mb-50">
-                                                <div class="chek-form">
-                                                    <div class="custome-checkbox">
-                                                        <input class="form-check-input" type="checkbox" name="remember" id="remember-checkbox" value="" />
-                                                        <label class="form-check-label" for="remember-checkbox"><span>{{ __('Remember me') }}</span></label>
+                     @elseif (EcommerceHelper::isEnabledGuestCheckout() && !auth('customer')->check()) 
+                    <div>
+                        <div class="login-singup-invoice">
+                            <div class="login-mcf-tab">
+                                <nav class="nav nav-pills flex-column flex-sm-row">
+                                    <a href="#pills-login" class="mevcutuyebtn active"  data-bs-toggle="pill" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Login') }}</a>
+                                    <a href="#pills-register" class="mevcutuyebtn" data-bs-toggle="pill"  type="button" role="tab" aria-controls="pills-register" aria-selected="false">{{ __('Register')}}</a>
+                                </nav>
+                            </div>  
+                              <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+                                    <h1 class="invoice-login-tab">{{ __('Login') }}</h1>
+                                    <div id="Customer_Login">
+                                        <span class="failureNotification"></span>
+                                        <div style="max-width:400px;margin:auto;">
+                                            <form method="POST" action="{{ route('customer.login.post') }}">
+                                                @csrf
+                                                @if (isset($errors) && $errors->has('confirmation'))
+                                                    <div class="alert alert-danger">
+                                                        <span>{!! $errors->first('confirmation') !!}</span>
                                                     </div>
+                                                    <br>
+                                                @endif
+                                                <div class="form-group">
+                                                    <input name="email" required id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Email') }}*">
+                                                    @if ($errors->has('email'))
+                                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                    @endif
                                                 </div>
-                                                <a class="text-muted" href="{{ route('customer.password.reset') }}">{{ __('Forgot password?') }}</a>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-heading btn-block hover-up" style="width:100%;max-width:100%;padding: 20px 0;margin-top:20px;">{{ __('Login') }}</button>
-                                            </div>
-                                        </form>
-                                        <div style="padding-top:6px;">
-                                            <center>
-                                                
-                                                <br>
-                                                <br>
-                                                <span style="font-size:12px;">{{ __('Or') }}</span>
-                                                <br>
-                                                <a href="siparis_uyeol.aspx?a=4&amp;ReturnUrl=siparis_misafir.aspx&amp;lang=TR" "="">
-                                                 <p class=" ebultenindirimtext">
-                                                    <b>{{ __('Newsletter Exclusive for Approved Member Registration ')}},<br>{{ __('10% Discount on Your First Order!') }}</b>
-                                                </p>
-                                                </a>
-                                                <span style="font-size:12px;">{{ __('Or') }}</span>
-                                                <a class="btn green sonrakibuton membershipbtn" href="#">{{ __('Continue Without Membership') }}</a>
+                                                <div class="form-group">
+                                                    <input type="password" required name="password" id="txt-password" placeholder="{{ __('Your password') }}*">
+                                                    @if ($errors->has('password'))
+                                                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="login_footer form-group mb-10">
+                                                    <div class="chek-form">
+                                                        <div class="custome-checkbox">
+                                                            <input class="form-check-input" type="checkbox" name="remember" id="remember-checkbox" value="" />
+                                                            <label class="form-check-label" for="remember-checkbox"><span>{{ __('Remember me') }}</span></label>
+                                                        </div>
+                                                    </div>
+                                                    <a class="text-muted" href="{{ route('customer.password.reset') }}">{{ __('Forgot password?') }}</a>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-heading btn-block hover-up btn-mn">{{ __('Login') }}</button>
+                                                </div>
+                                            </form>
+                                            <div style="padding-top:6px;">
+                                                <a class="btn green membershipbtn" href="#">{{ __('Continue Without Membership') }}</a>
                                                 <div class="sosyalmedyaline">
                                                     <span>{{ __('Login with social account') }}</span>
                                                 </div>
@@ -384,18 +374,86 @@
                                                 <br>
                                                 <br>
                                                 <a href="/terms-conditions">{{ __('Terms & Conditions') }}</a>
-                                            </center>
-                                        </div>
-                                        <div>
+                                            </div>
                                             <br>
                                             <br>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+                                    <h1 class="invoice-login-tab">{{ __('Register') }}</h1>
+                                    <form method="POST" action="{{ route('customer.register.post') }}">
+                                        @csrf
+                                        <div class="form__content">
+                                            <div class="form-group">
+                                                <input class="form-control" name="name" id="txt-name" type="text" value="{{ old('name') }}" placeholder="{{ __('Your name') }}">
+                                                @if ($errors->has('name'))
+                                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control" name="email" id="txt-email" type="email" value="{{ old('email') }}" placeholder="{{ __('Your email address') }}">
+                                                @if ($errors->has('email'))
+                                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control" type="password" name="password" id="txt-password" placeholder="{{ __('Your password') }}">
+                                                @if ($errors->has('password'))
+                                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                                @endif
+                                            </div>
+    
+                                            <div class="form-group">
+                                                <input class="form-control" type="password" name="password_confirmation" id="txt-password-confirmation" placeholder="{{ __('Password confirmation') }}">
+                                                @if ($errors->has('password_confirmation'))
+                                                    <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                                                @endif
+                                            </div>
+                                            @if (is_plugin_active('captcha'))
+                                                @if(Captcha::isEnabled() && get_ecommerce_setting('enable_recaptcha_in_register_page', 0))
+                                                    <div class="form-group">
+                                                        {!! Captcha::display() !!}
+                                                    </div>
+                                                @endif
+    
+                                                @if (get_ecommerce_setting('enable_math_captcha_in_register_page', 0))
+                                                    <div class="form-group">
+                                                        <label class="form-label" for="math-group">{{ app('math-captcha')->label() }}</label>
+                                                        {!! app('math-captcha')->input(['class' => 'form-control', 'id' => 'math-group', 'placeholder' => app('math-captcha')->getMathLabelOnly()]) !!}
+                                                    </div>
+                                                @endif
+                                            @endif
+    
+                                            <div class="login_footer form-group">
+                                                <div class="chek-form">
+                                                    <div class="custome-checkbox">
+                                                        <input type="hidden" name="agree_terms_and_policy" value="0">
+                                                        <input class="form-check-input" type="checkbox" name="agree_terms_and_policy" id="agree-terms-and-policy" value="1" @if (old('agree_terms_and_policy') == 1) checked @endif>
+                                                        <label class="form-check-label" for="agree-terms-and-policy"><span>{!! BaseHelper::clean(__('I agree to terms & Policy.')) !!}</span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-heading btn-block hover-up btn-mn">{{ __('Register') }}</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div style="padding-top:6px;">
+                                        <a class="btn green membershipbtn" href="#">{{ __('Continue Without Membership') }}</a>
+                                        <div class="sosyalmedyaline">
+                                            <span>{{ __('Login with social account') }}</span>
+                                        </div>
+                                        {!! apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, \Botble\Ecommerce\Models\Customer::class) !!}
+                                        <br>
+                                        <br>
+                                        <a href="/terms-conditions">{{ __('Terms & Conditions') }}</a>
+                                    </div>
+                                </div>
+                              </div>
                         </div>
                     </div>
-                     
                      @endif
                 </div>
             </div>

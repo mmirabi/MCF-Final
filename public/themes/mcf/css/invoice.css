@@ -1503,7 +1503,6 @@ th {
     display: inline-block;
 }
 
-/*! CSS Used from: https://fonts.googleapis.com/icon?family=Material+Icons */
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -1516,8 +1515,6 @@ th {
     white-space: nowrap;
     word-wrap: normal;
     direction: ltr;
-    -webkit-font-feature-settings: 'liga';
-    -webkit-font-smoothing: antialiased;
 }
 .delivery-address {
 border: 0px;
@@ -1717,7 +1714,7 @@ background-color: #f8f7f5;
     font-weight: normal;
 }
 
-.mevcutuyebtn2 {
+.mevcutuyebtn {
     width: calc(50% - 5px);
     display: inline-block;
     text-align: center;
@@ -1725,7 +1722,7 @@ background-color: #f8f7f5;
     font-size: 12px;
 }
 
-.mevcutuyebtn {
+.active {
     width: calc(50% - 5px);
     display: inline-block;
     text-align: center;
@@ -1735,3 +1732,93 @@ background-color: #f8f7f5;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 20%), 0 3px 9px 0 rgb(0 0 0 / 5%) !important;
     border-radius: 6px;
 }
+
+.login-mcf-tab{
+    background-color:#f8f6f5;
+    border-radius:6px; 
+    padding:5px;
+    margin-bottom:20px;
+}
+
+.login-singup-invoice {
+    width:100%;
+    max-width:480px;
+    margin:auto;
+    padding:20px; 
+    background:white; 
+    margin-top:30px;
+}
+.invoice-login-tab {
+    font-size:24px;
+    margin-bottom:40px;
+    color:black;    
+}
+
+.nav {
+    display: flex;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    justify-content: space-evenly;
+}
+
+.mn-invoice {
+    background-color: #e5e5e5;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.nav-pills .nav-link.active {
+    color: #000;
+    background-color: #FFF;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 20%), 0 3px 9px 0 rgb(0 0 0 / 5%) !important;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    color: black;
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.mn-btn {
+    text-align: center;
+    padding: 10px;
+    background: white;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 20%), 0 3px 9px 0 rgb(0 0 0 / 5%) !important;
+    border-radius: 6px;
+}
+
+.tab-content>.active {
+    display: contents;
+}
+
+.custome-checkbox .form-check-label:before {
+    margin-top: 5px;
+}
+
+.btn-mn {
+    width:100%;
+    max-width:100%;
+    padding: 20px 0;
+    margin-top:20px;
+}
+
+@media only screen and (max-width: 500px){
+    .active {
+        width: calc(100% - 5px);
+    }
+}
+@media only screen and (max-width: 500px){
+    .mevcutuyebtn {
+        width: calc(100% - 5px);
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .sepettitleicon  {
+        margin: 5px 5px 5px 5px;
+    }
+}
+
