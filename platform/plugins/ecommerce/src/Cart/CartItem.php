@@ -251,6 +251,9 @@ class CartItem implements Arrayable, Jsonable
         $this->shipping_rule_id = Arr::get($attributes, 'shipping_rule_id', $this->shipping_rule_id);
         $this->shipping_date = Arr::get($attributes, 'shipping_date', $this->shipping_date);
         $this->shipping_time = Arr::get($attributes, 'shipping_time', $this->shipping_time);
+        if (Arr::get($attributes, 'additional_remove') == 1)
+            $this->additional_ids = [];
+        else
         $this->additional_ids = Arr::get($attributes, 'additional_ids', $this->additional_ids);
         $this->recipient_name = Arr::get($attributes, 'recipient_name', $this->recipient_name);
         $this->recipient_phone = Arr::get($attributes, 'recipient_phone', $this->recipient_phone);

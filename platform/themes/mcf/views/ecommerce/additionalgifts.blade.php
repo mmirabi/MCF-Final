@@ -211,6 +211,7 @@
                                                                 values: {
                                                                     qty: 1,
                                                                     additional_ids: additionals,
+                                                                    additional_remove: additionals.length == 0 ? 1 : 0,
                                                                 }
                                                             },
                                                         }
@@ -350,8 +351,8 @@
                     <h5>{{ __('Add something to make me happy') }}</h5><br>
                     <a class="btn btn-primary" style="padding: 20px;" href="{{ route('public.products') }}" role="button">{{ __('Start shopping') }}</a>
                 </div>
-            </div>                 
-        </div>  
-    </div>  
+            </div>
+        </div>
+    </div>
 </div>
 @endif
