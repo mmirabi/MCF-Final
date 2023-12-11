@@ -19,10 +19,6 @@
             width: 100%
         }
 
-        table tr td {
-            padding: 0
-        }
-
         table tr td:last-child {
             text-align: right
         }
@@ -51,10 +47,6 @@
             font-size: .875em
         }
 
-        .invoice-info-container td {
-            padding: 4px 0
-        }
-
         .line-items-container {
             font-size: .875em;
             margin: 70px 0
@@ -64,7 +56,6 @@
             border-bottom: 2px solid #ddd;
             color: #999;
             font-size: .75em;
-            padding: 10px 0 15px;
             text-align: left;
             text-transform: uppercase
         }
@@ -73,17 +64,8 @@
             text-align: right
         }
 
-        .line-items-container td {
-            padding: 10px 0
-        }
-
-        .line-items-container tbody tr:first-child td {
-            padding-top: 25px
-        }
-
         .line-items-container.has-bottom-border tbody tr:last-child td {
             border-bottom: 2px solid #ddd;
-            padding-bottom: 25px
         }
 
         .line-items-container th.heading-quantity {
@@ -117,7 +99,6 @@
             left: 30%;
             line-height: 1;
             opacity: .5;
-            padding: .3rem .75rem;
             position: fixed;
             text-transform: uppercase;
             top: 40%;
@@ -134,11 +115,9 @@
             color: #0a9928
         }
     </style>
-
     {{ invoice_header_filter | raw }}
 </head>
 <body>
-
 {{ invoice_body_filter | raw }}
 
 {% if (get_ecommerce_setting('enable_invoice_stamp', 1) == 1) %}
@@ -152,13 +131,12 @@
         </span>
     {% endif %}
 {% endif %}
-
 <table class="invoice-info-container">
     <tr>
         <td>
             <div class="logo-container">
                 {% if logo %}
-                    <img src="{{ logo_full_path }}" style="width:100%; max-width:150px;" alt="site_title">
+                    <img src="{{ logo_full_path }}" style="width:100%; max-width:300px;" alt="site_title">
                 {% endif %}
             </div>
         </td>
@@ -179,7 +157,6 @@
         </td>
     </tr>
 </table>
-
 <table class="invoice-info-container">
     <tr>
         <td>
@@ -219,7 +196,6 @@
         </td>
     </tr>
 </table>
-
 {% if invoice.description %}
     <table class="invoice-info-container">
         <tr style="text-align: left">
@@ -229,25 +205,24 @@
         </tr>
     </table>
 {% endif %}
-
 <table class="line-items-container">
     <thead>
     <tr>
         <th class="heading-description">{{ 'plugins/ecommerce::products.form.product'|trans }}</th>
-        <th class="heading-description">{{ 'plugins/ecommerce::products.form.options'|trans }}</th>
+        <th class="heading-description">{{ 'plugins/ecommerce::products.form.image'|trans }}</th>
         <th class="heading-quantity">{{ 'plugins/ecommerce::products.form.quantity'|trans }}</th>
         <th class="heading-price">{{ 'plugins/ecommerce::products.form.price'|trans }}</th>
         <th class="heading-subtotal">{{ 'plugins/ecommerce::products.form.total'|trans }}</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody> 
     {% for item in invoice.items %}
         <tr>
             <td>{{ item.name }} {% if item.options.sku %} ({{ item.options.sku }}) {% endif %}</td>
             <td>
                 {% if item.options %}
-                    {% if item.options.attributes %}
-                        <div><small>{{ 'plugins/ecommerce::invoice.detail.attributes'|trans }}: {{ item.options.attributes }}</small></div>
+                    {% if item.image %}
+                    <img src="{{invoice.additional_info.product_image}}" width="90" />
                     {% endif %}
                     {% if item.options.product_options %}
                         <div><small>{{ 'plugins/ecommerce::invoice.detail.product_options'|trans }}: {{ item.options.product_options }}</small></div>
@@ -271,7 +246,6 @@
         </tr>
         {% endfor %}
     {% endfor %}
-
     <tr>
         <td colspan="4" class="right">
             {{ 'plugins/ecommerce::invoice.detail.quantity'|trans }}
@@ -280,7 +254,6 @@
             {{ total_quantity|number_format }}
         </td>
     </tr>
-
     <tr>
         <td colspan="4" class="right">
             {{ 'plugins/ecommerce::products.form.sub_total'|trans }}
@@ -289,7 +262,6 @@
             {{ invoice.sub_total|price_format }}
         </td>
     </tr>
-
     {% if invoice.tax_amount > 0 %}
         <tr>
             <td colspan="4" class="right">
@@ -318,7 +290,6 @@
     </tr>
     </tbody>
 </table>
-
 <table class="line-items-container">
     <thead>
     <tr>
@@ -351,6 +322,40 @@
         </td>
         <td class="large total">{{ invoice.amount|price_format }}</td>
     </tr>
+    </tbody>
+</table>
+<table class="line-items-container">
+    <thead>
+        <tr>
+            <th>{{ 'plugins/ecommerce::order.messages_text'|trans }}</th>
+            <th>{{ 'plugins/ecommerce::order.shipping_info'|trans }}</th>
+        </tr>
+        </thead>
+    <tbody>
+        <tr>
+            <td style="width:50%;">
+                <div>
+                    {% if invoice.additional_info.message_text %}
+                        <p>{{invoice.additional_info.message_text}}</p>
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+                {% if invoice.additional_info.recipient_name %}
+                    <p>{{invoice.additional_info.recipient_name}}</p>
+                {% endif %}
+                {% if invoice.additional_info.recipient_address %}
+                        <p>
+                            <strong>{{invoice.additional_info.recipient_address}}</strong>
+                        </p>
+                {% endif %}
+                {% if invoice.additional_info.recipient_phone %}
+                    <p>
+                        <strong>{{invoice.additional_info.recipient_phone}}</strong>
+                    </p>
+                {% endif %}
+            </td>
+        </tr>
     </tbody>
 </table>
 {{ ecommerce_invoice_footer | raw }}

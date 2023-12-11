@@ -40,4 +40,6 @@ return [
     'generate_success_message' => 'Generated :count invoices successfully',
     'generate_invoice' => 'Generate invoice',
     'order' => 'Order',
+    'shipping_info' => 'Shipping Info',
+    'messages_text' => 'Message Text',
 ];
