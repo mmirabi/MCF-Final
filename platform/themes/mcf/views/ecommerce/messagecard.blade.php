@@ -167,6 +167,26 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="modal fade" id="no-message-modal" tabindex="-1" aria-labelledby="no-message-label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    </div>
+                                    <div class="modal-dialog22">
+                                        <div class="modal-content22">
+                                            <div class="modal-content22-ic">
+                                                <div class="modal-header22">
+                                                    Emin misiniz?
+                                                </div>
+                                                <div class="modal-body22">
+                                                    Alıcıya mesaj yazmadan siparişi tamamlamak istediğinizden emin misiniz?
+                                                </div>
+                                                <div class="modal-footer22">
+                                                    <a class="modalbtnlink22" data-bs-dismiss="modal">Vazgeç</a>
+                                                    <a id="no-message-modal-yes" class="modalbtnlink22" href="javascript:void(0)">Evet</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <script>
                                     // mehdi mirabi function to toggle sender name field based on the 'Send Anonymous' checkbox
                                     function toggleSenderName() {
@@ -288,10 +308,15 @@
                                                     }
                                                 });
                                                 if(disabledbtn)
-                                                    window.showAlert('alert-danger', 'Please complete the details.')
+                                                    //window.showAlert('alert-danger', 'Please complete the details.')
+                                                    $('#no-message-modal').modal('toggle')
                                                 else
                                                     window.location.href = $(this).data('next')
                                             })
+                                        })
+                                        $("#no-message-modal-yes").click(function () {
+                                            window.location.href = $("#nextpage").data('next')
+
                                         })
                                     }, 1000)
                                 </script>
