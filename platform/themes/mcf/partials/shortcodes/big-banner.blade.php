@@ -1,4 +1,4 @@
-<section class="hero-3 position-relative align-items" @if ($shortcode->cover_image) style="background-image: url({{ RvMedia::getImageUrl($shortcode->cover_image) }}) !important;" @endif>
+<section class="hero-3 position-relative align-items" @if ($shortcode->cover_image) style="background-image: url({{ RvMedia::getImageUrl($shortcode->cover_image) }});" @endif>
     <h2 class="mb-30 text-center">{{ $shortcode->title }}</h2>
     @if ($shortcode->show_newsletter_form == 'yes' && is_plugin_active('newsletter'))
         {!! Theme::partial('newsletter-form', ['className' => 'mb-30 text-center']) !!}
