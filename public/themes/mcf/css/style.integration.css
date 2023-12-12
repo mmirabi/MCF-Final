@@ -384,23 +384,15 @@ p:last-child {
   border: 1px solid #7f7f7f !important;
 }
 
-@media only screen and (max-width: 500px){
+@media screen and (max-width: 900px){
   section.hero-3.position-relative.align-items {
-    background-image: url(http://127.0.0.1:8000/storage/general/aralik-slider-08.jpg) !important;
-    height: 400px!important;
+    background-image: url(../imgs/banner/aralik-slider-08.jpg)!important;
+    height: 430px!important;
 
   }
 }
 
-@media (max-width: 900px){
-  section.hero-3.position-relative.align-items {
-    background-image: url(http://127.0.0.1:8000/storage/general/aralik-slider-08.jpg) !important;
-    height: 700px!important;
-
-  }
-}
-
-@media only screen and (max-width: 500px){
+@media only screen and (max-width: 768px){
   .dot-style-1.dot-style-1-position-1 ul {
     bottom: -30px!important;
   }
